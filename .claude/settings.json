@@ -6,7 +6,9 @@
       "Read(**/yarn.lock)",
       "Read(**/node_modules/**)",
       "Read(**/.next/**)",
-      "Read(**/dist/**)"
+      "Read(**/dist/**)",
+      "Edit(CLAUDE.md)",
+      "Write(CLAUDE.md)"
     ]
   }
 }
