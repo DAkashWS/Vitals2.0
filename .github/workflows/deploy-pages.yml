@@ -1,12 +1,12 @@
-# Builds the website and publishes it to GitHub Pages on every push to main.
+# Builds the website and publishes it to GitHub Pages on every push to the default branch.
 # One-time setup by the repo owner: Settings → Pages → Build and deployment → Source: "GitHub Actions".
-# Live at https://dakashws.github.io/Vitals/
+# Live at https://dakashws.github.io/Vitals2.0/
 
 name: Deploy website to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [main, claude/magical-brahmagupta-rtw50x]
   workflow_dispatch:
 
 permissions:
