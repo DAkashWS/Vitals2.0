@@ -41,7 +41,7 @@ type Auth = {
 };
 
 const Ctx = createContext<Auth | null>(null);
-const RECOVERY_KEY = "vitals-recovery";
+const RECOVERY_KEY = "vitals2-recovery";
 
 /**
  * The sign-in saved on this device. Offline, Supabase can't renew an expired login and reports no session,
@@ -50,13 +50,13 @@ const RECOVERY_KEY = "vitals-recovery";
  */
 function savedSession(): Session | null {
   try {
-    return JSON.parse(localStorage.getItem("vitals-auth") ?? "null") as Session | null;
+    return JSON.parse(localStorage.getItem("vitals2-auth") ?? "null") as Session | null;
   } catch {
     return null;
   }
 }
 
-const AUTH_ERROR_KEY = "vitals-auth-error";
+const AUTH_ERROR_KEY = "vitals2-auth-error";
 
 /** The error a sign-in link came back with (once), or "". */
 export function takeAuthError(): string {
@@ -114,8 +114,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const withPending = (p: Profile | null) => (p && pending ? ({ ...p, ...pending } as Profile) : p);
     // no network: keep the profile from the last visit, so the sign-in gate doesn't lock out someone already signed in
     try {
-      if (error) return setProfile(withPending(JSON.parse(localStorage.getItem("vitals-profile") ?? "null")));
-      localStorage.setItem("vitals-profile", JSON.stringify(withPending((data as Profile | null) ?? null)));
+      if (error) return setProfile(withPending(JSON.parse(localStorage.getItem("vitals2-profile") ?? "null")));
+      localStorage.setItem("vitals2-profile", JSON.stringify(withPending((data as Profile | null) ?? null)));
     } catch {
       /* storage blocked: offline visits start at the sign-in page */
     }
@@ -133,7 +133,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const s = savedSession();
         let p: Profile | null = null;
         try {
-          p = JSON.parse(localStorage.getItem("vitals-profile") ?? "null") as Profile | null;
+          p = JSON.parse(localStorage.getItem("vitals2-profile") ?? "null") as Profile | null;
         } catch {
           /* no saved profile */
         }
@@ -166,9 +166,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (event === "PASSWORD_RECOVERY") setRecovering(true);
       if (event === "SIGNED_OUT") {
         setProfile(null);
-        localStorage.removeItem("vitals-profile");
-        localStorage.removeItem("vitals-crew-board"); // other crew's vitals, cached for a commander
-        localStorage.removeItem("vitals-crew-link"); // your crew's board and log, cached for offline
+        localStorage.removeItem("vitals2-profile");
+        localStorage.removeItem("vitals2-crew-board"); // other crew's vitals, cached for a commander
+        localStorage.removeItem("vitals2-crew-link"); // your crew's board and log, cached for offline
         setRecovering(false);
       }
       // load the profile outside the auth callback (Supabase advises against awaiting inside it)
@@ -205,7 +205,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           const next = profile ? ({ ...profile, ...p } as Profile) : null;
           setProfile(next);
           try {
-            localStorage.setItem("vitals-profile", JSON.stringify(next));
+            localStorage.setItem("vitals2-profile", JSON.stringify(next));
           } catch {
             /* shown now, kept in the waiting edits */
           }
@@ -227,7 +227,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         // "local" ends only this device's session, not the person's other devices.
         await withTimeout(supabase!.auth.signOut({ scope: "local" }), 4000).catch(() => undefined);
         try {
-          for (const k of ["vitals-auth", "vitals-auth-code-verifier", "vitals-profile", "vitals-crew-board"]) localStorage.removeItem(k);
+          for (const k of ["vitals2-auth", "vitals2-auth-code-verifier", "vitals2-profile", "vitals2-crew-board"]) localStorage.removeItem(k);
           sessionStorage.removeItem(RECOVERY_KEY);
         } catch {
           /* nothing to clear */

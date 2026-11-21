@@ -297,7 +297,7 @@ function SignInMethods() {
 
 type StatusRow = { user_id: string; display_name: string; job: string; crew_id: string; status: "green" | "yellow" | "red"; heart: number | null; spo2: number | null; room_temp: number | null; humidity: number | null; updated_at: string };
 const DOT = { green: "bg-emerald-400", yellow: "bg-amber-400", red: "bg-rose-500" };
-const BOARD_KEY = "vitals-crew-board";
+const BOARD_KEY = "vitals2-crew-board";
 
 /** Commanders and flight surgeons: everyone's status. The database decides who may read it. */
 function CrewBoard() {

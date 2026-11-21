@@ -30,7 +30,7 @@ let running = false;
 
 function readLast(): number | null {
   try {
-    return Number(localStorage.getItem("vitals-last-sync")) || null;
+    return Number(localStorage.getItem("vitals2-last-sync")) || null;
   } catch {
     return null;
   }
@@ -52,7 +52,7 @@ export const withTimeout = <T,>(p: PromiseLike<T>, ms = 8000): Promise<T | "time
  * Profile and baseline edits made with no connection, for one account: kept on the device until they
  * reach the account (src/lib/auth.tsx saveProfile writes them, syncNow sends them).
  */
-const PENDING_KEY = "vitals-profile-pending";
+const PENDING_KEY = "vitals2-profile-pending";
 
 export function pendingProfile(uid: string): Record<string, unknown> | null {
   try {
@@ -135,7 +135,7 @@ export async function syncNow(): Promise<void> {
     await pushProfile(uid);
     const now = Date.now();
     try {
-      localStorage.setItem("vitals-last-sync", String(now));
+      localStorage.setItem("vitals2-last-sync", String(now));
     } catch {
       /* the time just isn't remembered */
     }

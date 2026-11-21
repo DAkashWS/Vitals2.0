@@ -33,7 +33,7 @@ export function Disclaimer() {
 
 /* Best result per quest, kept on this device. shortcut: local only, not in the account; move it to Supabase if scores should follow the crew member. */
 export type Best = { score: number; grade: "A" | "B" | "C" | "D"; success: boolean };
-const BEST_KEY = "vitals-sim-best";
+const BEST_KEY = "vitals2-sim-best";
 
 export function loadBest(): Record<string, Best> {
   try {

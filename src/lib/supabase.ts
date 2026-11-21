@@ -15,10 +15,13 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 const url = import.meta.env.VITE_SUPABASE_URL as string | undefined;
 const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string | undefined;
 
-export const supabase: SupabaseClient | null =
+export const supabase: SupabaseClient<any, "student", any> | null =
   url && key
     ? createClient(url, key, {
-        auth: { flowType: "pkce", persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storageKey: "vitals-auth" },
+        auth: { flowType: "pkce", persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storageKey: "vitals2-auth" },
+        // VITALS 2.0 keeps all its data in the "student" schema: same logins as VITALS, separate
+        // student profiles, student IDs, readings and classes (see supabase/student-schema.sql).
+        db: { schema: "student" },
       })
     : null;
 

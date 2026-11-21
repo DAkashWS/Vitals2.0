@@ -42,7 +42,7 @@ const TOAST_STYLE: Record<Toast["tone"], string> = {
 
 function loadLow() {
   try {
-    return localStorage.getItem("vitals-sim-low") === "1";
+    return localStorage.getItem("vitals2-sim-low") === "1";
   } catch {
     return false;
   }
@@ -168,7 +168,7 @@ export default function ScenarioRun({
   useEffect(() => {
     scene.current?.setLow(low);
     try {
-      localStorage.setItem("vitals-sim-low", low ? "1" : "0");
+      localStorage.setItem("vitals2-sim-low", low ? "1" : "0");
     } catch {
       /* fine: the choice lasts for this visit only */
     }

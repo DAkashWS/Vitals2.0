@@ -46,8 +46,8 @@ export type Invite = { crew: string; crew_name: string; mission: string; invited
 /** Why the board couldn't load: not set up in the database yet, no connection, or something else. */
 export type LoadError = { kind: "setup" | "offline" | "other"; message: string };
 
-const CACHE = "vitals-crew-link";
-const OUTBOX = "vitals-crew-link-outbox";
+const CACHE = "vitals2-crew-link";
+const OUTBOX = "vitals2-crew-link-outbox";
 
 /* ------------------------------------------------------------------ */
 /*  Reading the board                                                  */
@@ -235,8 +235,8 @@ export function subscribeBoard(crewId: string, onChange: () => void): () => void
   if (!supabase) return () => undefined;
   const ch = supabase
     .channel(`crew-link-${crewId}`)
-    .on("postgres_changes", { event: "*", schema: "public", table: "crew_status" }, onChange)
-    .on("postgres_changes", { event: "INSERT", schema: "public", table: "crew_log", filter: `class=eq.${crewId}` }, onChange)
+    .on("postgres_changes", { event: "*", schema: "student", table: "crew_status" }, onChange)
+    .on("postgres_changes", { event: "INSERT", schema: "student", table: "crew_log", filter: `crew=eq.${crewId}` }, onChange)
     .subscribe();
   return () => void supabase?.removeChannel(ch);
 }

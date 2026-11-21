@@ -50,13 +50,13 @@ function write(key: string, value: unknown) {
   }
 }
 function loadValues(): Values {
-  const s = read<{ date: string; values: Values } | null>("vitals-hygiene", null);
+  const s = read<{ date: string; values: Values } | null>("vitals2-hygiene", null);
   return s && s.date === today() ? s.values : {};
 }
 type LiveCabin = { humidity: number | null; airQuality: number | null; at: number; device: string; demo?: boolean };
 /** Cabin readings the Live monitor saved in the last 15 minutes, if any. */
 function liveCabin(): LiveCabin | null {
-  const l = read<LiveCabin | null>("vitals-cabin-live", null);
+  const l = read<LiveCabin | null>("vitals2-cabin-live", null);
   return l && Date.now() - l.at < 15 * 60 * 1000 && (l.humidity != null || l.airQuality != null) ? l : null;
 }
 
@@ -220,7 +220,7 @@ const HYGIENE_SCOPE: ChatScope = {
 export default function HygienePage() {
   const [values, setValues] = useState<Values>(loadValues);
   const [cabin, setCabin] = useState<Cabin>(() => {
-    const saved = read<Cabin>("vitals-hygiene-cabin", DEFAULT_CABIN);
+    const saved = read<Cabin>("vitals2-hygiene-cabin", DEFAULT_CABIN);
     const live = liveCabin();
     // Fresh readings from a paired sensor are used automatically unless you typed your own.
     return live && saved.source !== "typed"
@@ -229,7 +229,7 @@ export default function HygienePage() {
   });
   const [name, setName] = useState(() => {
     try {
-      return localStorage.getItem("vitals-name") ?? "";
+      return localStorage.getItem("vitals2-name") ?? "";
     } catch {
       return "";
     }
@@ -238,11 +238,11 @@ export default function HygienePage() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  useEffect(() => write("vitals-hygiene", { date: today(), values }), [values]);
-  useEffect(() => write("vitals-hygiene-cabin", cabin), [cabin]);
+  useEffect(() => write("vitals2-hygiene", { date: today(), values }), [values]);
+  useEffect(() => write("vitals2-hygiene-cabin", cabin), [cabin]);
   useEffect(() => {
     try {
-      if (name.trim()) localStorage.setItem("vitals-name", name.trim());
+      if (name.trim()) localStorage.setItem("vitals2-name", name.trim());
     } catch {
       /* not remembered */
     }

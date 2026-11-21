@@ -98,7 +98,7 @@ export default function Hero() {
                 ["/live", "Live monitor"],
                 ["/hygiene", "Hygiene"],
                 ["mission", "Mission 61:4"],
-                ["student", "Student"],
+                ["crew", "Students"],
                 ["team", "Team"],
                 ["/crew-link", "Student Link"],
               ].map(([id, label]) => (

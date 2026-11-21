@@ -93,7 +93,7 @@ const today = () => new Date().toISOString().slice(0, 10);
 /** Today's log, kept on this device only. A new day starts empty. */
 function loadLog(): DailyLog {
   try {
-    const raw = JSON.parse(localStorage.getItem("vitals-daily-log") ?? "null");
+    const raw = JSON.parse(localStorage.getItem("vitals2-daily-log") ?? "null");
     if (raw && raw.day === today()) return { ...EMPTY_LOG, ...raw.log };
   } catch {
     /* storage blocked or unreadable: start empty */
@@ -102,7 +102,7 @@ function loadLog(): DailyLog {
 }
 function saveLog(log: DailyLog) {
   try {
-    localStorage.setItem("vitals-daily-log", JSON.stringify({ day: today(), log }));
+    localStorage.setItem("vitals2-daily-log", JSON.stringify({ day: today(), log }));
   } catch {
     /* storage blocked: the log still works until the page closes */
   }
@@ -149,14 +149,14 @@ const inputCls =
 
 function loadName(): string {
   try {
-    return localStorage.getItem("vitals-name") ?? "";
+    return localStorage.getItem("vitals2-name") ?? "";
   } catch {
     return "";
   }
 }
 function saveName(n: string) {
   try {
-    localStorage.setItem("vitals-name", n);
+    localStorage.setItem("vitals2-name", n);
   } catch {
     /* storage blocked: the name just isn't remembered */
   }
@@ -681,7 +681,7 @@ function VitalsStep({ link, name, crewId, data, lastAt, onDisconnect, onRename }
       savedCabinAt.current = Date.now();
       try {
         localStorage.setItem(
-          "vitals-cabin-live",
+          "vitals2-cabin-live",
           JSON.stringify({ humidity: data.cabinHumidity ?? null, airQuality: data.airQuality ?? null, cabinTemp: data.cabinTemp ?? null, at: Date.now(), device: link.name, demo }),
         );
       } catch {

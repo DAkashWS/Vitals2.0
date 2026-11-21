@@ -260,7 +260,7 @@ export default function BodyScan({ checks, origin, onClose }: { checks: Check[];
     if (!finished) return;
     if (verdict) sfx(verdict === "NORMAL" ? "good" : TONE[verdict]);
     try {
-      localStorage.setItem("vitals-checkup", JSON.stringify({ at: Date.now(), verdict, checks }));
+      localStorage.setItem("vitals2-checkup", JSON.stringify({ at: Date.now(), verdict, checks }));
     } catch {
       /* storage blocked: the chatbot just won't know the last checkup */
     }

@@ -44,7 +44,7 @@ export type CrewCard = {
 /** Your latest readings, saved by the Live monitor. */
 export type MyReadings = { name: string; source: string; readings: CrewReadings; at: number };
 
-const DB_NAME = "vitals";
+const DB_NAME = "vitals2";
 const TEAM_VERSION = 6;
 
 function open(): Promise<IDBDatabase> {

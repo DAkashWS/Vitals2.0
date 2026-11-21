@@ -350,7 +350,7 @@ export function checkupAnswer(t: string, saved: SavedCheckup | null): string | n
 
 function loadCheckup(): SavedCheckup | null {
   try {
-    return JSON.parse(localStorage.getItem("vitals-checkup") ?? "null");
+    return JSON.parse(localStorage.getItem("vitals2-checkup") ?? "null");
   } catch {
     return null;
   }
@@ -360,7 +360,7 @@ function loadCheckup(): SavedCheckup | null {
 const bubbleText = (el: HTMLElement) =>
   [...el.querySelectorAll<HTMLElement>("button, [data-no-say]")].reduce((t, b) => t.replace(b.innerText, ""), el.innerText);
 
-const READ_ALOUD_KEY = "vitals-read-aloud";
+const READ_ALOUD_KEY = "vitals2-read-aloud";
 function loadReadAloud() {
   try {
     return localStorage.getItem(READ_ALOUD_KEY) === "1";
