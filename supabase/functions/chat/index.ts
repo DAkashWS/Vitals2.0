@@ -78,7 +78,8 @@ Deno.serve(async (req) => {
   if (req.method !== "POST") return json({ error: "Use POST" }, 405);
   if (!(await signedIn(req))) return json({ error: "Sign in to VITALS 2.0 to use the assistant." }, 401);
 
-  const key = Deno.env.get("GEMINI_API_KEY")?.trim();
+  // GEMINI_API_KEY is the usual name; GEMINI-API-KEY (dashes) is accepted too, as saved in the dashboard
+  const key = (Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("GEMINI-API-KEY"))?.trim();
   if (!key) {
     // names only (never values), so a misspelt secret can be spotted in the function logs
     const names = Object.keys(Deno.env.toObject()).filter((k) => !k.startsWith("SUPABASE_") && /KEY|GEMINI|API|SECRET/i.test(k));
