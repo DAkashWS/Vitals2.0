@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - run: npm ci
+      - run: npm ci --ignore-scripts # skips onnxruntime-node's GPU download (dev-only tool, not needed for the site)
       - run: npm run build
         env:
           # Public by design (the publishable key ships in every page); the database's
