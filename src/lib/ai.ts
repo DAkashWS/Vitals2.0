@@ -19,13 +19,18 @@ import type { Hit } from "@/lib/knowledge";
  * endpoint functions/api/chat.ts, so no API key is ever in the site. Used whenever it's reachable; offline,
  * or when the free daily allowance is used up, the chatbots fall back to the library and the onboard AI.
  */
-// askvitals.pages.dev and its preview builds serve the endpoint themselves; every other site calls it there
-const CLOUD = /(^|\.)askvitals\.pages\.dev$/.test(location.hostname) ? "/api/chat" : "https://askvitals.pages.dev/api/chat";
+/*
+ * VITALS 2.0: no online model. askvitals.pages.dev belongs to the original VITALS and answers with its
+ * own space-mission instructions, so VITALS 2.0 never sends questions there. Every chatbot answers only
+ * from its own school library (ChatScope.library) and the first-aid rules. Set CLOUD to a school
+ * endpoint later to turn online answers back on.
+ */
+const CLOUD: string | null = null;
 let cloudCheck: Promise<boolean> | null = null;
 
 /** Whether online answers are available right now (a miss is re-checked after 30 s). */
 export function cloudAvailable(): Promise<boolean> {
-  if (!navigator.onLine) return Promise.resolve(false);
+  if (!CLOUD || !navigator.onLine) return Promise.resolve(false);
   cloudCheck ??= fetch(CLOUD, { signal: AbortSignal.timeout(6000) })
     .then((r) => (r.ok ? r.json() : null))
     .then((j: { ok?: boolean } | null) => !!j?.ok)
@@ -41,6 +46,7 @@ export type Turn = { role: "user" | "assistant"; content: string };
 
 /** One chatbot reply from the online model, given the conversation so far, or null to fall back offline. */
 export async function askCloud(bot: string, conversation: Turn[], hits: Hit[], checkup: string): Promise<string | null> {
+  if (!CLOUD) return null;
   try {
     const r = await fetch(CLOUD, {
       method: "POST",
@@ -173,7 +179,7 @@ export async function askAI(question: string, hits: Hit[], botName: string, hist
   const messages = [
     ...(m.startsWith("vitals")
       ? []
-      : [{ role: "system", content: `You are VITALS, the ${botName}, a kind health assistant for astronauts. Answer the question in 2 or 3 short sentences using only the facts, keeping their meaning exactly. Never suggest medicine.` }]),
+      : [{ role: "system", content: `You are VITALS, the ${botName}, a kind school health assistant for students. Answer the question in 2 or 3 short sentences using only the facts, keeping their meaning exactly. Never suggest medicine.` }]),
     // the last exchange, so a follow-up question makes sense
     ...history.slice(-1).flatMap((x) => [
       { role: "user", content: x.q },

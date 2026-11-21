@@ -170,7 +170,7 @@ export const STRONG_SCORE = 6;
 const HEADING_BONUS = 4;
 
 /** The best matching passages for a question, best first. Empty when nothing is relevant enough. */
-export function searchKnowledge(query: string, limit = 3, only?: (p: Passage) => boolean): Hit[] {
+export function searchKnowledge(query: string, limit = 3, only?: (p: Passage) => boolean, minScore = MIN_SCORE): Hit[] {
   const q = [...new Set(tokens(query))];
   if (!q.length) return [];
   const k1 = 1.2;
@@ -185,7 +185,7 @@ export function searchKnowledge(query: string, limit = 3, only?: (p: Passage) =>
     if (score > 0) score += HEADING_BONUS * (q.filter((t) => head.has(t)).length / q.length);
     return { ...p, score };
   })
-    .filter((h) => h.score >= MIN_SCORE)
+    .filter((h) => h.score >= minScore)
     .sort((a, b2) => b2.score - a.score);
   if (!scored.length) return [];
   // Keep only passages close to the best one, so a weak side-match doesn't tag along.

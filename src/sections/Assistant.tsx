@@ -32,6 +32,9 @@ export type ChatScope = {
   unknownText: string;
   /** Which knowledge passages this chat may use. All when left out. */
   library?: (p: Passage) => boolean;
+  /** How strong a library match must be to count as an answer (default MIN_SCORE). Small, focused
+   *  libraries need a higher bar, so an off-topic question gets "I only cover…" instead of a weak match. */
+  minScore?: number;
   /** Which first-aid topics (by id) this chat may use. All when left out. */
   topics?: string[];
   /** This assistant's reply to "hi" / "hello", so it introduces itself rather than the main assistant. */
@@ -40,6 +43,9 @@ export type ChatScope = {
   tone?: GlyphTone;
   avatar?: GlyphName;
 };
+
+/** Minimum match score for the school libraries: measured off-topic matches scored 4.9 to 5.8, real answers 7 and up. */
+export const SCHOOL_MIN_SCORE = 6.5;
 
 export const MAIN_SCOPE: ChatScope = {
   name: "VITALS assistant",
@@ -50,14 +56,17 @@ export const MAIN_SCOPE: ChatScope = {
   hello: (
     <>
       Hi, I'm the VITALS assistant. Tell me what happened or where it hurts, for example "I cut my finger", or ask me
-      about health in space, like "why is my face puffy?" or "why do I see flashes of light?". I give general first aid
-      and information, not a diagnosis.
+      a school health question, like "how much water should I drink?" or "how heavy should my school bag be?". I give
+      general first aid and information, not a diagnosis.
     </>
   ),
   suggestions: SUGGESTIONS,
   followUps: FOLLOW_UPS,
   unknownText:
-    "I'm not sure I understood, and I don't have that in my library yet. Where does it hurt, or how do you feel? Pick one below or tell me in a few words. If it's serious or you're unsure, tell the commander and contact the flight surgeon.",
+    "I'm not sure I understood, and I don't have that in my library yet. Where does it hurt, or how do you feel? Pick one below or tell me in a few words. If it's serious or you're unsure, tell a teacher and get the school nurse.",
+  // school health only: the five school libraries, never the space files from the original VITALS
+  library: (p) => p.id.startsWith("school-"),
+  minScore: SCHOOL_MIN_SCORE,
 };
 
 type Msg =
@@ -271,7 +280,7 @@ function BotReply({ reply, library = [], actions, scope, ai, thinking, cloud }: 
               <li key={s}>{s}</li>
             ))}
           </ol>
-          {t.spaceNote && <p className="text-sky-200/80">In space: {t.spaceNote}</p>}
+          {t.spaceNote && <p className="text-sky-200/80">At school: {t.spaceNote}</p>}
           <div className="rounded-lg border border-watch/25 bg-watch/[0.06] px-3 py-2.5">
             <p className="mb-1 text-[11px] font-semibold uppercase tracking-wider text-watch">
               Contact the flight surgeon if
@@ -503,7 +512,7 @@ Question: ${you}`, a }].slice(-2);
 
   /** Online: a real conversation with the model, grounded in this chatbot's library. Falls back offline if it fails. */
   const sendCloud = async (t: string) => {
-    const hits = searchKnowledge(t, 3, scope.library);
+    const hits = searchKnowledge(t, 3, scope.library, scope.minScore);
     const youId = nextId.current++;
     const botId = nextId.current++;
     setMsgs((m) => [...m, { id: youId, from: "you", text: t }, { id: botId, from: "bot", cloud: "" }]);
@@ -552,7 +561,7 @@ Question: ${you}`, a }].slice(-2);
       const allowed = reply.topics.filter((x) => scope.topics!.includes(x.id));
       reply = allowed.length ? { kind: "advice", topics: allowed } : { kind: "unknown" };
     }
-    const found = reply.kind === "chat" ? [] : searchKnowledge(t, 3, scope.library);
+    const found = reply.kind === "chat" ? [] : searchKnowledge(t, 3, scope.library, scope.minScore);
     // A general question ("why do astronauts faint after landing?") with a strong library
     // answer gets that answer. Anything about "I" or "my" stays on the first-aid path.
     if (isGeneralQuestion(t) && found[0]?.score >= STRONG_SCORE && (reply.kind === "urgent" || reply.kind === "advice")) {

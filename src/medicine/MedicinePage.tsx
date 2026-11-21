@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Shell } from "@/live/LivePage";
 import { Glyph, GlyphTile, type GlyphName } from "@/components/ui/glyph";
-import { ChatPanel, type ChatScope } from "@/sections/Assistant";
+import { ChatPanel, SCHOOL_MIN_SCORE, type ChatScope } from "@/sections/Assistant";
 
 /*
  * School medicines (#/medicine): how schools keep students with health conditions safe, the
@@ -263,11 +263,12 @@ const MEDICINE_SCOPE: ChatScope = {
     </>
   ),
   greet: "Hi! I'm the school medicine assistant. Ask me about medicines at school, long-term conditions and first aid.",
-  suggestions: ["Can a school give my child medicine?", "What should I do in an asthma attack?", "What is anaphylaxis and what do I do?", "What do I do if a diabetic student has a hypo?", "What should I do during a seizure?", "How do I do CPR?"],
+  suggestions: ["Can a school give my child medicine?", "What should I do in an asthma attack?", "How do I use an EpiPen?", "What do I do if a diabetic student has a hypo?", "What should I do during a seizure?", "How do I do CPR?"],
   followUps: ["Can children take aspirin?", "Where are medicines kept at school?", "What is an individual health care plan?", "When should a sick child stay home?", "How do I treat a burn?", "What should I do for a nosebleed?", "What do I do if someone is choking?"],
   unknownText:
     "I only cover school medicines and first aid, and I don't have that in my library yet. Try one of these. In an emergency, call your local emergency number and get a first aider.",
   library: (p) => p.id.startsWith("school-medicines#"),
+  minScore: SCHOOL_MIN_SCORE,
   topics: [],
 };
 

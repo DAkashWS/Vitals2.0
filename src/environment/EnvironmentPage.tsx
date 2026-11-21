@@ -1,7 +1,7 @@
 import { useEffect, type ReactNode } from "react";
 import { Shell } from "@/live/LivePage";
 import { Glyph, GlyphTile, type GlyphName } from "@/components/ui/glyph";
-import { ChatPanel, type ChatScope } from "@/sections/Assistant";
+import { ChatPanel, SCHOOL_MIN_SCORE, type ChatScope } from "@/sections/Assistant";
 
 /** The cabin guide: answers from the environment, cabin air, emergency and radiation files in /knowledge. */
 const ENV_SCOPE: ChatScope = {
@@ -21,6 +21,7 @@ const ENV_SCOPE: ChatScope = {
   unknownText:
     "I only cover the classroom environment, and I don't have that in my library yet. Try one of these, or ask the main VITALS assistant. If someone is unwell, tell a teacher or the school nurse.",
   library: (p) => p.id.startsWith("school-classroom-environment#"),
+  minScore: SCHOOL_MIN_SCORE,
   topics: [],
 };
 

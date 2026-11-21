@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import type { ReactNode } from "react";
 import { Shell } from "@/live/LivePage";
 import { Glyph, GlyphTile, type GlyphName } from "@/components/ui/glyph";
-import { ChatPanel, type ChatScope } from "@/sections/Assistant";
+import { ChatPanel, SCHOOL_MIN_SCORE, type ChatScope } from "@/sections/Assistant";
 
 /*
  * Bones, posture and sport (#/bone): how school-age bodies grow strong, and the everyday school
@@ -79,6 +79,7 @@ const BONE_SCOPE: ChatScope = {
   unknownText:
     "I only cover bones, posture and sport, and I don't have that in my library yet. Try one of these, or ask the main VITALS assistant. For a bad injury, get the school nurse or a first aider.",
   library: (p) => p.id.startsWith("school-bones-posture#"),
+  minScore: SCHOOL_MIN_SCORE,
   topics: [],
 };
 

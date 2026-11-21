@@ -24,8 +24,8 @@ A written plan for a student with a long-term condition such as asthma, severe a
 ## What should I do in an asthma attack?
 Signs: coughing, wheezing, tight chest, breathlessness, struggling to speak. Help the student sit up straight and stay calm. Give their blue reliever inhaler, ideally with a spacer, as their plan says (often 1 puff every 30 to 60 seconds, up to 10 puffs). If they don't improve, are too breathless to talk, or you're worried, call an ambulance and keep giving the reliever.
 
-## What is anaphylaxis and what do I do?
-Anaphylaxis is a severe, life-threatening allergic reaction, often to nuts, other foods, insect stings or medicines. Signs: swelling of the lips, face, tongue or throat, difficulty breathing, wheezing, hoarse voice, feeling faint, collapse. Give the adrenaline auto-injector into the outer thigh straight away, call an ambulance and say "anaphylaxis". Lie them flat with legs raised (or sitting if breathing is hard). Give a second dose after 5 minutes if there's no improvement.
+## What is anaphylaxis and how do I use an EpiPen?
+Anaphylaxis is a severe, life-threatening allergic reaction, often to nuts, other foods, insect stings or medicines. Signs: swelling of the lips, face, tongue or throat, difficulty breathing, wheezing, hoarse voice, feeling faint, collapse. Give the adrenaline auto-injector (EpiPen) into the outer thigh straight away, call an ambulance and say "anaphylaxis". Lie them flat with legs raised (or sitting if breathing is hard). Give a second dose after 5 minutes if there's no improvement.
 
 ## What do I do if a diabetic student has a hypo?
 A hypo is low blood sugar: shaky, sweaty, pale, hungry, confused, grumpy or drowsy. Give fast-acting sugar such as glucose tablets, a sugary (not diet) drink or juice. Wait 10 to 15 minutes and recheck; repeat if still low, then give a starchy snack. Never leave them alone or send them anywhere by themselves. If they are unconscious, put them in the recovery position and call an ambulance; give nothing by mouth.

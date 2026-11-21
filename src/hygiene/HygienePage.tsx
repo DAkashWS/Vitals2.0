@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, type Dispatch, type SetStateAction } from
 import { LiquidButton } from "@/components/ui/liquid-glass-button";
 import { Minus, Plus, Radio, RotateCcw } from "lucide-react";
 import { Shell } from "@/live/LivePage";
-import { ChatPanel, type ChatScope } from "@/sections/Assistant";
+import { ChatPanel, SCHOOL_MIN_SCORE, type ChatScope } from "@/sections/Assistant";
 import HygieneCard from "@/hygiene/HygieneCard";
 import { GlyphTile, StatusDot } from "@/components/ui/glyph";
 import {
@@ -210,6 +210,7 @@ const HYGIENE_SCOPE: ChatScope = {
   unknownText:
     "I only cover hygiene at school, and I don't have that in my library yet. Try one of these, or ask the main VITALS assistant. If someone is unwell, tell a teacher or the school nurse.",
   library: (p) => p.id.startsWith("school-hygiene#"),
+  minScore: SCHOOL_MIN_SCORE,
   topics: ["skin", "stomach", "tooth", "cut", "eye", "nausea"],
 };
 

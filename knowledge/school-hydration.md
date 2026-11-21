@@ -3,7 +3,7 @@ title: Hydration at school
 source: VITALS 2.0 school health guide (general guidance)
 ---
 
-## How much water should a student drink?
+## How much water should I drink each day?
 Most school-age children need about 6 to 8 glasses (roughly 1.5 to 2 litres) of fluid a day; teenagers often need more. They need extra on hot days and when doing sport. Water and milk are the best choices.
 
 ## Why does drinking water help at school?
@@ -36,7 +36,7 @@ Heat exhaustion happens when the body overheats and loses too much water and sal
 ## Why do some students avoid drinking at school?
 Some avoid drinking so they don't have to use the school toilets, especially if they're dirty or lack privacy. This can cause headaches, constipation and urinary infections. Clean, stocked toilets and permission to go when needed help students drink properly.
 
-## Can you drink too much water?
+## Is it dangerous to overdo it with water?
 It's rare in healthy students, but drinking huge amounts very fast (for example in a challenge or during endurance events) can dilute the salt in the blood. Drink to stay comfortably hydrated, not to force down litres at once.
 
 ## Does milk count as a drink?
