@@ -5,10 +5,12 @@
 // Each bot is kept to its own topic: anything else gets a one-line redirect to the right assistant.
 // Emergencies never reach here: the website answers red flags itself with fixed steps.
 //
-// Secret: GEMINI_API_KEY (Supabase dashboard -> Edge Functions -> Secrets). Optional: GEMINI_MODEL.
+// Secret: GEMINI_API_KEY or GEMINI-API-KEY (Supabase dashboard -> Edge Functions -> Secrets). Optional: GEMINI_MODEL.
 // Deployed with verify_jwt off because the function checks the user itself (below).
 
-const MODEL = Deno.env.get("GEMINI_MODEL") ?? "gemini-2.5-flash";
+// Tried in order: the GEMINI_MODEL secret if set, then Google's current Flash model, then its "latest" alias.
+// (gemini-2.5-flash is closed to new users, so it isn't used.)
+const MODELS = [Deno.env.get("GEMINI_MODEL"), "gemini-3.8-flash", "gemini-flash-latest"].filter((m): m is string => !!m);
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL") ?? "";
 const ANON = Deno.env.get("SUPABASE_ANON_KEY") ?? "";
 
@@ -103,21 +105,29 @@ Deno.serve(async (req) => {
   const checkup = typeof body.checkup === "string" && body.checkup && body.bot === "assistant-input" ? `\nThe student's last VITALS checkup: ${body.checkup.slice(0, 800)}` : "";
   const system = `${BASE}\n\nYou are ${bot.name}. Your topic: ${bot.topic}${checkup}`;
 
-  const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "x-goog-api-key": key },
-    body: JSON.stringify({
-      systemInstruction: { parts: [{ text: system }] },
-      contents: messages,
-      generationConfig: { temperature: 0.4, maxOutputTokens: 700, thinkingConfig: { thinkingBudget: 0 } },
-    }),
-  });
-  if (!r.ok) {
-    console.error("gemini", r.status, (await r.text()).slice(0, 300));
+  // a model Google has retired answers 404: move on to the next one
+  let r: Response | null = null;
+  for (const model of MODELS) {
+    r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-goog-api-key": key },
+      body: JSON.stringify({
+        systemInstruction: { parts: [{ text: system }] },
+        contents: messages,
+        generationConfig: { temperature: 0.4, maxOutputTokens: 2048 },
+      }),
+    });
+    if (r.status !== 404) break;
+    console.error("gemini model unavailable:", model);
+  }
+  if (!r || !r.ok) {
+    console.error("gemini", r?.status, r ? (await r.text()).slice(0, 300) : "no response");
     return json({ error: "The assistant is busy. Try again in a moment." }, 502);
   }
   const data = await r.json();
+  // only the answer text (newer models can also return "thought" parts)
   const reply = (data?.candidates?.[0]?.content?.parts ?? [])
+    .filter((p: { thought?: boolean }) => !p.thought)
     .map((p: { text?: string }) => p.text ?? "")
     .join("")
     .trim();
