@@ -20,6 +20,7 @@ import { appUrl, supabase } from "@/lib/supabase";
 import { friendlyError, takeAuthError, useAuth, type Baselines, type Profile } from "@/lib/auth";
 import { crewIdFor, randomCrewId, describe, getMyReadings, type MyReadings } from "@/lib/crewDb";
 import { syncLabel, syncNow, useSyncState } from "@/lib/sync";
+import { loadHistory, type History } from "@/lib/history";
 import { ShinyButton } from "@/components/ui/shiny-button";
 
 const field =
@@ -298,12 +299,16 @@ function AccountHome({ profile }: { profile: Profile }) {
   const { user, signOut } = useAuth();
   const sync = useSyncState();
   const [editing, setEditing] = useState(false);
-  const [mine, setMine] = useState<MyReadings | null>(null);
+  const [local, setLocal] = useState<MyReadings | null>(null);
+  const [hist, setHist] = useState<History | null>(null);
   useEffect(() => {
     getMyReadings()
-      .then((m) => setMine(m ?? null))
-      .catch(() => setMine(null));
-  }, []);
+      .then((m) => setLocal(m ?? null))
+      .catch(() => setLocal(null));
+    void loadHistory(profile.id).then(setHist);
+  }, [profile.id]);
+  // the newest of: this device's last reading, or the account's (which includes nurse-station checks)
+  const mine = hist?.latest && (!local || hist.latest.at > local.at) ? hist.latest : local;
 
   if (editing) return <BuildCard profile={profile} onDone={() => setEditing(false)} />;
 
@@ -360,6 +365,7 @@ function AccountHome({ profile }: { profile: Profile }) {
           </div>
         </div>
       </div>
+      {!commander && <Averages hist={hist} />}
       {commander && (
         <a href="#/teacher" className={`${card} flex items-center gap-4 transition-colors hover:border-sky-300/40`}>
           <GlyphTile name="clipboard" size="lg" />
@@ -428,5 +434,40 @@ export default function AccountPage() {
         <AccountHome profile={profile} />
       )}
     </Shell>
+  );
+}
+
+/** The student's averages over the last 30 days, from every saved reading, nurse-station checks included. */
+function Averages({ hist }: { hist: History | null }) {
+  const when = (t: number) => new Date(t).toLocaleString([], { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+  return (
+    <div className={card}>
+      <h2 className="flex items-center gap-3 text-lg font-semibold">
+        <GlyphTile name="heartPulse" size="sm" /> Your averages
+      </h2>
+      <p className="mt-2 text-sm text-white/60">
+        {hist
+          ? `Last ${hist.days} days · ${hist.checks} saved reading${hist.checks === 1 ? "" : "s"}${hist.nurseChecks ? `, ${hist.nurseChecks} from the school nurse` : ""}.`
+          : "Loading your readings…"}
+        {hist?.lastNurseAt ? ` Last nurse check: ${when(hist.lastNurseAt)}.` : ""}
+      </p>
+      {hist && !hist.averages.length && <p className="mt-4 text-sm text-white/55">No readings yet. They appear here after you use the Live monitor or visit the school nurse.</p>}
+      {!!hist?.averages.length && (
+        <dl className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {hist.averages.map((a) => (
+            <div key={a.key} className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3">
+              <dt className="text-xs uppercase tracking-[0.15em] text-white/50">{a.label}</dt>
+              <dd className="mt-1 text-2xl font-semibold text-white">
+                {a.avg}
+                <span className="ml-1 text-sm font-normal text-white/50">{a.unit}</span>
+              </dd>
+              <dd className="text-xs text-white/45">
+                {a.n > 1 ? `Range ${a.min} to ${a.max} · ${a.n} readings` : "1 reading"}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      )}
+    </div>
   );
 }
