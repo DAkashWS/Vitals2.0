@@ -98,9 +98,9 @@ export default function Hero() {
                 ["/live", "Live monitor"],
                 ["/hygiene", "Hygiene"],
                 ["mission", "Mission 61:4"],
-                ["crew", "Crew"],
+                ["student", "Student"],
                 ["team", "Team"],
-                ["/crew-link", "Crew Link"],
+                ["/crew-link", "Student Link"],
               ].map(([id, label]) => (
                 <a key={id} href={`#${id}`} className="pointer-events-auto transition-colors hover:text-white">
                   {label}
@@ -113,7 +113,7 @@ export default function Hero() {
             </span>
           </header>
           <p className="absolute inset-x-6 bottom-[calc(100%-var(--gp-word-top,35%)+28px)] m-0 text-center font-mono text-xs uppercase tracking-[0.35em] text-sky-300/80">
-            Crew health monitor · offline
+            Student health monitor
           </p>
           <p className="absolute inset-x-6 top-[calc(var(--gp-word-bottom,50%)+28px)] m-0 text-center text-base text-white/70 sm:text-lg">
             Catch the warning signs early. Act before Earth can even reply.
@@ -128,17 +128,17 @@ export default function Hero() {
             Space slowly reshapes the body. Nobody else is close enough to notice.
           </h1>
           <p className="mt-6 max-w-[52ch] text-base leading-relaxed text-white/70">
-            Radiation, bone loss, a strained heart and mind, CO2 you can't feel. Months from home, the crew has to catch
+            Radiation, bone loss, a strained heart and mind, CO2 you can't feel. Months from home, the student has to catch
             it all themselves.
           </p>
         </div>
         <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-7 backdrop-blur-sm">
           <p className="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-sky-300">Our answer</p>
           <p className="text-lg leading-relaxed text-white/85">
-            VITALS watches body and cabin together, spots what no single reading shows, and tells the crew what to do
+            VITALS watches body and cabin together, spots what no single reading shows, and tells the student what to do
             next. No signal from Earth needed.
           </p>
-          <p className="mt-4 text-sm text-white/55">VITALS guides the crew's decisions. It never diagnoses.</p>
+          <p className="mt-4 text-sm text-white/55">VITALS guides the student's decisions. It never diagnoses.</p>
           <div className="mt-7 flex flex-wrap gap-3">
             <ShinyButton className="h-12 w-44" onClick={() => go("modules")}>
               See modules

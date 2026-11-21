@@ -9,7 +9,7 @@ export default function HygieneTeaser() {
         <div>
           <p className="mb-4 font-mono text-xs uppercase tracking-[0.35em] text-sky-300">Hygiene & sanitation</p>
           <h2 className="mb-5 max-w-[18ch] text-balance text-4xl font-semibold tracking-tight sm:text-5xl">
-            A clean crew in a clean cabin.
+            A clean student in a clean cabin.
           </h2>
           <p className="mb-8 max-w-[52ch] leading-relaxed text-white/65">
             One person's germs soon become everyone's. Track the daily routine and get a hygiene score tuned to your cabin.

@@ -43,30 +43,10 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     csp(loadEnv(mode, process.cwd()).VITE_SUPABASE_URL ?? ""),
-    // Service worker: after the first visit every file of the site (pages, fonts, pictures, 3D models,
-    // knowledge library) is cached, so it opens with no network at all. "script-defer" keeps the
-    // registration in its own file, which the CSP above allows (an inline script would be blocked).
-    VitePWA({
-      registerType: "autoUpdate",
-      injectRegister: "script-defer",
-      manifest: false,
-      workbox: {
-        globPatterns: ["**/*.{js,css,html,woff2,glb,wasm,jpg,png,svg,ico,webmanifest,mp3}"],
-        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
-        // The page itself comes from the network when there is one, so a returning visitor gets the latest
-        // deploy instead of the cached one; offline (or after 3 s) it falls back to the cached copy.
-        // directoryIndex: null stops the precache answering "/" with its own index.html first.
-        navigateFallback: null,
-        directoryIndex: null,
-        runtimeCaching: [
-          {
-            urlPattern: ({ request }) => request.mode === "navigate",
-            handler: "NetworkFirst",
-            options: { cacheName: "pages", networkTimeoutSeconds: 3, precacheFallback: { fallbackURL: "index.html" } },
-          },
-        ],
-      },
-    }),
+    // Vitals 2.0 doesn't need to work offline, so there is no caching service worker. selfDestroying
+    // ships a worker that unregisters itself and clears the old caches for anyone who visited the
+    // earlier offline build, so nobody is stuck on a stale copy.
+    VitePWA({ selfDestroying: true, injectRegister: "script-defer", manifest: false }),
   ],
   resolve: {
     alias: { "@": path.resolve(import.meta.dirname, "src") },

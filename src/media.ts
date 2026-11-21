@@ -21,7 +21,7 @@ export const media = {
   missionImage: "media/mission.jpg",
   missionBackground: "media/mission-bg.jpg",
 
-  // Perspective Tunnel cards, in order (the 10th, Space Medicines, reuses the Earth photo).
-  // (tunnel-6.jpg belonged to the removed Radiation card, so it's skipped and every card keeps its photo)
-  tunnel: [1, 2, 3, 4, 5, 7, 8, 9].map((n) => `media/tunnel-${n}.jpg`).concat("media/hero-earth.jpg"),
+  // "Inside VITALS" tunnel cards, one per module in src/content.ts, in the same order.
+  // School and health photos from Unsplash (Unsplash License, free to use).
+  tunnel: [1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => `media/school-${n}.jpg`),
 };

@@ -96,7 +96,7 @@ async function restoreCard(uid: string) {
     const r = data?.[0] as { taken_at: string; source: string; data: CrewReadings } | undefined;
     if (r) {
       const name = profile?.display_name || "You";
-      await putCard({ id: "self", name, role: "Crew member", crewId: profile?.crew_id || crewIdFor(name), readings: r.data, kind: "self", source: r.source, updatedAt: Date.parse(r.taken_at) });
+      await putCard({ id: "self", name, role: "Student", crewId: profile?.crew_id || crewIdFor(name), readings: r.data, kind: "self", source: r.source, updatedAt: Date.parse(r.taken_at) });
     }
   }
   await setMeta(flag, true);

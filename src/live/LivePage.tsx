@@ -763,7 +763,7 @@ function VitalsStep({ link, name, crewId, data, lastAt, onDisconnect, onRename }
     const at = Date.now();
     try {
       await saveMyReadings({ name, source: link.name, readings: myReadings, at });
-      await putCard({ id: "self", name, role: "Crew member", crewId, readings: myReadings, kind: "self", source: link.name, updatedAt: at });
+      await putCard({ id: "self", name, role: "Student", crewId, readings: myReadings, kind: "self", source: link.name, updatedAt: at });
     } catch {
       /* storage blocked: the Crew section explains it */
     }
@@ -793,9 +793,9 @@ function VitalsStep({ link, name, crewId, data, lastAt, onDisconnect, onRename }
             <HoloCard
               ref={card}
               name={name}
-              role="Crew member"
+              role="Student"
               crewId={crewId}
-              mission="61:4"
+              mission="8B"
               status={CARD_STATUS[overall]}
               statusNote={measuredCount ? `Live from ${link.name}.` : `Paired with ${link.name}. Waiting for readings.`}
               baselines={baselines}
@@ -811,7 +811,7 @@ function VitalsStep({ link, name, crewId, data, lastAt, onDisconnect, onRename }
               Change name
             </LiquidButton>
             <RainbowButton disabled={!hasReadings} onClick={addToCrew} className="h-9 px-5 text-[13px]">
-              Add to crew
+              Add to student
             </RainbowButton>
           </div>
         </div>

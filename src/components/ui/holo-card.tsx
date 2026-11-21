@@ -87,6 +87,11 @@ const CSS = `
 .hc-chip:before,.hc-chip:after{content:"";position:absolute;border:1px solid rgba(80,60,20,.45)}
 .hc-chip:before{left:30%;right:30%;top:-1px;bottom:-1px;border-top:0;border-bottom:0}
 .hc-chip:after{top:35%;bottom:35%;left:-1px;right:-1px;border-left:0;border-right:0}
+.hc-photo{width:44px;height:52px;border-radius:9px;display:grid;place-items:center;font:700 16px/1 Inter,system-ui,sans-serif;letter-spacing:-.02em;color:#b91c1c;
+  background:linear-gradient(160deg,#fff 0%,#fde2e2 100%);box-shadow:inset 0 0 0 1px rgba(185,28,28,.28),0 1px 2px rgba(48,16,22,.12)}
+.hc-slot{position:absolute;top:9px;left:50%;width:46px;height:7px;margin-left:-23px;border-radius:99px;background:rgba(48,16,22,.10);box-shadow:inset 0 1px 2px rgba(48,16,22,.25)}
+.hc-stripe{position:absolute;left:0;right:0;bottom:0;height:5px;background:linear-gradient(90deg,#dc2626,#ef4444 60%,#b91c1c)}
+.hc-tag{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#dc2626;border:1px solid rgba(220,38,38,.35);border-radius:99px;padding:2px 7px;margin-left:2px}
 .hc-label{display:block;font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(29,29,31,.5);margin-bottom:4px}
 `;
 
@@ -122,7 +127,7 @@ export const HoloCard = React.forwardRef<HoloCardHandle, HoloCardProps>(function
     name = "Student",
     role = "Class 8B",
     crewId = "2026 1114 0047 0001",
-    mission = "61:4",
+    mission = "8B",
     status = "green",
     statusNote,
     baselines = [],
@@ -337,13 +342,15 @@ export const HoloCard = React.forwardRef<HoloCardHandle, HoloCardProps>(function
           {/* front */}
           <div className="hc-face" aria-hidden={side !== "front"}>
             <Layers />
-            <div className="absolute inset-0 flex flex-col justify-between px-6 pb-5 pt-[22px]">
+            <span className="hc-slot" aria-hidden="true" />
+            <div className="absolute inset-0 flex flex-col justify-between px-6 pb-6 pt-[22px]">
               <div className="flex items-center justify-between">
                 <span className="flex items-center gap-2 text-[17px] font-bold tracking-[-0.03em]">
-                  <span className="grid h-[22px] w-[22px] place-items-center rounded-[7px]" style={{ background: INK }}>
+                  <span className="grid h-[22px] w-[22px] place-items-center rounded-[7px]" style={{ background: "#dc2626" }}>
                     <HeartPulse className="h-3.5 w-3.5 text-white" strokeWidth={2.5} />
                   </span>
                   VITALS
+                  <span className="hc-tag">Student card</span>
                 </span>
                 <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[.12em]" style={{ color: st0.color }}>
                   <span className="h-2 w-2 rounded-full" style={{ background: st0.color, boxShadow: `0 0 0 3px ${st0.color}33` }} />
@@ -351,7 +358,14 @@ export const HoloCard = React.forwardRef<HoloCardHandle, HoloCardProps>(function
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="hc-chip" />
+                <span className="hc-photo" aria-hidden="true">
+                  {name
+                    .split(/\s+/)
+                    .filter(Boolean)
+                    .slice(0, 2)
+                    .map((w) => w[0]?.toUpperCase())
+                    .join("") || "?"}
+                </span>
                 <Activity className="h-[22px] w-[22px]" style={{ color: "rgba(29,29,31,.6)" }} aria-hidden="true" />
               </div>
               <button
@@ -379,13 +393,14 @@ export const HoloCard = React.forwardRef<HoloCardHandle, HoloCardProps>(function
                 </div>
               </div>
             </div>
+            <span className="hc-stripe" aria-hidden="true" />
             <div className="hc-layer hc-edge" />
           </div>
 
           {/* back */}
           <div className="hc-face" style={{ transform: "rotateY(180deg)" }} aria-hidden={side !== "back"}>
             <Layers />
-            <div className="absolute inset-x-0 top-5 flex h-[34px] items-center px-6 text-[10px] font-semibold uppercase tracking-[.16em] text-white/80" style={{ background: "linear-gradient(180deg,#2a2a2e,#111)" }}>
+            <div className="absolute inset-x-0 top-5 flex h-[34px] items-center px-6 text-[10px] font-semibold uppercase tracking-[.16em] text-white/80" style={{ background: "linear-gradient(180deg,#dc2626,#991b1b)" }}>
               {backTitle}
             </div>
             <dl className="absolute inset-x-6 top-[66px] grid grid-cols-3 gap-x-3 gap-y-2.5">

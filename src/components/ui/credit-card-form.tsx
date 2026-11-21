@@ -63,7 +63,7 @@ const CrewCardForm = ({ defaults = {}, ring1 = "#dc2626", ring2 = "#e11d48", sub
   const [crewId, setCrewId] = useState(digits(defaults.crewId ?? "", 16));
   const [month, setMonth] = useState(defaults.month ?? "");
   const [year, setYear] = useState(defaults.year ?? "");
-  const [mission, setMission] = useState(defaults.mission ?? "61:4");
+  const [mission, setMission] = useState(defaults.mission ?? "8B");
   const [focus, setFocus] = useState<Focus>(null);
 
   const years = useMemo(() => {
@@ -107,6 +107,8 @@ const CrewCardForm = ({ defaults = {}, ring1 = "#dc2626", ring2 = "#e11d48", sub
         <section className={`card ${focus === "mission" ? "flip" : ""}`} aria-label="Your student card preview">
           <div id="highlight" className={highlight} />
           <section className="card__front" style={rings}>
+            <span className="card__slot" aria-hidden="true" />
+            <span className="card__stripe" aria-hidden="true" />
             <div className="card__header">
               <span className="card__brand">
                 <span className="card__logo">

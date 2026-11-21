@@ -191,7 +191,7 @@ const SignIn1 = ({ mode, onModeChange, onSignIn, onSignUp, onForgot, onGoogle, n
       {/* the team */}
       <div className="relative z-10 mt-10 flex flex-col items-center text-center">
         <p className="text-sm text-gray-400">
-          Built by the <span className="font-medium text-white">Mission 61:4</span> crew for NASA Space Apps 2026.
+          Built by the <span className="font-medium text-white">Mission 61:4</span> team for NASA Space Apps 2026.
         </p>
       </div>
     </div>

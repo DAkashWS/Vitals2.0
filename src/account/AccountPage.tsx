@@ -114,13 +114,13 @@ function SignedOut() {
         <HoloCard
           ref={card}
           name={mode === "signup" && name.trim() ? name.trim() : "Your name"}
-          role="Crew member"
+          role="Student"
           crewId={crewId}
-          mission="61:4"
+          mission="8B"
           statusNote={mode === "signup" ? "Your card builds itself as you type." : "Sign in to see your own card."}
           className="w-full"
         />
-        <p className="mt-3 text-center text-xs text-white/50">{mode === "signup" ? `Your crew number: ${crewId}` : "Every account gets its own crew number."}</p>
+        <p className="mt-3 text-center text-xs text-white/50">{mode === "signup" ? `Your student number: ${crewId}` : "Every account gets its own student number."}</p>
       </div>
     </div>
   );
@@ -154,7 +154,7 @@ function BuildCard({ profile, onDone }: { profile: Profile; onDone?: () => void 
   return (
     <div>
       <p className="mb-8 max-w-[60ch] text-white/70">
-        Your crew card goes on your account and on the crew view. It builds itself as you type. Nothing here is a payment card.
+        Your student card goes on your account and on the student view. It builds itself as you type. Nothing here is a payment card.
       </p>
       <CrewCardForm
         lockCrewId={!!profile.crew_id}
@@ -162,13 +162,13 @@ function BuildCard({ profile, onDone }: { profile: Profile; onDone?: () => void 
           name: profile.display_name,
           job: profile.job,
           crewId: (profile.crew_id || crewIdFor(profile.display_name || profile.id)).replace(/\D/g, ""),
-          mission: profile.mission || "61:4",
+          mission: profile.mission || "8B",
           year: end[0],
           month: end[1],
         }}
         busy={busy}
         error={error}
-        submitLabel={profile.onboarded ? "Save changes" : "Create my crew card"}
+        submitLabel={profile.onboarded ? "Save changes" : "Create my student card"}
         onSubmit={save}
       />
       {onDone && profile.onboarded && (
@@ -327,8 +327,8 @@ function CrewBoard() {
     }
     if (saved && (!navigator.onLine || !("code" in error) || !error.code)) {
       setRows(saved.rows);
-      setNote(`No connection: showing the crew status from ${new Date(saved.at).toLocaleString()}.`);
-    } else setErr(navigator.onLine ? friendlyError(error.message) : "No connection, and the crew status hasn't been loaded on this device yet.");
+      setNote(`No connection: showing the student status from ${new Date(saved.at).toLocaleString()}.`);
+    } else setErr(navigator.onLine ? friendlyError(error.message) : "No connection, and the student status hasn't been loaded on this device yet.");
   };
   useEffect(() => {
     void load();
@@ -337,16 +337,16 @@ function CrewBoard() {
     <div className={card}>
       <div className="flex items-center justify-between gap-3">
         <h2 className="flex items-center gap-3 text-lg font-semibold">
-          <GlyphTile name="people" size="sm" tone="violet" /> Crew status
+          <GlyphTile name="people" size="sm" tone="violet" /> Student status
         </h2>
-        <LiquidButton size="icon" type="button" aria-label="Refresh crew status" onClick={load} className="h-9 w-9 text-white">
+        <LiquidButton size="icon" type="button" aria-label="Refresh student status" onClick={load} className="h-9 w-9 text-white">
           <RefreshCw className="h-4 w-4" />
         </LiquidButton>
       </div>
-      <p className="mt-2 text-sm text-white/60">What each crew member shares with commanders: status, key vitals and their room's temperature and humidity. Their full history stays private.</p>
+      <p className="mt-2 text-sm text-white/60">What each student shares with commanders: status, key vitals and their room's temperature and humidity. Their full history stays private.</p>
       {err && <p className="mt-4 text-sm text-rose-300">{err}</p>}
       {note && <p className="mt-4 text-sm text-amber-200/80">{note}</p>}
-      {rows && !rows.length && <p className="mt-4 text-sm text-white/50">No crew data synced yet.</p>}
+      {rows && !rows.length && <p className="mt-4 text-sm text-white/50">No student data synced yet.</p>}
       <ul className="mt-4 divide-y divide-white/10">
         {rows?.map((r) => (
           <li key={r.user_id} className="flex flex-wrap items-center gap-x-4 gap-y-1 py-3 text-sm">
@@ -379,7 +379,7 @@ function AccountHome({ profile }: { profile: Profile }) {
 
   const d = mine ? describe({ id: "self", name: profile.display_name, role: profile.job, crewId: profile.crew_id, readings: mine.readings, kind: "self", source: mine.source, updatedAt: mine.at }) : null;
   const commander = profile.role === "commander" || profile.role === "flight_surgeon";
-  const roleLabel = { crew: "Crew", commander: "Commander", flight_surgeon: "Flight surgeon" }[profile.role];
+  const roleLabel = { crew: "Student", commander: "Commander", flight_surgeon: "Flight surgeon" }[profile.role];
 
   return (
     <div className="space-y-6">
@@ -397,7 +397,7 @@ function AccountHome({ profile }: { profile: Profile }) {
             className="w-full"
           />
           <LiquidButton size="sm" type="button" onClick={() => setEditing(true)} className="h-9 px-4 text-sm text-white/80">
-            Edit my crew card
+            Edit my student card
           </LiquidButton>
         </div>
         <div className={card}>
@@ -422,7 +422,7 @@ function AccountHome({ profile }: { profile: Profile }) {
               <Glyph name="heartPulse" className="h-4 w-4" /> Open the Live monitor
             </ShinyButton>
             <ShinyButton tone="violet" onClick={() => (window.location.hash = "#/crew-link")} className="h-10 px-5 text-sm">
-              <Glyph name="people" className="h-4 w-4" /> Open Crew Link
+              <Glyph name="people" className="h-4 w-4" /> Open Student Link
             </ShinyButton>
             <LiquidButton size="sm" type="button" onClick={() => void signOut()} className="h-9 px-4 text-sm text-white/75">
               Sign out
@@ -462,9 +462,9 @@ export default function AccountPage() {
     window.scrollTo(0, 0);
   }, []);
 
-  const title = !session ? "Your VITALS account." : profile && !profile.onboarded ? "Build your crew card." : "Your account.";
+  const title = !session ? "Your VITALS account." : profile && !profile.onboarded ? "Build your student card." : "Your account.";
   const intro = !session
-    ? "Sign in to use VITALS. Your readings, your baselines and your crew card are saved to your account and follow you to any device."
+    ? "Sign in to use VITALS. Your readings, your baselines and your student card are saved to your account and follow you to any device."
     : undefined;
 
   return (

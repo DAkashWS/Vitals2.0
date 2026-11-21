@@ -45,7 +45,7 @@ export const missionSteps = [
   { t: "06:00", title: "Readings drift", body: "Sleep slips to 6.4 hours and water to 2.1 litres. On their own, each is just a yellow flag, easy to shrug off." },
   { t: "09:40", title: "An alert fires", body: "The astronaut logs a headache. VITALS spots that cabin CO2 rose at the same time, and links the two." },
   { t: "09:41", title: "The report explains", body: "What changed, what changed together, which part of the cabin may be to blame, and what to check first." },
-  { t: "10:15", title: "The crew acts", body: "Check the air, drink 500 ml, rest. If the headache stays, the report is already waiting for the flight surgeon." },
+  { t: "10:15", title: "The student acts", body: "Check the air, drink 500 ml, rest. If the headache stays, the report is already waiting for the flight surgeon." },
 ];
 
 // The crew cards: the team's own readings, stored in the browser database by src/lib/crewDb.ts
@@ -71,7 +71,7 @@ export const unique = [
   { title: "Body plus environment", body: "A headache next to a CO2 spike is no coincidence. VITALS links the two and says \"check the air\"." },
   { title: "Works offline", body: "No phone, no cloud, no signal. Exactly right when a message to Earth takes minutes." },
   { title: "Tells you what to do next", body: "Every alert comes with a clear next step, and the moment it's time to call for help." },
-  { title: "Crew view", body: "The commander sees at a glance who's doing fine and who's struggling." },
+  { title: "Student view", body: "The commander sees at a glance who's doing fine and who's struggling." },
   { title: "Flight surgeon report", body: "A ready-made report, written to survive the long delay to Earth." },
   { title: "Works with watches", body: "A wearable is just one data source. VITALS is the brain that sits on top." },
 ];

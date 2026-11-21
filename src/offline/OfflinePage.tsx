@@ -17,14 +17,14 @@ const STATS: { icon: GlyphName; big: string; small: string }[] = [
 
 /** One question to a doctor on Earth from Mars, at the worst distance. */
 const CONVERSATION: { t: string; icon: GlyphName; title: string; text: string }[] = [
-  { t: "09:00", icon: "headset", title: "You ask", text: "A crew member feels chest tightness. You send the readings and a question." },
+  { t: "09:00", icon: "headset", title: "You ask", text: "A student feels chest tightness. You send the readings and a question." },
   { t: "09:22", icon: "globe", title: "Earth hears it", text: "The message has crossed about 400 million km. The flight surgeon reads it." },
   { t: "09:30", icon: "stethoscope", title: "The doctor answers", text: "They need a few minutes to read the data and decide." },
-  { t: "09:52", icon: "envelope", title: "The answer arrives", text: "Almost an hour after you asked. Whatever happened meanwhile, the crew handled alone." },
+  { t: "09:52", icon: "envelope", title: "The answer arrives", text: "Almost an hour after you asked. Whatever happened meanwhile, the student handled alone." },
 ];
 
 const DISTANCE: { icon: GlyphName; where: string; help: string; text: string }[] = [
-  { icon: "satellite", where: "Space station", help: "Hours", text: "Live calls with doctors, and a capsule docked to bring a sick crew member home within a day." },
+  { icon: "satellite", where: "Space station", help: "Hours", text: "Live calls with doctors, and a capsule docked to bring a sick student home within a day." },
   { icon: "paleDot", where: "Moon", help: "Days", text: "Talk is almost live, but the trip home takes about three days." },
   { icon: "mars", where: "Mars", help: "Months", text: "Every message waits minutes, and the way home opens only when the planets line up, about every two years." },
 ];
@@ -40,7 +40,7 @@ const WORKS: { icon: GlyphName; title: string; text: string; href: string; cta: 
 
 const STEPS: { icon: GlyphName; title: string; text: string }[] = [
   { icon: "warning", title: "Make it safe", text: "Stop the work, anchor yourself and the patient, and deal with the cause: smoke, a leak, a loose tool." },
-  { icon: "crewMedic", title: "Call the crew medic", text: "Every crew has members trained as Crew Medical Officers. Tell them and the commander at once." },
+  { icon: "crewMedic", title: "Call the student medic", text: "Every class has students trained in first aid. Tell them and the commander at once." },
   { icon: "clipboard", title: "Follow the procedure", text: "Use the onboard medical checklists and the VITALS first-aid steps, one step at a time." },
   { icon: "heartPulse", title: "Measure and note", text: "Heart rate, SpO2, what happened and when. Times matter: the doctor will read them much later." },
   { icon: "report", title: "Send the report", text: "Send one clear report with a clear question. Don't wait for the answer to keep caring for the patient." },
@@ -55,7 +55,7 @@ const KIT: { icon: GlyphName; title: string; text: string }[] = [
 ];
 
 const REPORT: { icon: GlyphName; title: string; text: string }[] = [
-  { icon: "people", title: "Who", text: "The crew member, and who is caring for them." },
+  { icon: "people", title: "Who", text: "The student, and who is caring for them." },
   { icon: "timeline", title: "What changed, and when", text: "The first sign, the time it started, and how it has moved since." },
   { icon: "heartPulse", title: "The readings", text: "Heart rate, SpO2, room temperature and humidity, with their trend." },
   { icon: "check", title: "What you've done", text: "Every step taken, and what happened after it." },
@@ -92,7 +92,7 @@ export default function OfflinePage() {
     <Shell
       eyebrow="Offline support"
       title="When Earth can't answer in time."
-      intro="Far from home, the signal is slow, sometimes gone, and the nearest hospital is months away. The crew has to manage on its own, and VITALS is built to work with no signal at all."
+      intro="Far from home, the signal is slow, sometimes gone, and the nearest hospital is months away. The student has to manage on their own, and VITALS is built to work with no signal at all."
       back={{ label: "Back to VITALS" }}
     >
       <nav aria-label="Topics" className="-mt-4 mb-14 flex flex-wrap gap-2">
@@ -148,7 +148,7 @@ export default function OfflinePage() {
               <p className="text-lg font-semibold">And sometimes, nothing at all.</p>
               <p className="mt-1 text-[15px] leading-relaxed text-white/65">
                 About every 26 months the Sun passes between Earth and Mars. Its radio noise drowns out the signal, and missions stop sending
-                commands for around two weeks. A crew there would be truly on its own.
+                commands for around two weeks. A student there would be truly on their own.
               </p>
             </div>
           </div>
@@ -205,7 +205,7 @@ export default function OfflinePage() {
             icon="warning"
             eyebrow="When something goes wrong"
             title="Six steps, no signal required."
-            lead="Spaceflight medicine works this way already: the crew acts first, and the doctor on Earth advises when the message gets through."
+            lead="Spaceflight medicine works this way already: the student acts first, and the doctor on Earth advises when the message gets through."
           />
           <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {STEPS.map((s, i) => (
@@ -221,7 +221,7 @@ export default function OfflinePage() {
 
         {/* ---------- on board ---------- */}
         <section>
-          <SectionTitle id="of-kit" icon="medKit" eyebrow="On board today" title="A tiny hospital, run by the crew." />
+          <SectionTitle id="of-kit" icon="medKit" eyebrow="On board today" title="A tiny hospital, run by the student." />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {KIT.map((k) => (
               <div key={k.title} className="rounded-3xl border border-white/10 bg-[#ffffff]/95 p-6">
@@ -240,7 +240,7 @@ export default function OfflinePage() {
                 <p className="mt-2 max-w-3xl text-[15px] leading-relaxed text-white/65">
                   During a research scan on the space station, an ultrasound found a blood clot in an astronaut's neck vein. With no hospital
                   in reach, doctors on Earth guided the treatment remotely for months, and more medicine was sent up on a supply ship. The
-                  astronaut landed safely. It's exactly the kind of problem a crew on the way to Mars would have to handle with no supply ship
+                  astronaut landed safely. It's exactly the kind of problem a student on the way to Mars would have to handle with no supply ship
                   coming.
                 </p>
               </div>

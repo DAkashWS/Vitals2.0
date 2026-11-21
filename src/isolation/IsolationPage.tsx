@@ -10,7 +10,7 @@ import { ChatPanel, type ChatScope } from "@/sections/Assistant";
  */
 
 const STATS: { icon: GlyphName; big: string; small: string }[] = [
-  { icon: "people", big: "3–7", small: "crewmates for months: the only people you'll see" },
+  { icon: "people", big: "3–7", small: "classmates for months: the only people you'll see" },
   { icon: "sunrise", big: "16", small: "sunrises and sunsets a day on the ISS" },
   { icon: "delay", big: "~20 min", small: "for a message to reach Earth from Mars, each way" },
   { icon: "paleDot", big: "1 pale dot", small: "is all that's left of Earth on the way to Mars" },
@@ -18,7 +18,7 @@ const STATS: { icon: GlyphName; big: string; small: string }[] = [
 
 const EFFECTS: { icon: GlyphName; title: string; text: string }[] = [
   { icon: "calendar", title: "Boredom", text: "Every day follows the same rigid schedule." },
-  { icon: "spiral", title: "Irritability", text: "Small frictions with crewmates grow." },
+  { icon: "spiral", title: "Irritability", text: "Small frictions with classmates grow." },
   { icon: "chartDown", title: "Third-quarter dip", text: "Mood and morale sag around the ¾ mark." },
   { icon: "lowMood", title: "Loneliness", text: "Homesick, far from family and friends." },
   { icon: "sunrise", title: "Broken sleep", text: "Sixteen sunrises a day confuse the body clock." },
@@ -32,12 +32,12 @@ const COMPARE: [string, string, string][] = [
 ];
 
 const COPING: { icon: GlyphName; title: string; text: string }[] = [
-  { icon: "people", title: "Careful crew selection", text: "Screened for calm, teamwork and stress tolerance, and trained living together." },
+  { icon: "people", title: "Careful student selection", text: "Screened for calm, teamwork and stress tolerance, and trained living together." },
   { icon: "envelope", title: "Contact with home", text: "Video calls, emails, phone calls, care packages and surprise messages." },
   { icon: "calendar", title: "A steady routine", text: "Planned work, about two hours of exercise, meals and rest." },
   { icon: "cupola", title: "Hobbies and the view", text: "Music, books, photos, films, and Earth-gazing from the Cupola." },
   { icon: "headset", title: "Someone to talk to", text: "Private calls with flight surgeons and psychologists." },
-  { icon: "cake", title: "Crew bonding", text: "Shared meals and celebrations make the group a team." },
+  { icon: "cake", title: "Student bonding", text: "Shared meals and celebrations make the group a team." },
 ];
 
 const ANALOGS: { icon: GlyphName; title: string; text: string }[] = [
@@ -282,7 +282,7 @@ export default function IsolationPage() {
         {/* ---------- chatbot ---------- */}
         <section id="iso-ask" className="grid scroll-mt-8 gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <div className="lg:sticky lg:top-24">
-            <p className="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-sky-300/90">Crew support</p>
+            <p className="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-sky-300/90">Student support</p>
             <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Questions about isolation?</h2>
             <p className="mt-4 max-w-[44ch] leading-relaxed text-white/65">
               The third-quarter dip, life on the way to Mars, how crews cope. Ask anything, offline.

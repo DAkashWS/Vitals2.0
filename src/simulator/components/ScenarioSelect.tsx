@@ -147,7 +147,7 @@ function MissionDebrief({ scenarios, best, name }: { scenarios: Scenario[]; best
 export default function ScenarioSelect({ scenarios, onPick }: { scenarios: Scenario[]; onPick: (s: Scenario) => void }) {
   const [best] = useState(loadBest);
   const { profile } = useAuth();
-  const name = profile?.display_name || "Crew member";
+  const name = profile?.display_name || "Student";
   const done = scenarios.filter((s) => best[s.id]?.success).length;
   const allDone = done === scenarios.length;
 
@@ -197,7 +197,7 @@ export default function ScenarioSelect({ scenarios, onPick }: { scenarios: Scena
         </div>
         <p className="mt-5 text-[15px] leading-relaxed text-white/70">
           You are <strong className="text-white">{name}</strong>
-          {profile?.crew_id ? <span className="font-mono text-sm text-white/50"> · {profile.crew_id}</span> : null}, the newest member of a five-person crew. {inWords(scenarios.length).replace(/^./, (c) => c.toUpperCase())} things go wrong
+          {profile?.crew_id ? <span className="font-mono text-sm text-white/50"> · {profile.crew_id}</span> : null}, the newest member of a five-person student. {inWords(scenarios.length).replace(/^./, (c) => c.toUpperCase())} things go wrong
           in {DEBRIEF_DAY} days, each one caused by the last. Earth is too far away to fix them for you.
         </p>
         <ul className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">

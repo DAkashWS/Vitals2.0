@@ -17,7 +17,7 @@ export function Modules() {
     <PerspectiveTunnelHero
       id="modules"
       items={modules.map((m, i) => ({ ...m, src: media.tunnel[i % media.tunnel.length] }))}
-      eyebrow="Five modules · three space risks · space medicine"
+      eyebrow="Nine modules · school health · first aid"
       title={
         <>
           INSIDE
@@ -96,7 +96,7 @@ export function Mission() {
       <div className="mx-auto w-full max-w-5xl">
         <Eyebrow>The demo story</Eyebrow>
         <h2 className="mb-12 max-w-[22ch] text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
-          One quiet morning: readings drift, an alert fires, the report explains, the crew acts.
+          One quiet morning: readings drift, an alert fires, the report explains, the student acts.
         </h2>
         <ol className="grid gap-4 md:grid-cols-4">
           {missionSteps.map((s, i) => (
@@ -126,7 +126,7 @@ function CrewSlot({ card, onRemove, onUpdate }: { card: CrewCard; onRemove?: () 
         name={card.name}
         role={card.role}
         crewId={card.crewId}
-        mission="61:4"
+        mission="8B"
         status={d.status}
         statusNote={d.statusNote}
         baselines={d.baselines}
