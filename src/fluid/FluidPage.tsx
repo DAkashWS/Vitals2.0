@@ -83,20 +83,20 @@ function BodyFigure({ space }: { space: boolean }) {
         <linearGradient id={space ? "fl-space" : "fl-earth"} x1="0" y1="0" x2="0" y2="1">
           {space ? (
             <>
-              <stop offset="0" stopColor="#a78bfa" stopOpacity="0.85" />
-              <stop offset="0.45" stopColor="#a78bfa" stopOpacity="0.45" />
-              <stop offset="1" stopColor="#a78bfa" stopOpacity="0.08" />
+              <stop offset="0" stopColor="#e11d48" stopOpacity="0.85" />
+              <stop offset="0.45" stopColor="#e11d48" stopOpacity="0.45" />
+              <stop offset="1" stopColor="#e11d48" stopOpacity="0.08" />
             </>
           ) : (
             <>
-              <stop offset="0" stopColor="#38bdf8" stopOpacity="0.1" />
-              <stop offset="0.55" stopColor="#38bdf8" stopOpacity="0.35" />
-              <stop offset="1" stopColor="#38bdf8" stopOpacity="0.8" />
+              <stop offset="0" stopColor="#dc2626" stopOpacity="0.1" />
+              <stop offset="0.55" stopColor="#dc2626" stopOpacity="0.35" />
+              <stop offset="1" stopColor="#dc2626" stopOpacity="0.8" />
             </>
           )}
         </linearGradient>
       </defs>
-      <g fill={`url(#${space ? "fl-space" : "fl-earth"})`} stroke="rgba(255,255,255,0.55)" strokeWidth="2" strokeLinejoin="round">
+      <g fill={`url(#${space ? "fl-space" : "fl-earth"})`} stroke="rgba(48,16,22,0.35)" strokeWidth="2" strokeLinejoin="round">
         {/* head: puffier in space */}
         <ellipse cx="60" cy="24" rx={space ? 19 : 15} ry={space ? 19 : 17} />
         {/* torso and arms */}
@@ -104,7 +104,7 @@ function BodyFigure({ space }: { space: boolean }) {
         {/* legs: thinner in space */}
         {space ? <path d="M50 110h7v80h-9zM63 110h7l2 80h-9z" /> : <path d="M46 110h13v80H45zM61 110h13l1 80H61z" />}
       </g>
-      <g stroke={space ? "#c4b5fd" : "#7dd3fc"} strokeWidth="2.5" strokeLinecap="round" fill="none">
+      <g stroke={space ? "#fb7185" : "#ef4444"} strokeWidth="2.5" strokeLinecap="round" fill="none">
         {space ? (
           <>
             <path d="M14 150V90M14 90l-6 8M14 90l6 8" />
@@ -194,14 +194,14 @@ export default function FluidPage() {
         <section>
           <SectionTitle id="fl-how" icon="fluidUp" eyebrow="How it happens" title="Gravity lets go." />
           <div className="grid gap-4 md:grid-cols-2">
-            <div className="rounded-3xl border border-white/10 bg-[#0b0d14]/95 p-7">
+            <div className="rounded-3xl border border-white/10 bg-[#ffffff]/95 p-7">
               <BodyFigure space={false} />
               <p className="mt-6 flex items-center gap-2 text-2xl font-semibold">
                 <Glyph name="globe" className="h-6 w-6 text-sky-300" /> On Earth
               </p>
               <p className="mt-2 text-[15px] leading-relaxed text-white/65">Gravity pulls blood and lymph down toward the legs. The body is built around that pull.</p>
             </div>
-            <div className="rounded-3xl border border-violet-300/25 bg-[#0b0d14]/95 p-7">
+            <div className="rounded-3xl border border-violet-300/25 bg-[#ffffff]/95 p-7">
               <BodyFigure space />
               <p className="mt-6 flex items-center gap-2 text-2xl font-semibold">
                 <Glyph name="satellite" className="h-6 w-6 text-violet-300" /> In microgravity
@@ -218,7 +218,7 @@ export default function FluidPage() {
           <SectionTitle id="fl-risks" icon="skullPressure" eyebrow="Health and body risks" title="What the shift does." />
           <div className="grid gap-4 md:grid-cols-2">
             {RISKS.map((r) => (
-              <div key={r.title} className="flex flex-col rounded-3xl border border-white/10 bg-[#0b0d14]/95 p-7 transition-colors hover:border-violet-300/30">
+              <div key={r.title} className="flex flex-col rounded-3xl border border-white/10 bg-[#ffffff]/95 p-7 transition-colors hover:border-violet-300/30">
                 <div className="flex items-start justify-between gap-3">
                   <GlyphTile name={r.icon} tone="violet" size="lg" />
                   <span className="rounded-full bg-violet-400/15 px-3 py-1 text-xs font-semibold text-violet-200">{r.tag}</span>
@@ -241,7 +241,7 @@ export default function FluidPage() {
           />
           <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {CHAIN.map((c, i) => (
-              <li key={c.title} className="relative rounded-3xl border border-white/10 bg-[#0b0d14]/95 p-6">
+              <li key={c.title} className="relative rounded-3xl border border-white/10 bg-[#ffffff]/95 p-6">
                 <span className="absolute right-5 top-4 font-mono text-sm text-white/30">0{i + 1}</span>
                 <GlyphTile name={c.icon} tone={i === CHAIN.length - 1 ? "red" : "violet"} />
                 <p className="mt-5 text-lg font-semibold">{c.title}</p>
@@ -256,7 +256,7 @@ export default function FluidPage() {
           <SectionTitle id="fl-fight" icon="vacuum" eyebrow="How space programs fight it" title="Pulling the blood back down." />
           <div className="grid gap-4 md:grid-cols-2">
             {FIGHT.map((f) => (
-              <div key={f.title} className="rounded-3xl border border-white/10 bg-[#0b0d14]/95 p-7">
+              <div key={f.title} className="rounded-3xl border border-white/10 bg-[#ffffff]/95 p-7">
                 <GlyphTile name={f.icon} tone="green" size="lg" />
                 <p className="mt-5 text-2xl font-semibold">{f.title}</p>
                 <p className="mt-2 text-[15px] leading-relaxed text-white/65">{f.text}</p>

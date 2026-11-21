@@ -71,7 +71,7 @@ function Tile({ item, value, cabin, onChange }: { item: Item; value: number | un
   const goal = target(item, cabin);
 
   return (
-    <div className={`flex flex-col rounded-3xl border bg-[#0b0d14]/95 p-6 ${STATUS_RING[st]}`}>
+    <div className={`flex flex-col rounded-3xl border bg-[#ffffff]/95 p-6 ${STATUS_RING[st]}`}>
       <div className="flex items-start justify-between gap-3">
         <GlyphTile name={item.icon} tone={st === "ACT" ? "red" : st === "NORMAL" ? "green" : "emerald"} />
         <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold ${STATUS_BG[st]} ${STATUS_TEXT[st]}`}>
@@ -133,7 +133,7 @@ function CabinPanel({ name, setName, cabin, setCabin }: { name: string; setName:
     return Number.isFinite(n) ? Math.min(hi, Math.max(lo, n)) : d;
   };
   return (
-    <div className="space-y-5 rounded-3xl border border-white/10 bg-[#0b0d14]/95 p-6">
+    <div className="space-y-5 rounded-3xl border border-white/10 bg-[#ffffff]/95 p-6">
       <h2 className="text-xl font-semibold tracking-tight">Your cabin</h2>
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="block">

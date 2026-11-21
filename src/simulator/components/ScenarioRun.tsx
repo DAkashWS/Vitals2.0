@@ -37,7 +37,7 @@ type Toast = { text: string; tone: "good" | "bad" | "info"; who?: string | null 
 const TOAST_STYLE: Record<Toast["tone"], string> = {
   good: "border-emerald-300/40 bg-emerald-950/80 text-emerald-50",
   bad: "border-rose-400/50 bg-rose-950/80 text-rose-50",
-  info: "border-cyan-300/30 bg-[#0a1430]/90 text-cyan-50",
+  info: "border-cyan-300/30 bg-[#fff5f5]/90 text-cyan-50",
 };
 
 function loadLow() {
@@ -252,7 +252,7 @@ export default function ScenarioRun({
 
         {/* hover label */}
         {hover && started && (
-          <div className="pointer-events-none absolute left-1/2 top-4 -translate-x-1/2 rounded-full border border-cyan-300/30 bg-[#06102a]/85 px-4 py-1.5 font-mono text-xs uppercase tracking-[0.14em] text-cyan-100">
+          <div className="pointer-events-none absolute left-1/2 top-4 -translate-x-1/2 rounded-full border border-cyan-300/30 bg-[#fff5f5]/85 px-4 py-1.5 font-mono text-xs uppercase tracking-[0.14em] text-cyan-100">
             {objectLabel(sc, hover)}
             {sc.actions.some((a) => a.object === hover && actionReady(s, a)) ? " · click to act" : ""}
           </div>
@@ -260,7 +260,7 @@ export default function ScenarioRun({
 
         {/* vitals overlay: small, top left */}
         <div className="pointer-events-none absolute left-3 top-3 w-[min(250px,calc(100%-1.5rem))] space-y-1.5 sm:left-4 sm:top-4">
-          <div className="rounded-2xl border border-cyan-300/20 bg-[#050b1c]/90 px-3.5 py-2.5">
+          <div className="rounded-2xl border border-cyan-300/20 bg-[#fff5f5]/90 px-3.5 py-2.5">
             <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.16em] text-cyan-200/70">
               <span>{sc.timeUnit === "h" ? "Clock" : "Mission clock"}</span>
               <span className="text-cyan-50">{clock(s.t, sc.timeUnit)}</span>
@@ -272,7 +272,7 @@ export default function ScenarioRun({
           {visibleVitals.map((v) => {
             const st = vitalStatus(s, v);
             return (
-              <div key={v.key} className={`flex items-center justify-between gap-3 rounded-2xl border bg-[#050b1c]/90 px-3.5 py-2 ${STATUS_BORDER[st]}`}>
+              <div key={v.key} className={`flex items-center justify-between gap-3 rounded-2xl border bg-[#fff5f5]/90 px-3.5 py-2 ${STATUS_BORDER[st]}`}>
                 <span className="flex items-center gap-2 text-xs text-white/70">
                   <span className={`h-2 w-2 rounded-full ${STATUS_DOT[st]}`} aria-hidden="true" />
                   {v.label}
@@ -287,7 +287,7 @@ export default function ScenarioRun({
 
         {/* controls: top right */}
         <div className="absolute right-3 top-3 flex flex-col items-end gap-2 sm:right-4 sm:top-4">
-          <div className="flex gap-1.5 rounded-full border border-cyan-300/20 bg-[#050b1c]/90 p-1.5">
+          <div className="flex gap-1.5 rounded-full border border-cyan-300/20 bg-[#fff5f5]/90 p-1.5">
             <LiquidButton distort={false} size="icon" type="button" aria-label={paused ? "Play" : "Pause"} disabled={!started || !!s.ended} onClick={() => setPaused((p) => !p)} className="h-9 w-9 text-white">
               {paused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}
             </LiquidButton>
@@ -349,7 +349,7 @@ export default function ScenarioRun({
 
         {/* briefing before the start. Header and Begin stay put, only the middle scrolls, so Begin is reachable on a short screen (tablet landscape). */}
         {!started && (
-          <div className="absolute inset-0 flex items-center justify-center bg-[#030817]/85 p-4" role="dialog" aria-modal="true" aria-labelledby="briefing-title">
+          <div className="absolute inset-0 flex items-center justify-center bg-[#fffbfb]/85 p-4" role="dialog" aria-modal="true" aria-labelledby="briefing-title">
             <div className={`${glassSolid} flex max-h-full w-full max-w-lg flex-col`}>
               <div className="flex shrink-0 items-start gap-4 px-6 pt-6 sm:px-7 sm:pt-7">
                 <GlyphTile name={sc.icon as GlyphName} size="lg" />
@@ -422,7 +422,7 @@ export default function ScenarioRun({
 
         {/* decision point */}
         {s.pending && (
-          <div className="absolute inset-0 grid place-items-center overflow-y-auto bg-[#030817]/80 p-4" role="dialog" aria-modal="true" aria-labelledby="decision-title">
+          <div className="absolute inset-0 grid place-items-center overflow-y-auto bg-[#fffbfb]/80 p-4" role="dialog" aria-modal="true" aria-labelledby="decision-title">
             <div className={`${glassSolid} w-full max-w-xl p-6 sm:p-7`}>
               <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-amber-300">Decision point · {clock(s.t, sc.timeUnit)}</p>
               <h2 id="decision-title" className="mt-3 font-mono text-lg font-semibold uppercase tracking-[0.1em] text-cyan-50 sm:text-xl">
@@ -449,7 +449,7 @@ export default function ScenarioRun({
 
         {/* the end */}
         {s.ended && (
-          <div className="absolute inset-0 grid place-items-center bg-[#030817]/85 p-4">
+          <div className="absolute inset-0 grid place-items-center bg-[#fffbfb]/85 p-4">
             <div className={`${glassSolid} max-w-md p-7 text-center`}>
               <GlyphTile name={s.ended === "success" ? "trophy" : "warning"} tone={s.ended === "success" ? "green" : "red"} size="lg" />
               <h2 className="mt-5 font-mono text-xl font-semibold uppercase tracking-[0.12em] text-cyan-50">{s.ended === "success" ? "Scenario complete" : "Scenario failed"}</h2>

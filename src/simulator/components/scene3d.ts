@@ -107,7 +107,7 @@ const starsTexture = () =>
   });
 
 const STATUS_LIGHT: Record<Status, THREE.Color> = {
-  green: new THREE.Color("#eaf3ff"),
+  green: new THREE.Color("#fff6f4"),
   amber: new THREE.Color("#ffb347"),
   red: new THREE.Color("#ff3b2f"),
 };
@@ -240,10 +240,10 @@ export function createScene(host: HTMLDivElement, sc: Scenario, getView: () => S
 
   /* ---------------------------- interior ---------------------------- */
   function setupInterior() {
-    scene.background = new THREE.Color("#05070d");
-    hemi = new THREE.HemisphereLight("#dfe8ff", "#262b36", HEMI);
+    scene.background = new THREE.Color("#f6eeee"); // hospital-white module
+    hemi = new THREE.HemisphereLight("#fff5f5", "#d9c4c4", HEMI);
     scene.add(hemi);
-    points = POINT.map((p, i) => new THREE.PointLight("#eaf3ff", p, i < 2 ? 20 : 14, 1.2));
+    points = POINT.map((p, i) => new THREE.PointLight("#fff6f4", p, i < 2 ? 20 : 14, 1.2));
     points[0].position.set(0, 1.9, -3.5);
     points[1].position.set(0, 1.9, 3.5);
     points[2].position.set(0, 0.4, -7);
@@ -308,7 +308,7 @@ export function createScene(host: HTMLDivElement, sc: Scenario, getView: () => S
     scrubberFan = get("scrubberFan") ?? null;
     scrubberLed = lamp(model, "scrubberLed", "#ff3b2f");
     hatchDoor = get("hatchDoor") ?? null;
-    hatchLamp = lamp(model, "hatchLamp", "#5cc8ff");
+    hatchLamp = lamp(model, "hatchLamp", "#ff8a8a");
     water = get("water") ?? null;
     const bags = get("shelterBags");
     if (bags) bags.visible = sc.look === "radiation"; // the water-bag wall is the storm shelter's
@@ -403,7 +403,7 @@ export function createScene(host: HTMLDivElement, sc: Scenario, getView: () => S
       const p = worldPos(airlock);
       airlockSpot.copy(p).add(new THREE.Vector3(0, 1.8, 0.4));
       tetherFrom.copy(p).add(new THREE.Vector3(0, 0.6, 0));
-      hatchLamp = lamp(model, "hatchLamp", "#5cc8ff");
+      hatchLamp = lamp(model, "hatchLamp", "#ff8a8a");
       if (has("airlock")) register("airlock", airlock);
     }
     for (const id of ["task1", "task2", "task3"] as ObjectId[]) {
@@ -586,7 +586,7 @@ export function createScene(host: HTMLDivElement, sc: Scenario, getView: () => S
 
   /* ---------------------------- frame loop ---------------------------- */
   const clock = new THREE.Clock();
-  const lightColor = new THREE.Color("#eaf3ff");
+  const lightColor = new THREE.Color("#fff6f4");
   const tmp = new THREE.Color();
   const glow = new THREE.Color();
   let flicker = 0;
@@ -666,7 +666,7 @@ export function createScene(host: HTMLDivElement, sc: Scenario, getView: () => S
       astroTarget.set(inside ? 0 : -0.4, inside ? -0.6 : -0.5, inside ? -9.3 : 0.8);
       const passing = inside ? astro.group.position.z > -8.6 : astro.group.position.z < -7.4;
       doorOpen += ((passing ? 1 : 0) - doorOpen) * (1 - Math.exp(-dt * 3));
-      if (hatchLamp) hatchLamp.color.set(inside ? "#3ee6a0" : "#5cc8ff");
+      if (hatchLamp) hatchLamp.color.set(inside ? "#3ee6a0" : "#ff8a8a");
     }
 
     if ((sc.look === "co2" || sc.look === "smoke") && hatchDoor) doorOpen += ((v.flags.hatchOpen ? 1 : 0) - doorOpen) * (1 - Math.exp(-dt * 2));
@@ -754,7 +754,7 @@ export function createScene(host: HTMLDivElement, sc: Scenario, getView: () => S
         looseTether.visible = !tethered;
         looseTether.rotation.z = Math.sin(time * 1.3) * 0.15;
       }
-      if (hatchLamp) hatchLamp.color.set(v.flags.returning ? "#3ee6a0" : "#5cc8ff");
+      if (hatchLamp) hatchLamp.color.set(v.flags.returning ? "#3ee6a0" : "#ff8a8a");
       // a red tint creeps into the visor as suit CO2 climbs
       const bad = clamp01((val("suitCO2", 1.5) - 5) / 4);
       astro.visorMat.color.copy(new THREE.Color("#d9a441").lerp(new THREE.Color("#ff5a4a"), bad * (0.6 + 0.4 * Math.sin(time * 5))));

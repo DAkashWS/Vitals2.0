@@ -53,7 +53,7 @@ import {
   type Member,
 } from "@/lib/crewLink";
 
-const card = "rounded-3xl border border-white/10 bg-[#0b0d14]/95 p-6";
+const card = "rounded-3xl border border-white/10 bg-[#ffffff]/95 p-6";
 const field =
   "h-11 w-full rounded-xl border border-white/15 bg-white/[0.05] px-4 text-sm text-white placeholder:text-white/35 focus:border-sky-300/70 focus:outline-none";
 
@@ -538,7 +538,7 @@ function CardSearch({ exclude, onPick, onClose }: { exclude: string[]; onPick: (
       exit={{ opacity: 0, y: 8, scale: 0.97 }}
       transition={{ type: "spring", stiffness: 420, damping: 32 }}
       style={{ transformOrigin: "bottom left" }}
-      className="absolute bottom-full left-0 z-30 mb-3 w-[min(380px,calc(100vw-3rem))] rounded-3xl border border-white/15 bg-[#0d1018]/95 p-3 shadow-[0_20px_60px_rgba(0,0,0,.55)] backdrop-blur-xl"
+      className="absolute bottom-full left-0 z-30 mb-3 w-[min(380px,calc(100vw-3rem))] rounded-3xl border border-white/15 bg-[#ffffff]/95 p-3 shadow-[0_20px_60px_rgba(120,20,30,.16)] backdrop-blur-xl"
       role="dialog"
       aria-label="Find a crew card"
     >
@@ -591,7 +591,7 @@ function MiniCard({ card: c, picked, onToggle }: { card: CardPick; picked: boole
           <span className="block truncate text-xs text-white/50">{c.in_crew ? "Already in a crew" : c.job || "Crew"}</span>
         </span>
         <span
-          className={`grid h-5 w-5 shrink-0 place-items-center rounded-full ring-1 ring-inset transition-colors ${picked ? "bg-sky-400 text-[#0b0d14] ring-sky-300" : "ring-white/25"}`}
+          className={`grid h-5 w-5 shrink-0 place-items-center rounded-full ring-1 ring-inset transition-colors ${picked ? "bg-sky-400 text-[#ffffff] ring-sky-300" : "ring-white/25"}`}
           aria-hidden="true"
         >
           {picked && <Check className="h-3.5 w-3.5" strokeWidth={3} />}
@@ -755,11 +755,11 @@ function CrewHeader({ board, isLead, demo, onRefresh }: { board: Board; isLead: 
 function Readiness({ pct, ready, total }: { pct: number; ready: number; total: number }) {
   const r = 26;
   const c = 2 * Math.PI * r;
-  const color = pct >= 80 ? "#34d399" : pct >= 50 ? "#fbbf24" : "#f87171";
+  const color = pct >= 80 ? "#059669" : pct >= 50 ? "#d97706" : "#dc2626";
   return (
     <div className={`${card} flex items-center gap-4 p-5`}>
       <svg viewBox="0 0 64 64" className="h-16 w-16 shrink-0 -rotate-90" aria-hidden="true">
-        <circle cx="32" cy="32" r={r} fill="none" stroke="rgba(255,255,255,.08)" strokeWidth="6" />
+        <circle cx="32" cy="32" r={r} fill="none" stroke="rgba(48,16,22,.08)" strokeWidth="6" />
         <motion.circle
           cx="32"
           cy="32"

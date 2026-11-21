@@ -11,7 +11,7 @@ export default function LiveTeaser() {
   ];
   return (
     <section id="live" className="relative px-6 py-28 sm:px-12">
-      <div className="mx-auto grid max-w-6xl items-center gap-12 rounded-3xl border border-white/10 bg-[#0b0d14]/90 p-8 sm:p-12 lg:grid-cols-[1.2fr_0.8fr]">
+      <div className="mx-auto grid max-w-6xl items-center gap-12 rounded-3xl border border-white/10 bg-[#ffffff]/90 p-8 sm:p-12 lg:grid-cols-[1.2fr_0.8fr]">
         <div>
           <p className="mb-4 font-mono text-xs uppercase tracking-[0.35em] text-sky-300">Live monitor</p>
           <h2 className="mb-5 max-w-[18ch] text-balance text-4xl font-semibold tracking-tight sm:text-5xl">

@@ -3,9 +3,9 @@ import type { ReactNode } from "react";
 import type { Status } from "@/simulator/simulation/engine";
 import type { Scenario } from "@/simulator/simulation/types";
 
-export const glass = "rounded-3xl border border-cyan-300/15 bg-[#0a1430]/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-md";
+export const glass = "rounded-3xl border border-cyan-300/15 bg-[#fff5f5]/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-md";
 /** The same look without the backdrop blur, for anything over the live 3D view (a blur there is redrawn every frame). */
-export const glassSolid = "rounded-3xl border border-cyan-300/15 bg-[#0a1430]/95 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]";
+export const glassSolid = "rounded-3xl border border-cyan-300/15 bg-[#fff5f5]/95 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]";
 
 export const DIFFICULTY: Record<Scenario["difficulty"], string> = {
   Easy: "border-emerald-300/30 bg-emerald-400/10 text-emerald-200",

@@ -61,9 +61,9 @@ export default function Hero() {
       className="vitals-portal"
       style={{
         "--gp-paper": "transparent",
-        "--gp-ink": "#e6ebf5",
-        "--gp-field": "#05070f",
-        "--gp-foreground": "#f3f6fb",
+        "--gp-ink": "#301016",
+        "--gp-field": "#fffbfb",
+        "--gp-foreground": "#301016",
         fontFamily: face,
       }}
       background={
@@ -71,7 +71,7 @@ export default function Hero() {
           <img src={media.heroField} alt="" className="h-full w-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/60" />
           {/* Darkens as the portal opens, so the intro text stays readable over the clouds. */}
-          <div className="vitals-scrim absolute inset-0 bg-[#05070f]/70 opacity-0 transition-opacity duration-500" />
+          <div className="vitals-scrim absolute inset-0 bg-[#fffbfb]/70 opacity-0 transition-opacity duration-500" />
         </div>
       }
       front={
@@ -79,10 +79,10 @@ export default function Hero() {
           <style>{`
             .vitals-portal [data-gp-caption]{inset:calc(var(--gp-word-bottom,50%) + 92px) 24px auto;justify-content:center;}
             .vitals-portal [data-gp-hint]{display:none;}
-            .vitals-portal [data-gp-enter]{min-height:46px;padding:0 22px;gap:22px;border:1px solid hsl(var(--border));border-radius:999px;background:rgba(255,255,255,.04);color:#e6ebf5;font-size:13px;font-weight:600;transition:background .18s,border-color .18s;}
+            .vitals-portal [data-gp-enter]{min-height:46px;padding:0 22px;gap:22px;border:1px solid hsl(var(--border));border-radius:999px;background:rgba(48,16,22,.04);color:#301016;font-size:13px;font-weight:600;transition:background .18s,border-color .18s;}
             .vitals-portal [data-gp-enter]:hover{background:hsl(var(--primary)/.18);border-color:hsl(var(--primary)/.7);}
             .vitals-portal [data-gp-touch-picker]{top:auto;bottom:18px;}
-            .vitals-portal [data-gp-select]{background:#0d1018;color:#c7cedb;border-color:hsl(var(--border));}
+            .vitals-portal [data-gp-select]{background:#ffffff;color:#5a2a32;border-color:hsl(var(--border));}
             .vitals-portal [data-gp-content]{padding:6rem clamp(1.25rem,6vw,6rem);}
             .vitals-portal[data-gp-entered=true] .vitals-scrim{opacity:1;}
           `}</style>

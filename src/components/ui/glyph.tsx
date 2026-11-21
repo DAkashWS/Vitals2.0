@@ -969,6 +969,6 @@ export function GlyphTile({ name, tone = "sky", size = "md", className = "" }: {
 
 /** A small status dot in place of the 🟢🟡🔴 emojis. */
 export function StatusDot({ status, className = "" }: { status: "NORMAL" | "WATCH" | "ACT"; className?: string }) {
-  const c = status === "NORMAL" ? "bg-ok shadow-[0_0_0_3px_rgba(52,211,153,.18)]" : status === "WATCH" ? "bg-watch shadow-[0_0_0_3px_rgba(251,191,36,.18)]" : "bg-act shadow-[0_0_0_3px_rgba(248,113,113,.2)]";
+  const c = status === "NORMAL" ? "bg-ok shadow-[0_0_0_3px_rgba(5,150,105,.16)]" : status === "WATCH" ? "bg-watch shadow-[0_0_0_3px_rgba(217,119,6,.16)]" : "bg-act shadow-[0_0_0_3px_rgba(220,38,38,.16)]";
   return <span className={`inline-block h-2.5 w-2.5 shrink-0 rounded-full ${c} ${className}`} aria-hidden="true" />;
 }

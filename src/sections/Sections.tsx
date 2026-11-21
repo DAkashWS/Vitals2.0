@@ -52,7 +52,7 @@ export function Readings() {
             <span className="flex items-center gap-2"><i className="h-2.5 w-2.5 rounded-full bg-act" />Outside both</span>
           </div>
         </div>
-        <ul className="divide-y divide-white/10 overflow-hidden rounded-2xl border border-white/10 bg-[#0b0d14]/95">
+        <ul className="divide-y divide-white/10 overflow-hidden rounded-2xl border border-white/10 bg-[#ffffff]/95">
           {readings.map((r) => (
             <li key={r.key} className="grid items-center gap-4 p-5 sm:p-6 md:grid-cols-[minmax(0,1fr)_minmax(0,2.6fr)] md:gap-8">
               <h3 className="text-base font-semibold">
@@ -100,7 +100,7 @@ export function Mission() {
         </h2>
         <ol className="grid gap-4 md:grid-cols-4">
           {missionSteps.map((s, i) => (
-            <li key={s.title} className="rounded-2xl border border-white/10 bg-[#0b0d14]/90 p-6">
+            <li key={s.title} className="rounded-2xl border border-white/10 bg-[#ffffff]/90 p-6">
               <div className="mb-4 flex items-center justify-between font-mono text-xs text-white/45">
                 <span>0{i + 1}</span>
                 <span>{s.t}</span>
@@ -300,7 +300,7 @@ export function Team() {
         <h2 className="mb-12 text-4xl font-semibold tracking-tight sm:text-5xl">Six people, one mission.</h2>
         <ul className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 md:grid-cols-3">
           {team.map((t) => (
-            <li key={t.name} className="bg-[#0b0d14]/95 p-6">
+            <li key={t.name} className="bg-[#ffffff]/95 p-6">
               <p className="text-lg font-semibold">{t.name}</p>
               <p className="mt-1 text-sm text-white/55">{t.role}</p>
             </li>

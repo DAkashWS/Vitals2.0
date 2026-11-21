@@ -597,7 +597,7 @@ Question: ${you}`, a }].slice(-2);
   const avatar = scope.avatar ?? "bot";
 
   return (
-    <div className={`relative flex h-[640px] min-w-0 max-h-[82svh] flex-col overflow-hidden rounded-3xl border bg-[#0b0d14]/95 shadow-2xl shadow-black/60 ${th.border}`}>
+    <div className={`relative flex h-[640px] min-w-0 max-h-[82svh] flex-col overflow-hidden rounded-3xl border bg-[#ffffff]/95 shadow-2xl shadow-black/60 ${th.border}`}>
       {/* soft glow behind the header */}
       <div className={`pointer-events-none absolute -top-24 left-1/2 h-48 w-[80%] -translate-x-1/2 rounded-full blur-3xl ${th.glow}`} aria-hidden="true" />
 
@@ -691,12 +691,12 @@ Question: ${you}`, a }].slice(-2);
 
 /* Colour themes for the chat panels, one per assistant. */
 const THEME: Record<GlyphTone, { border: string; glow: string; header: string; you: string; mini: string; chip: string; focus: string; send: string }> = {
-  sky: { border: "border-sky-300/15", glow: "bg-sky-500/15", header: "from-sky-400/[0.08]", you: "bg-sky-400 text-[#06101f]", mini: "bg-sky-400/10 text-sky-300 ring-sky-300/25", chip: "hover:border-sky-300/60", focus: "focus:border-sky-300/70", send: "bg-sky-400/30 text-white" },
-  violet: { border: "border-violet-300/15", glow: "bg-violet-500/15", header: "from-violet-400/[0.08]", you: "bg-violet-400 text-[#140a24]", mini: "bg-violet-400/10 text-violet-300 ring-violet-300/25", chip: "hover:border-violet-300/60", focus: "focus:border-violet-300/70", send: "bg-violet-400/30 text-white" },
-  emerald: { border: "border-teal-300/15", glow: "bg-teal-500/15", header: "from-teal-400/[0.08]", you: "bg-teal-400 text-[#04140f]", mini: "bg-teal-400/10 text-teal-300 ring-teal-300/25", chip: "hover:border-teal-300/60", focus: "focus:border-teal-300/70", send: "bg-teal-400/30 text-white" },
-  amber: { border: "border-amber-300/15", glow: "bg-amber-500/15", header: "from-amber-400/[0.08]", you: "bg-amber-400 text-[#1a1203]", mini: "bg-amber-400/10 text-amber-300 ring-amber-300/25", chip: "hover:border-amber-300/60", focus: "focus:border-amber-300/70", send: "bg-amber-400/30 text-white" },
-  red: { border: "border-rose-300/15", glow: "bg-rose-500/15", header: "from-rose-400/[0.08]", you: "bg-rose-400 text-[#1a0508]", mini: "bg-rose-400/10 text-rose-300 ring-rose-300/25", chip: "hover:border-rose-300/60", focus: "focus:border-rose-300/70", send: "bg-rose-400/30 text-white" },
-  green: { border: "border-emerald-300/15", glow: "bg-emerald-500/15", header: "from-emerald-400/[0.08]", you: "bg-emerald-400 text-[#04140f]", mini: "bg-emerald-400/10 text-emerald-300 ring-emerald-300/25", chip: "hover:border-emerald-300/60", focus: "focus:border-emerald-300/70", send: "bg-emerald-400/30 text-white" },
+  sky: { border: "border-sky-300/15", glow: "bg-sky-500/15", header: "from-sky-400/[0.08]", you: "bg-sky-400 text-[#ffffff]", mini: "bg-sky-400/10 text-sky-300 ring-sky-300/25", chip: "hover:border-sky-300/60", focus: "focus:border-sky-300/70", send: "bg-sky-400/30 text-white" },
+  violet: { border: "border-violet-300/15", glow: "bg-violet-500/15", header: "from-violet-400/[0.08]", you: "bg-violet-400 text-[#ffffff]", mini: "bg-violet-400/10 text-violet-300 ring-violet-300/25", chip: "hover:border-violet-300/60", focus: "focus:border-violet-300/70", send: "bg-violet-400/30 text-white" },
+  emerald: { border: "border-teal-300/15", glow: "bg-teal-500/15", header: "from-teal-400/[0.08]", you: "bg-teal-400 text-[#ffffff]", mini: "bg-teal-400/10 text-teal-300 ring-teal-300/25", chip: "hover:border-teal-300/60", focus: "focus:border-teal-300/70", send: "bg-teal-400/30 text-white" },
+  amber: { border: "border-amber-300/15", glow: "bg-amber-500/15", header: "from-amber-400/[0.08]", you: "bg-amber-400 text-[#ffffff]", mini: "bg-amber-400/10 text-amber-300 ring-amber-300/25", chip: "hover:border-amber-300/60", focus: "focus:border-amber-300/70", send: "bg-amber-400/30 text-white" },
+  red: { border: "border-rose-300/15", glow: "bg-rose-500/15", header: "from-rose-400/[0.08]", you: "bg-rose-400 text-[#ffffff]", mini: "bg-rose-400/10 text-rose-300 ring-rose-300/25", chip: "hover:border-rose-300/60", focus: "focus:border-rose-300/70", send: "bg-rose-400/30 text-white" },
+  green: { border: "border-emerald-300/15", glow: "bg-emerald-500/15", header: "from-emerald-400/[0.08]", you: "bg-emerald-400 text-[#ffffff]", mini: "bg-emerald-400/10 text-emerald-300 ring-emerald-300/25", chip: "hover:border-emerald-300/60", focus: "focus:border-emerald-300/70", send: "bg-emerald-400/30 text-white" },
 };
 
 export default function Assistant() {

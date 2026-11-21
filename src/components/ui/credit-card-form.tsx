@@ -57,7 +57,7 @@ const HIGHLIGHT: Record<Exclude<Focus, null>, string> = {
   mission: "highlight__mission",
 };
 
-const CrewCardForm = ({ defaults = {}, ring1 = "#38bdf8", ring2 = "#a78bfa", submitLabel = "Save my crew card", lockCrewId, busy, error, onChange, onSubmit, className = "" }: Props) => {
+const CrewCardForm = ({ defaults = {}, ring1 = "#dc2626", ring2 = "#e11d48", submitLabel = "Save my crew card", lockCrewId, busy, error, onChange, onSubmit, className = "" }: Props) => {
   const [name, setName] = useState(defaults.name ?? "");
   const [job, setJob] = useState(defaults.job ?? "");
   const [crewId, setCrewId] = useState(digits(defaults.crewId ?? "", 16));

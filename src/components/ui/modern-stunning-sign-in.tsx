@@ -82,7 +82,7 @@ const SignIn1 = ({ mode, onModeChange, onSignIn, onSignUp, onForgot, onGoogle, n
   return (
     <div className={`relative flex w-full flex-col items-center justify-center overflow-hidden rounded-xl py-10 ${className}`}>
       {/* centred glass card */}
-      <div className="relative z-10 flex w-full max-w-sm flex-col items-center rounded-3xl bg-gradient-to-r from-[#ffffff10] to-[#121212] p-8 shadow-2xl backdrop-blur-sm">
+      <div className="relative z-10 flex w-full max-w-sm flex-col items-center rounded-3xl bg-gradient-to-r from-[#ffffff] to-[#fff1f1] p-8 shadow-2xl backdrop-blur-sm">
         <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-full bg-white/20 shadow-lg">
           <HeartPulse className="h-6 w-6 text-white" strokeWidth={2.4} aria-hidden="true" />
         </div>
@@ -160,7 +160,7 @@ const SignIn1 = ({ mode, onModeChange, onSignIn, onSignUp, onForgot, onGoogle, n
                 type="button"
                 disabled={busy}
                 onClick={() => run(onGoogle)}
-                className="mb-2 h-11 w-full gap-2 bg-gradient-to-b from-[#232526] to-[#2d2e30] text-sm font-medium text-white hover:brightness-110"
+                className="mb-2 h-11 w-full gap-2 bg-gradient-to-b from-[#ef4444] to-[#b91c1c] text-sm font-medium text-white hover:brightness-110"
               >
                 <GoogleMark className="h-5 w-5" /> Continue with Google
               </LiquidButton>

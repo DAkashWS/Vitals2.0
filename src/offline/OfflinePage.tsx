@@ -134,7 +134,7 @@ export default function OfflinePage() {
           />
           <ol className="relative grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {CONVERSATION.map((c, i) => (
-              <li key={c.t} className="relative rounded-3xl border border-white/10 bg-[#0b0d14]/95 p-6">
+              <li key={c.t} className="relative rounded-3xl border border-white/10 bg-[#ffffff]/95 p-6">
                 <span className="absolute right-5 top-4 font-mono text-sm text-emerald-300/80">{c.t}</span>
                 <GlyphTile name={c.icon} tone={i === CONVERSATION.length - 1 ? "amber" : "emerald"} />
                 <p className="mt-5 text-lg font-semibold">{c.title}</p>
@@ -159,7 +159,7 @@ export default function OfflinePage() {
           <SectionTitle id="of-far" icon="mars" eyebrow="How far is help?" title="The further out, the more alone." />
           <div className="grid gap-4 md:grid-cols-3">
             {DISTANCE.map((d, i) => (
-              <div key={d.where} className="rounded-3xl border border-white/10 bg-[#0b0d14]/95 p-7">
+              <div key={d.where} className="rounded-3xl border border-white/10 bg-[#ffffff]/95 p-7">
                 <div className="flex items-start justify-between gap-3">
                   <GlyphTile name={d.icon} tone={i === 2 ? "red" : i === 1 ? "amber" : "emerald"} size="lg" />
                   <span className="rounded-full bg-white/[0.06] px-3 py-1 text-xs font-semibold text-white/70">Help in {d.help.toLowerCase()}</span>
@@ -185,7 +185,7 @@ export default function OfflinePage() {
               <a
                 key={w.title}
                 href={w.href}
-                className="group flex flex-col rounded-3xl border border-white/10 bg-[#0b0d14]/95 p-7 transition-colors hover:border-emerald-300/40"
+                className="group flex flex-col rounded-3xl border border-white/10 bg-[#ffffff]/95 p-7 transition-colors hover:border-emerald-300/40"
               >
                 <GlyphTile name={w.icon} tone="emerald" size="lg" />
                 <p className="mt-5 text-xl font-semibold">{w.title}</p>
@@ -209,7 +209,7 @@ export default function OfflinePage() {
           />
           <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {STEPS.map((s, i) => (
-              <li key={s.title} className="relative rounded-3xl border border-white/10 bg-[#0b0d14]/95 p-6">
+              <li key={s.title} className="relative rounded-3xl border border-white/10 bg-[#ffffff]/95 p-6">
                 <span className="absolute right-5 top-4 font-mono text-sm text-white/30">0{i + 1}</span>
                 <GlyphTile name={s.icon} tone={i === 0 ? "red" : "emerald"} />
                 <p className="mt-5 text-lg font-semibold">{s.title}</p>
@@ -224,7 +224,7 @@ export default function OfflinePage() {
           <SectionTitle id="of-kit" icon="medKit" eyebrow="On board today" title="A tiny hospital, run by the crew." />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {KIT.map((k) => (
-              <div key={k.title} className="rounded-3xl border border-white/10 bg-[#0b0d14]/95 p-6">
+              <div key={k.title} className="rounded-3xl border border-white/10 bg-[#ffffff]/95 p-6">
                 <GlyphTile name={k.icon} tone="emerald" />
                 <p className="mt-5 text-lg font-semibold">{k.title}</p>
                 <p className="mt-1.5 text-[15px] leading-relaxed text-white/65">{k.text}</p>
@@ -259,7 +259,7 @@ export default function OfflinePage() {
           />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
             {REPORT.map((r) => (
-              <div key={r.title} className="rounded-3xl border border-white/10 bg-[#0b0d14]/95 p-6">
+              <div key={r.title} className="rounded-3xl border border-white/10 bg-[#ffffff]/95 p-6">
                 <GlyphTile name={r.icon} tone="emerald" size="sm" />
                 <p className="mt-4 font-semibold">{r.title}</p>
                 <p className="mt-1.5 text-sm leading-relaxed text-white/60">{r.text}</p>

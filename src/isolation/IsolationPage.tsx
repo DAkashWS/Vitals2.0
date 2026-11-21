@@ -76,7 +76,7 @@ function SectionTitle({ id, icon, eyebrow, title, lead }: { id: string; icon: Gl
 
 function IconCard({ icon, title, text, tone = "sky" }: { icon: GlyphName; title: string; text: string; tone?: "sky" | "violet" | "green" }) {
   return (
-    <div className="flex gap-4 rounded-2xl border border-white/10 bg-[#0b0d14]/95 p-5 transition-colors hover:border-white/20">
+    <div className="flex gap-4 rounded-2xl border border-white/10 bg-[#ffffff]/95 p-5 transition-colors hover:border-white/20">
       <GlyphTile name={icon} tone={tone} />
       <div>
         <p className="font-semibold text-white">{title}</p>
@@ -161,14 +161,14 @@ export default function IsolationPage() {
         <section>
           <SectionTitle id="iso-kinds" icon="capsule" eyebrow="Two kinds of isolation" title="Cut off, and closed in." />
           <div className="grid gap-4 lg:grid-cols-2">
-            <div className="rounded-3xl border border-white/10 bg-[#0b0d14]/95 p-7">
+            <div className="rounded-3xl border border-white/10 bg-[#ffffff]/95 p-7">
               <GlyphTile name="people" size="lg" />
               <p className="mt-5 text-2xl font-semibold">Social isolation</p>
               <p className="mt-2 text-[15px] leading-relaxed text-white/65">
                 The same 3 to 7 people for months. No family, no friends, none of the everyday variety of human contact.
               </p>
             </div>
-            <div className="rounded-3xl border border-white/10 bg-[#0b0d14]/95 p-7">
+            <div className="rounded-3xl border border-white/10 bg-[#ffffff]/95 p-7">
               <GlyphTile name="capsule" size="lg" />
               <p className="mt-5 text-2xl font-semibold">Physical confinement</p>
               <p className="mt-2 text-[15px] leading-relaxed text-white/65">
@@ -198,7 +198,7 @@ export default function IsolationPage() {
             title="The farther you go, the lonelier it gets."
             lead="That's why space agencies treat psychological readiness as seriously as technical readiness for deep space."
           />
-          <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#0b0d14]/95">
+          <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#ffffff]/95">
             <div className="grid grid-cols-[1fr_1fr_1fr] border-b border-white/10 bg-white/[0.03] px-5 py-4 text-sm font-semibold sm:px-7">
               <span className="text-white/50" />
               <span className="flex items-center gap-2">
@@ -233,7 +233,7 @@ export default function IsolationPage() {
           <SectionTitle id="iso-earth" icon="dome" eyebrow="How scientists study it" title="Isolation, rehearsed on Earth." lead="Analog missions lock crews away to learn what space isolation does, before anyone goes." />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {ANALOGS.map((a) => (
-              <div key={a.title} className="rounded-3xl border border-white/10 bg-[#0b0d14]/95 p-6">
+              <div key={a.title} className="rounded-3xl border border-white/10 bg-[#ffffff]/95 p-6">
                 <GlyphTile name={a.icon} size="lg" />
                 <p className="mt-5 text-lg font-semibold">{a.title}</p>
                 <p className="mt-1.5 text-[15px] leading-relaxed text-white/65">{a.text}</p>
@@ -253,7 +253,7 @@ export default function IsolationPage() {
           />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {CLASSES.map((c) => (
-              <div key={c.code} className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#0b0d14]/95 p-6">
+              <div key={c.code} className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#ffffff]/95 p-6">
                 <span className="absolute -right-2 -top-4 font-display text-8xl font-bold text-white/[0.05]" aria-hidden="true">
                   {c.code}
                 </span>

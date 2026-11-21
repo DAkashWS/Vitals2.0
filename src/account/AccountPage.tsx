@@ -25,7 +25,7 @@ import { ShinyButton } from "@/components/ui/shiny-button";
 
 const field =
   "h-11 w-full rounded-xl border border-white/15 bg-white/[0.05] px-4 text-sm text-white placeholder:text-white/35 focus:border-sky-300/70 focus:outline-none";
-const card = "rounded-3xl border border-white/10 bg-[#0b0d14]/95 p-6";
+const card = "rounded-3xl border border-white/10 bg-[#ffffff]/95 p-6";
 
 /* ------------------------------------------------------------------ */
 /*  Signed out: sign in, create account, forgot password               */

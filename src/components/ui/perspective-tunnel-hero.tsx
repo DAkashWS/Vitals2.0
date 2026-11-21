@@ -129,7 +129,7 @@ function TunnelCard({ card, progress, pointer, total, stage }: TunnelCardProps) 
             <span className="text-[11px] leading-snug text-white/70 sm:text-xs">{card.item.caption}</span>
           )}
           {card.item.href && card.item.linkLabel && (
-            <span className="mt-2 inline-flex w-fit items-center gap-1.5 rounded-full bg-sky-400/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#06101f] transition-transform group-hover:translate-x-0.5 sm:text-[11px]">
+            <span className="mt-2 inline-flex w-fit items-center gap-1.5 rounded-full bg-sky-400/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#ffffff] transition-transform group-hover:translate-x-0.5 sm:text-[11px]">
               {card.item.linkLabel} →
             </span>
           )}
@@ -228,7 +228,7 @@ export default function PerspectiveTunnelHero({
       style={{ perspective: stage.isMobile ? "900px" : "1200px", transformStyle: "preserve-3d" }}
     >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(#1e1b4b_1px,transparent_1px)] opacity-65 [background-size:28px_28px] [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,#000_60%,transparent_100%)]" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(56,148,255,0.2)_0%,transparent_75%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.10)_0%,transparent_75%)]" />
 
       <div className="pointer-events-none absolute h-[48vmin] w-[48vmin] rounded-full border border-sky-400/10" />
       <div className="pointer-events-none absolute h-[76vmin] w-[76vmin] rounded-full border border-dashed border-white/10" />

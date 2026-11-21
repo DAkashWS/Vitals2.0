@@ -1,7 +1,7 @@
 import { useRef, type PointerEvent } from "react";
 import type { Cabin, Result, Status } from "@/hygiene/model";
 
-const RING: Record<Status, string> = { NORMAL: "#34d399", WATCH: "#fbbf24", ACT: "#f87171" };
+const RING: Record<Status, string> = { NORMAL: "#059669", WATCH: "#d97706", ACT: "#dc2626" };
 
 /**
  * The hygiene vital card: your name, your cabin and today's hygiene score out of 100,
@@ -34,7 +34,7 @@ export default function HygieneCard({ name, cabin, result }: { name: string; cab
       className="relative aspect-[1.586/1] w-full overflow-hidden rounded-[22px] border border-white/15 font-display text-white shadow-2xl shadow-black/60 transition-transform duration-200 ease-out"
       style={{
         background:
-          "radial-gradient(120% 90% at 100% 0%, rgba(52,211,153,.18), transparent 55%), radial-gradient(90% 80% at 0% 100%, rgba(78,161,255,.22), transparent 60%), linear-gradient(160deg, #0f1a2b 0%, #0a0f1a 55%, #070a12 100%)",
+          "radial-gradient(120% 90% at 100% 0%, rgba(5,150,105,.16), transparent 55%), radial-gradient(90% 80% at 0% 100%, rgba(220,38,38,.10), transparent 60%), linear-gradient(160deg, #ffffff 0%, #fff5f5 55%, #ffecec 100%)",
       }}
       role="img"
       aria-label={`Hygiene card for ${name}, ${cabin.name}. Hygiene score ${result.score} out of 100, ${result.grade}.`}
@@ -42,7 +42,7 @@ export default function HygieneCard({ name, cabin, result }: { name: string; cab
       {/* fine grid, like a mission chart */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.07]"
-        style={{ backgroundImage: "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)", backgroundSize: "22px 22px" }}
+        style={{ backgroundImage: "linear-gradient(#b91c1c 1px, transparent 1px), linear-gradient(90deg, #b91c1c 1px, transparent 1px)", backgroundSize: "22px 22px" }}
         aria-hidden="true"
       />
 
@@ -59,7 +59,7 @@ export default function HygieneCard({ name, cabin, result }: { name: string; cab
 
         <div className="flex items-center gap-[6%]">
           <svg viewBox="0 0 110 110" className="w-[34%] shrink-0 -rotate-90" aria-hidden="true">
-            <circle cx="55" cy="55" r={r} fill="none" stroke="rgba(255,255,255,.12)" strokeWidth="9" />
+            <circle cx="55" cy="55" r={r} fill="none" stroke="rgba(48,16,22,.10)" strokeWidth="9" />
             <circle
               cx="55"
               cy="55"
@@ -72,7 +72,7 @@ export default function HygieneCard({ name, cabin, result }: { name: string; cab
               strokeDashoffset={circ * (1 - result.score / 100)}
               style={{ transition: "stroke-dashoffset 600ms cubic-bezier(.2,.8,.2,1), stroke 300ms" }}
             />
-            <text x="55" y="55" transform="rotate(90 55 55)" textAnchor="middle" dominantBaseline="central" fill="#fff" fontFamily="Jost, sans-serif" fontWeight="600" fontSize="34">
+            <text x="55" y="55" transform="rotate(90 55 55)" textAnchor="middle" dominantBaseline="central" fill="#301016" fontFamily="Jost, sans-serif" fontWeight="600" fontSize="34">
               {result.score}
             </text>
           </svg>

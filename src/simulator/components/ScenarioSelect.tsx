@@ -52,7 +52,7 @@ function Tutorial({ day, onStart }: { day: number; onStart: () => void }) {
             transition={{ type: "spring", stiffness: 260, damping: 30, delay: Math.min(i, 6) * 0.05 }}
             className="relative flex items-start gap-4 sm:gap-6"
           >
-            <span className="relative z-10 mt-4 grid h-10 w-10 shrink-0 place-items-center rounded-full border border-cyan-300/25 bg-[#071227] font-mono text-xs font-semibold text-cyan-200 sm:h-12 sm:w-12 sm:text-sm">
+            <span className="relative z-10 mt-4 grid h-10 w-10 shrink-0 place-items-center rounded-full border border-cyan-300/25 bg-[#fff5f5] font-mono text-xs font-semibold text-cyan-200 sm:h-12 sm:w-12 sm:text-sm">
               {String(i + 1).padStart(2, "0")}
             </span>
             <div className="min-w-0 flex-1 rounded-2xl border border-cyan-300/12 bg-white/[0.03] p-4 transition-colors duration-300 hover:border-cyan-300/30 hover:bg-white/[0.055] sm:p-5">
@@ -132,7 +132,7 @@ function MissionDebrief({ scenarios, best, name }: { scenarios: Scenario[]; best
           ["Dr. Okafor", "Your numbers told the story before you did. That's what the monitor is for."],
           ["Home", "We watched the station pass over tonight and waved. See you on the ground."],
         ].map(([who, text]) => (
-          <div key={who} className="rounded-2xl border border-white/10 bg-[#0b0d14]/80 p-5">
+          <div key={who} className="rounded-2xl border border-white/10 bg-[#ffffff]/80 p-5">
             <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-cyan-200/60">
               <Glyph name="envelope" className="h-4 w-4" /> {who} · sent 22 min ago
             </p>

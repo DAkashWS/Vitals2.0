@@ -245,7 +245,7 @@ const PARTS: Part[] = [
 function Card({ b }: { b: Block }) {
   const q = QUICK[b.name];
   return (
-    <div className="flex flex-col rounded-3xl border border-white/10 bg-[#0b0d14]/95 p-6 transition-colors hover:border-white/20">
+    <div className="flex flex-col rounded-3xl border border-white/10 bg-[#ffffff]/95 p-6 transition-colors hover:border-white/20">
       {q && (
         <GlyphTile name={q.icon} tone="violet" className="mb-4" />
       )}

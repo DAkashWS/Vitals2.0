@@ -38,7 +38,7 @@ export default function ResetPasswordPage() {
 
   return (
     <Shell eyebrow="Account" title="Set a new password." back={{ label: "Back to VITALS" }}>
-      <div className="max-w-md rounded-3xl border border-white/10 bg-[#0b0d14]/95 p-7">
+      <div className="max-w-md rounded-3xl border border-white/10 bg-[#ffffff]/95 p-7">
         {loading ? (
           <p className="text-white/60">Checking your reset link…</p>
         ) : done ? (

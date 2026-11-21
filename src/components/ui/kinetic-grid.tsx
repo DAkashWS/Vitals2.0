@@ -26,7 +26,7 @@ const MAX_WARP = 24;
 const DOT_SPACING = 28;
 const LERP_SPEED = 0.08;
 
-const LINE_BASE = { r: 255, g: 255, b: 255, a: 0.09 };
+const LINE_BASE = { r: 185, g: 28, b: 28, a: 0.07 };
 const NODE_BASE_RADIUS = 1.6;
 const NODE_ACTIVE_RADIUS = 3.2;
 
@@ -48,14 +48,14 @@ function lerpColor(
   return `rgba(${r},${g},${b},${a.toFixed(3)})`;
 }
 
-// VITALS: "default" is the site's deep-space palette (was #161618 in the original).
+// VITALS: "default" is the site's hospital palette, white with medical red (was #161618 in the original).
 const THEMES = {
   default: {
-    bg: "#0a0b10",
-    lineActive: { r: 74, g: 158, b: 255, a: 0.9 },
-    nodeActive: { r: 74, g: 158, b: 255, a: 1.0 },
-    glow: "74,158,255",
-    ripple: "100,180,255",
+    bg: "#fffbfb",
+    lineActive: { r: 220, g: 38, b: 38, a: 0.75 },
+    nodeActive: { r: 220, g: 38, b: 38, a: 1.0 },
+    glow: "239,68,68",
+    ripple: "220,38,38",
   },
   monochrome: {
     bg: "#000000",
@@ -165,7 +165,7 @@ export default function KineticGrid({
       ctx.fillStyle = theme.bg;
       ctx.fillRect(0, 0, W, H);
 
-      ctx.fillStyle = "rgba(255,255,255,0.05)";
+      ctx.fillStyle = "rgba(185,28,28,0.10)";
       for (let x = DOT_SPACING / 2; x < W; x += DOT_SPACING) {
         for (let y = DOT_SPACING / 2; y < H; y += DOT_SPACING) {
           ctx.beginPath();
@@ -239,7 +239,7 @@ export default function KineticGrid({
 
           ctx.beginPath();
           ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
-          ctx.fillStyle = lerpColor({ r: 255, g: 255, b: 255, a: 0.16 }, theme.nodeActive, t);
+          ctx.fillStyle = lerpColor({ r: 185, g: 28, b: 28, a: 0.14 }, theme.nodeActive, t);
           ctx.fill();
         }
       }
@@ -323,7 +323,7 @@ export default function KineticGrid({
     <div
       className={cn(
         "relative w-full min-h-screen",
-        globalColor === "monochrome" ? "bg-[#000000]" : "bg-[#0a0b10]",
+        globalColor === "monochrome" ? "bg-[#fffbfb]" : "bg-[#fffbfb]",
         className,
       )}
     >

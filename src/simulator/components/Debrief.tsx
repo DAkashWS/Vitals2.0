@@ -122,7 +122,7 @@ export default function Debrief({ scenario: sc, state, onRetry, onOther }: { sce
             const tone = e.mistake ? "text-rose-300" : e.best ? "text-emerald-300" : e.level === "alert" ? "text-rose-300" : e.level === "warn" ? "text-amber-300" : "text-cyan-300";
             return (
               <li key={i} className="relative">
-                <span className="absolute -left-[33px] top-0.5 grid h-4 w-4 place-items-center rounded-full border border-cyan-300/30 bg-[#06102a]">
+                <span className="absolute -left-[33px] top-0.5 grid h-4 w-4 place-items-center rounded-full border border-cyan-300/30 bg-[#fff5f5]">
                   <span className={`h-1.5 w-1.5 rounded-full ${e.mistake || e.level === "alert" ? "bg-rose-400" : e.best ? "bg-emerald-400" : "bg-cyan-300"}`} />
                 </span>
                 <p className="flex flex-wrap items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-white/45">

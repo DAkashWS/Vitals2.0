@@ -85,7 +85,7 @@ const DynamicActionBar = React.forwardRef<HTMLDivElement, DynamicActionBarProps>
       {...props}
     >
       <motion.div
-        className="flex flex-col overflow-hidden rounded-[28px] border border-white/15 bg-[#0b0d14]/70 shadow-[0_18px_50px_-12px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl backdrop-saturate-150"
+        className="flex flex-col overflow-hidden rounded-[28px] border border-white/15 bg-[#ffffff]/70 shadow-[0_18px_50px_-12px_rgba(120,20,30,0.16),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl backdrop-saturate-150"
         initial={false}
         animate={{ width: fit(action ? action.width : barWidth), height: (action ? contentH : 0) + BAR_HEIGHT }}
         transition={SPRING}

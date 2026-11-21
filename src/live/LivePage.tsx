@@ -320,7 +320,7 @@ function PairStep({ onPick, notice }: { onPick: (c: Candidate) => void; notice: 
         {methods.map((m) => {
           const Icon = KIND_ICON[m.kind];
           return (
-            <div key={m.kind} className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-[#0b0d14]/95 p-6">
+            <div key={m.kind} className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-[#ffffff]/95 p-6">
               <div className="flex items-center gap-3">
                 <span className="grid h-10 w-10 place-items-center rounded-full bg-primary/15 text-primary">
                   <Icon className="h-5 w-5" aria-hidden="true" />
@@ -337,7 +337,7 @@ function PairStep({ onPick, notice }: { onPick: (c: Candidate) => void; notice: 
 
       <div>
         <h3 className="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-sky-300">Devices ready to pair</h3>
-        <ul className="divide-y divide-white/10 overflow-hidden rounded-2xl border border-white/10 bg-[#0b0d14]/95">
+        <ul className="divide-y divide-white/10 overflow-hidden rounded-2xl border border-white/10 bg-[#ffffff]/95">
           {[...paired, demoCandidate].map((c, i) => {
             const Icon = KIND_ICON[c.kind];
             return (
@@ -373,7 +373,7 @@ function PairStep({ onPick, notice }: { onPick: (c: Candidate) => void; notice: 
 function ConfirmStep({ device, connecting, onConfirm, onCancel }: { device: Candidate; connecting: boolean; onConfirm: () => void; onCancel: () => void }) {
   const Icon = KIND_ICON[device.kind];
   return (
-    <div className="mx-auto max-w-md rounded-2xl border border-white/10 bg-[#0b0d14]/95 p-8 text-center">
+    <div className="mx-auto max-w-md rounded-2xl border border-white/10 bg-[#ffffff]/95 p-8 text-center">
       <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-primary/15 text-primary">
         <Icon className="h-7 w-7" aria-hidden="true" />
       </span>
@@ -410,7 +410,7 @@ function NameStep({ deviceName, onDone }: { deviceName: string; onDone: (name: s
         saveName(n);
         onDone(n);
       }}
-      className="mx-auto max-w-md rounded-3xl border border-white/10 bg-[#0b0d14]/95 p-8 text-center sm:p-10"
+      className="mx-auto max-w-md rounded-3xl border border-white/10 bg-[#ffffff]/95 p-8 text-center sm:p-10"
     >
       <GlyphTile name="helmet" size="lg" className="mx-auto" />
       <p className="mt-5 flex items-center justify-center gap-2 text-sm text-ok">
@@ -462,7 +462,7 @@ function Reading({
   children?: ReactNode;
 }) {
   return (
-    <div className={`flex flex-col rounded-3xl border bg-[#0b0d14]/95 p-6 ${status ? STATUS_RING[status] : "border-white/10"}`}>
+    <div className={`flex flex-col rounded-3xl border bg-[#ffffff]/95 p-6 ${status ? STATUS_RING[status] : "border-white/10"}`}>
       <div className="flex items-start justify-between gap-3">
         <GlyphTile name={icon} tone={status === "ACT" ? "red" : status === "WATCH" ? "amber" : "sky"} />
         {source && <span className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${TAG_STYLE[source]}`}>{TAG_WORD[source]}</span>}
@@ -563,7 +563,7 @@ function EcgStrip({ samples, message }: { samples: number[]; message: string }) 
     const W = c.width;
     const H = c.height;
     g.clearRect(0, 0, W, H);
-    g.strokeStyle = "#1b1e2c";
+    g.strokeStyle = "#f6dede";
     g.lineWidth = 1;
     for (let i = 0; i <= 20; i++) {
       const x = Math.round((i * W) / 20) + 0.5;
@@ -580,7 +580,7 @@ function EcgStrip({ samples, message }: { samples: number[]; message: string }) 
       g.stroke();
     }
     if (samples.length < 2) {
-      g.fillStyle = "#8b90a5";
+      g.fillStyle = "#8a5a62";
       g.font = `${14 * dpr}px Inter, system-ui, sans-serif`;
       g.textAlign = "center";
       g.textBaseline = "middle";
@@ -596,7 +596,7 @@ function EcgStrip({ samples, message }: { samples: number[]; message: string }) 
     }
     const span = Math.max(hi - lo, 50);
     const pad = H * 0.1;
-    g.strokeStyle = "#34d399";
+    g.strokeStyle = "#dc2626";
     g.lineWidth = 1.5 * dpr;
     g.beginPath();
     samples.forEach((v, i) => {
@@ -848,7 +848,7 @@ function VitalsStep({ link, name, crewId, data, lastAt, onDisconnect, onRename }
               <Glyph name="stethoscope" className="h-5 w-5" /> Tap for a full-body checkup
             </p>
           </LiquidButton>
-          <div className="flex flex-wrap items-center gap-4 rounded-2xl border border-white/10 bg-[#0b0d14]/95 px-5 py-4">
+          <div className="flex flex-wrap items-center gap-4 rounded-2xl border border-white/10 bg-[#ffffff]/95 px-5 py-4">
             <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary/15 text-primary">
               <Icon className="h-5 w-5" aria-hidden="true" />
             </span>
@@ -938,7 +938,7 @@ function VitalsStep({ link, name, crewId, data, lastAt, onDisconnect, onRename }
           ECG · last 4 seconds
           {(d?.leadsOn || ecgSim) && <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${TAG_STYLE[devTag]}`}>{TAG_WORD[devTag]}</span>}
         </Heading>
-        <div className="rounded-3xl border border-white/10 bg-[#0b0d14]/95 p-5">
+        <div className="rounded-3xl border border-white/10 bg-[#ffffff]/95 p-5">
           <EcgStrip
             samples={ecg}
             message={

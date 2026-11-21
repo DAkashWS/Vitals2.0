@@ -68,8 +68,8 @@ const CSS = `
 .hc-film{inset:-30%;mix-blend-mode:multiply;opacity:calc(var(--ho,.6) * var(--foil,1));
   background:linear-gradient(115deg,#ffd9ec 0%,#ffe6cf 12%,#fff6c9 22%,#d4f7e4 34%,#c9ecff 46%,#d9d4ff 58%,#f6d0ff 70%,#ffd9ec 82%,#ffe6cf 100%);
   background-size:300% 300%;background-position:var(--hx,50%) var(--hy,50%);
-  -webkit-mask-image:radial-gradient(85% 110% at var(--mx,50%) var(--my,50%),#000 0%,rgba(0,0,0,.55) 50%,rgba(0,0,0,.15) 85%);
-  mask-image:radial-gradient(85% 110% at var(--mx,50%) var(--my,50%),#000 0%,rgba(0,0,0,.55) 50%,rgba(0,0,0,.15) 85%)}
+  -webkit-mask-image:radial-gradient(85% 110% at var(--mx,50%) var(--my,50%),#000 0%,rgba(120,20,30,.16) 50%,rgba(0,0,0,.15) 85%);
+  mask-image:radial-gradient(85% 110% at var(--mx,50%) var(--my,50%),#000 0%,rgba(120,20,30,.16) 50%,rgba(0,0,0,.15) 85%)}
 .hc-film2{inset:-30%;mix-blend-mode:color;opacity:calc(var(--ho,.6) * .55 * var(--foil,1));
   background:conic-gradient(from var(--ca,0deg) at var(--mx,50%) var(--my,50%),#ff9ad5,#ffc58f,#fff08f,#9ff0c6,#8fd6ff,#b8a6ff,#ff9ad5);
   -webkit-mask-image:radial-gradient(60% 80% at var(--mx,50%) var(--my,50%),#000,transparent 75%);
@@ -325,7 +325,7 @@ export const HoloCard = React.forwardRef<HoloCardHandle, HoloCardProps>(function
           st.tly = 0.35;
         }}
       >
-        <div ref={shadowRef} className="pointer-events-none absolute -bottom-4 left-[10%] right-[10%] h-9 rounded-[50%] blur-[22px]" style={{ background: "rgba(0,0,0,.55)" }} />
+        <div ref={shadowRef} className="pointer-events-none absolute -bottom-4 left-[10%] right-[10%] h-9 rounded-[50%] blur-[22px]" style={{ background: "rgba(120,20,30,.16)" }} />
         <div
           ref={cardRef}
           role="group"
@@ -359,7 +359,7 @@ export const HoloCard = React.forwardRef<HoloCardHandle, HoloCardProps>(function
                 data-hc-tap
                 onClick={() => reveal()}
                 aria-label={shown ? "Hide crew ID" : "Show crew ID"}
-                className="flex w-fit gap-3.5 rounded-md text-left text-[20px] font-medium leading-none tabular-nums tracking-[.06em] outline-none focus-visible:ring-2 focus-visible:ring-[#007AFF] focus-visible:ring-offset-4"
+                className="flex w-fit gap-3.5 rounded-md text-left text-[20px] font-medium leading-none tabular-nums tracking-[.06em] outline-none focus-visible:ring-2 focus-visible:ring-[#dc2626] focus-visible:ring-offset-4"
                 style={{ fontFamily: MONO, color: INK, textShadow: "0 1px 0 rgba(255,255,255,.8)" }}
               >
                 {groups.map((g, i) => (

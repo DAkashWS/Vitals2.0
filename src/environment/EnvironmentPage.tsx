@@ -205,7 +205,7 @@ function RiskGrid({ title, items }: { title: string; items: { name: string; text
       <h3 className="mb-3 font-mono text-xs uppercase tracking-[0.28em] text-act/90">{title}</h3>
       <div className="grid gap-4 sm:grid-cols-2">
         {items.map((r) => (
-          <div key={r.name} className="flex gap-4 rounded-2xl border border-white/10 bg-[#0b0d14]/95 p-5">
+          <div key={r.name} className="flex gap-4 rounded-2xl border border-white/10 bg-[#ffffff]/95 p-5">
             <GlyphTile name={ICON[r.name] ?? "warning"} tone="red" />
             <div>
               <p className="text-base font-semibold text-white">{r.name}</p>

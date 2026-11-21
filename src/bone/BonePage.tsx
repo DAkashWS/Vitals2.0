@@ -140,7 +140,7 @@ export default function BonePage() {
           <SectionTitle id="bone-big" icon="scale" eyebrow="The big picture" title="Space is hard on the body." lead="Mostly harmful, short term and long term. Muscle and bone take the biggest hit, but they're not alone." />
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {EFFECTS.map((e) => (
-              <div key={e.label} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-[#0b0d14]/95 px-4 py-3.5">
+              <div key={e.label} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-[#ffffff]/95 px-4 py-3.5">
                 <GlyphTile name={e.icon} tone="amber" size="sm" />
                 <span className="text-[15px] font-medium text-white/85">{e.label}</span>
               </div>
@@ -173,7 +173,7 @@ export default function BonePage() {
                 ["spine", "Back and legs first", "The muscles that hold you upright on Earth have nothing to do in orbit."],
                 ["pill", "Help on the way", "Exercise research, hormone supplements and medicines may help hold on to muscle."],
               ].map(([icon, title, text]) => (
-                <div key={title} className="flex gap-4 rounded-2xl border border-white/10 bg-[#0b0d14]/95 p-5">
+                <div key={title} className="flex gap-4 rounded-2xl border border-white/10 bg-[#ffffff]/95 p-5">
                   <GlyphTile name={icon as GlyphName} tone="amber" />
                   <div>
                     <p className="font-semibold text-white">{title}</p>
@@ -182,7 +182,7 @@ export default function BonePage() {
                 </div>
               ))}
             </div>
-            <div className="flex flex-col justify-center rounded-3xl border border-white/10 bg-[#0b0d14]/95 p-7">
+            <div className="flex flex-col justify-center rounded-3xl border border-white/10 bg-[#ffffff]/95 p-7">
               <p className="mb-5 font-mono text-xs uppercase tracking-[0.28em] text-white/50">The fibre switch</p>
               <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
                 <div className="flex-1 rounded-2xl border border-white/15 bg-white/[0.04] p-5 text-center">
@@ -208,7 +208,7 @@ export default function BonePage() {
         <section>
           <SectionTitle id="bone-bone" icon="bone" eyebrow="Bone" title="The builders fall behind." lead="Bone grows where it's stressed. In microgravity there's almost no stress, so the balance breaks." />
           <div className="grid gap-4 lg:grid-cols-2">
-            <div className="rounded-3xl border border-white/10 bg-[#0b0d14]/95 p-7">
+            <div className="rounded-3xl border border-white/10 bg-[#ffffff]/95 p-7">
               <p className="mb-5 font-mono text-xs uppercase tracking-[0.28em] text-white/50">Two crews, one bone</p>
               <div className="space-y-5">
                 <div className="flex items-center gap-4">
@@ -227,7 +227,7 @@ export default function BonePage() {
                 </div>
               </div>
             </div>
-            <div className="rounded-3xl border border-white/10 bg-[#0b0d14]/95 p-7">
+            <div className="rounded-3xl border border-white/10 bg-[#ffffff]/95 p-7">
               <p className="mb-5 font-mono text-xs uppercase tracking-[0.28em] text-white/50">Bone lost in a year</p>
               <div className="space-y-5">
                 <Bar label="Healthy adult on Earth" value="~0.3%" width="2.5%" tone="calm" />
@@ -243,7 +243,7 @@ export default function BonePage() {
               ["kidney", "Kidney stones", "Calcium from lost bone can form stones and harden soft tissue"],
               ["hourglass", "Slow comeback", "Bone returns after landing, but takes 2–3 years"],
             ].map(([icon, title, text]) => (
-              <div key={title} className="rounded-2xl border border-white/10 bg-[#0b0d14]/95 p-5">
+              <div key={title} className="rounded-2xl border border-white/10 bg-[#ffffff]/95 p-5">
                 <GlyphTile name={icon as GlyphName} tone="amber" />
                 <p className="mt-4 font-semibold">{title}</p>
                 <p className="mt-1 text-sm text-white/60">{text}</p>
@@ -264,7 +264,7 @@ export default function BonePage() {
           <SectionTitle id="bone-gym" icon="treadmill" eyebrow="Fighting back" title="The gym in orbit." lead="Every astronaut trains for at least two hours, every day." />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {GEAR.map((g) => (
-              <div key={g.name} className="group rounded-3xl border border-white/10 bg-[#0b0d14]/95 p-6 transition-colors hover:border-amber-300/30">
+              <div key={g.name} className="group rounded-3xl border border-white/10 bg-[#ffffff]/95 p-6 transition-colors hover:border-amber-300/30">
                 <GlyphTile name={g.icon} tone="amber" size="lg" />
                 <p className="mt-5 text-lg font-semibold">{g.name}</p>
                 <p className="mt-1.5 text-[15px] leading-relaxed text-white/65">{g.text}</p>
@@ -293,7 +293,7 @@ export default function BonePage() {
                     </span>,
                   ]
                 : []),
-              <div key={title} className="rounded-3xl border border-white/10 bg-[#0b0d14]/95 p-6">
+              <div key={title} className="rounded-3xl border border-white/10 bg-[#ffffff]/95 p-6">
                 <GlyphTile name={icon as GlyphName} tone="amber" />
                 <p className="mt-4 text-lg font-semibold">{title}</p>
                 <p className="mt-1 text-[15px] text-white/65">{text}</p>

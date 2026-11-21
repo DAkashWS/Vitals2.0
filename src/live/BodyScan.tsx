@@ -19,7 +19,7 @@ export type Check = { label: string; value: string | null; status: Status | null
 
 const STEP_MS = 650;
 const TONE = { NORMAL: "normal", WATCH: "watch", ACT: "act" } as const;
-const COLOR: Record<Status, string> = { NORMAL: "#34d399", WATCH: "#fbbf24", ACT: "#f87171" };
+const COLOR: Record<Status, string> = { NORMAL: "#059669", WATCH: "#d97706", ACT: "#dc2626" };
 const TEXT: Record<Status, string> = { NORMAL: "text-ok", WATCH: "text-watch", ACT: "text-act" };
 const WORD: Record<Status, string> = { NORMAL: "Normal", WATCH: "Watch", ACT: "Act now" };
 const VERDICT: Record<Status, [string, string]> = {
@@ -266,7 +266,7 @@ export default function BodyScan({ checks, origin, onClose }: { checks: Check[];
     }
   }, [finished]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const tint = finished && verdict ? COLOR[verdict] : "#38bdf8";
+  const tint = finished && verdict ? COLOR[verdict] : "#dc2626";
   const [title, text] = verdict ? VERDICT[verdict] : ["Not enough data", "No readings yet. Connect the sensor or fill in the daily log, then check again."];
 
   // portal: a transformed parent on the Live page would trap position:fixed
@@ -275,7 +275,7 @@ export default function BodyScan({ checks, origin, onClose }: { checks: Check[];
       role="dialog"
       aria-modal="true"
       aria-label="Full-body checkup"
-      className="fixed inset-0 z-[100] overflow-y-auto bg-[#05060a]"
+      className="fixed inset-0 z-[100] overflow-y-auto bg-[#fffbfb]"
       style={{ clipPath: `circle(${open ? "150%" : "0%"} at ${origin.x}px ${origin.y}px)`, transition: reduced ? undefined : "clip-path 700ms cubic-bezier(.7,0,.2,1)" }}
     >
       <div className="mx-auto grid min-h-full max-w-6xl items-center gap-8 px-4 py-10 lg:grid-cols-[1fr_1fr]">

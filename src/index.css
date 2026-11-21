@@ -2,33 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
-/* shadcn-style tokens. The site is always dark: deep space, cyan-blue accent. */
+/* shadcn-style tokens. Hospital theme: clean white page, medical red accent. */
 @layer base {
   :root {
-    --background: 228 14% 7%;
-    --foreground: 220 20% 96%;
-    --primary: 212 100% 64%;
-    --primary-foreground: 228 30% 8%;
-    --muted: 228 12% 14%;
-    --muted-foreground: 220 10% 64%;
-    --border: 220 14% 24%;
+    /* "white" and "black" in tailwind.config.js point here (see the note there) */
+    --ink: 48 16 22;      /* deep crimson-charcoal: all text, hairlines and glass tints */
+    --paper: 255 251 251; /* the page: white with the faintest warm tint */
+    --background: 0 60% 99%;
+    --foreground: 350 50% 12%;
+    --primary: 354 78% 48%;
+    --primary-foreground: 0 0% 100%;
+    --muted: 0 40% 96%;
+    --muted-foreground: 350 12% 40%;
+    --border: 0 30% 88%;
     /* used by the button variants in components/ui/liquid-glass-button.tsx */
-    --secondary: 228 12% 16%;
-    --secondary-foreground: 220 20% 96%;
-    --accent: 228 12% 18%;
-    --accent-foreground: 220 20% 96%;
-    --destructive: 0 84% 62%;
-    --input: 220 14% 24%;
-    --ring: 212 100% 64%;
+    --secondary: 0 45% 96%;
+    --secondary-foreground: 350 50% 12%;
+    --accent: 0 50% 94%;
+    --accent-foreground: 350 50% 12%;
+    --destructive: 0 75% 45%;
+    --input: 0 30% 86%;
+    --ring: 354 78% 48%;
   }
 
   html {
-    color-scheme: dark;
+    color-scheme: light;
     scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-[#0a0b10] text-foreground font-sans antialiased;
+    @apply bg-[#fffbfb] text-foreground font-sans antialiased;
     overflow-x: hidden;
   }
 
@@ -98,11 +101,11 @@
  * instead of the original's red-to-green rainbow. HSL without hsl(), as Tailwind expects.
  * ------------------------------------------------------------------ */
 :root {
-  --color-1: 199 89% 60%; /* sky */
-  --color-2: 258 90% 72%; /* violet */
-  --color-3: 188 86% 53%; /* cyan */
-  --color-4: 234 89% 74%; /* indigo */
-  --color-5: 158 64% 52%; /* emerald */
+  --color-1: 354 78% 48%; /* medical red */
+  --color-2: 346 77% 60%; /* rose */
+  --color-3: 0 72% 38%;   /* deep red */
+  --color-4: 0 90% 72%;   /* soft red */
+  --color-5: 350 60% 82%; /* blush */
 }
 
 /* ------------------------------------------------------------------
@@ -132,11 +135,11 @@
 }
 
 .shiny-cta {
-  --shiny-cta-bg: rgba(11, 13, 20, 0.78);
-  --shiny-cta-bg-subtle: rgba(255, 255, 255, 0.08);
-  --shiny-cta-fg: #ffffff;
-  --shiny-cta-highlight: #38bdf8;
-  --shiny-cta-highlight-subtle: #7dd3fc;
+  --shiny-cta-bg: rgba(255, 255, 255, 0.72);
+  --shiny-cta-bg-subtle: rgba(48, 16, 22, 0.08);
+  --shiny-cta-fg: #301016;
+  --shiny-cta-highlight: #dc2626;
+  --shiny-cta-highlight-subtle: #f87171;
   --animation: gradient-angle linear infinite;
   --duration: 3s;
   --shadow-size: 2px;
@@ -179,20 +182,20 @@
   transition-property: --gradient-angle-offset, --gradient-percent, --gradient-shine;
 }
 .shiny-cta[data-tone="violet"] {
-  --shiny-cta-highlight: #a78bfa;
-  --shiny-cta-highlight-subtle: #c4b5fd;
+  --shiny-cta-highlight: #e11d48;
+  --shiny-cta-highlight-subtle: #fb7185;
 }
 .shiny-cta[data-tone="emerald"] {
-  --shiny-cta-highlight: #34d399;
-  --shiny-cta-highlight-subtle: #6ee7b7;
+  --shiny-cta-highlight: #059669;
+  --shiny-cta-highlight-subtle: #34d399;
 }
 .shiny-cta[data-tone="amber"] {
-  --shiny-cta-highlight: #fbbf24;
-  --shiny-cta-highlight-subtle: #fcd34d;
+  --shiny-cta-highlight: #d97706;
+  --shiny-cta-highlight-subtle: #fbbf24;
 }
 .shiny-cta[data-tone="rose"] {
-  --shiny-cta-highlight: #fb7185;
-  --shiny-cta-highlight-subtle: #fda4af;
+  --shiny-cta-highlight: #be123c;
+  --shiny-cta-highlight-subtle: #fb7185;
 }
 
 .shiny-cta::before,
@@ -244,12 +247,12 @@
   pointer-events: none;
   border-radius: inherit;
   box-shadow:
-    inset 3px 3px 0.5px -3.5px rgba(255, 255, 255, 0.09),
-    inset -3px -3px 0.5px -3.5px rgba(255, 255, 255, 0.85),
-    inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.6),
-    inset -1px -1px 1px -0.5px rgba(255, 255, 255, 0.6),
-    inset 0 0 6px 6px rgba(255, 255, 255, 0.06),
-    inset 0 0 2px 2px rgba(255, 255, 255, 0.05);
+    inset 3px 3px 0.5px -3.5px rgba(255, 255, 255, 0.9),
+    inset -3px -3px 0.5px -3.5px rgba(255, 255, 255, 0.95),
+    inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.9),
+    inset -1px -1px 1px -0.5px rgba(48, 16, 22, 0.12),
+    inset 0 0 6px 6px rgba(255, 255, 255, 0.35),
+    inset 0 0 2px 2px rgba(220, 38, 38, 0.05);
 }
 
 /* not positioned, as in the original: the hover glow below then sizes to the whole button, not the label */

@@ -17,7 +17,7 @@ import Debrief from "./components/Debrief";
 
 type Screen = { kind: "select" } | { kind: "run"; sc: Scenario; attempt: number } | { kind: "debrief"; sc: Scenario; state: SimState; attempt: number };
 
-const navy = "bg-[radial-gradient(ellipse_at_top,rgba(14,40,90,0.55),rgba(3,8,23,0.92)_60%)]";
+const navy = "bg-[radial-gradient(ellipse_at_top,rgba(254,226,226,0.7),rgba(255,251,251,0.96)_60%)]";
 
 export default function SimulatorPage() {
   const [screen, setScreen] = useState<Screen>({ kind: "select" });
