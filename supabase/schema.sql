@@ -1,3 +1,8 @@
+-- VITALS 2.0 (students): database for its own Supabase project ("Vitals 2.0").
+-- Completely separate from VITALS: its own logins, student profiles, student IDs, readings and classes.
+-- A student profile is created the first time someone signs in (public.ensure_profile()).
+-- Run in Supabase -> SQL Editor. Safe to run again.
+
 -- VITALS accounts: tables, roles and Row Level Security.
 -- Run in Supabase → SQL Editor. Safe to run again (it creates or replaces what it needs).
 --
@@ -17,7 +22,7 @@ create table if not exists public.profiles (
   role text not null default 'crew' check (role in ('crew', 'commander', 'flight_surgeon')),
   job text not null default '',                     -- e.g. "Flight engineer"
   crew_id text not null default '',                 -- "2026" + 12 random digits, unique, e.g. "2026 4821 0937 5560"
-  mission text not null default '61:4',
+  mission text not null default '8B',
   mission_end date,
   baselines jsonb not null default '{}'::jsonb,     -- your own normal: {"hr":62,"sleep":7.5,"temp":36.8,...}
   onboarded boolean not null default false,         -- has built their crew card
@@ -105,29 +110,37 @@ end;
 $$;
 revoke execute on function public.new_crew_id(text) from public, anon, authenticated;
 
--- A new account gets a profile straight away (Google sign-ins bring their name with them).
-create or replace function public.handle_new_user()
-returns trigger
+-- A student profile is made only when someone signs in to VITALS 2.0 (not when they sign up for
+-- VITALS): the website calls this once if it finds no profile.
+create or replace function public.ensure_profile()
+returns public.profiles
 language plpgsql
 security definer
 set search_path = ''
 as $$
+declare
+  uid uuid := auth.uid();
+  meta jsonb;
+  mail text;
+  made public.profiles;
 begin
+  if uid is null then raise exception 'Sign in first'; end if;
+  select * into made from public.profiles where id = uid;
+  if found then return made; end if;
+  select u.raw_user_meta_data, u.email into meta, mail from auth.users u where u.id = uid;
   insert into public.profiles (id, display_name, crew_id)
   values (
-    new.id,
-    coalesce(new.raw_user_meta_data ->> 'full_name', new.raw_user_meta_data ->> 'name', split_part(new.email, '@', 1), ''),
-    public.new_crew_id(new.raw_user_meta_data ->> 'crew_id')
+    uid,
+    coalesce(meta ->> 'full_name', meta ->> 'name', split_part(mail, '@', 1), ''),
+    public.new_crew_id(meta ->> 'crew_id')
   )
   on conflict (id) do nothing;
-  return new;
+  select * into made from public.profiles where id = uid;
+  return made;
 end;
 $$;
-
-drop trigger if exists on_auth_user_created on auth.users;
-create trigger on_auth_user_created
-  after insert on auth.users
-  for each row execute function public.handle_new_user();
+revoke execute on function public.ensure_profile() from public, anon;
+grant execute on function public.ensure_profile() to authenticated;
 
 -- Nobody can change a role from the website. Only the database side (SQL editor, service role) can.
 create or replace function public.protect_role()
@@ -138,7 +151,7 @@ as $$
 begin
   if new.role is distinct from old.role
      and coalesce(auth.jwt() ->> 'role', '') in ('authenticated', 'anon') then
-    raise exception 'Roles can only be changed by a mission administrator';
+    raise exception 'Roles can only be changed by a school administrator';
   end if;
   -- the crew number is assigned once; the website can't change it (or copy someone else's)
   if old.crew_id <> '' and coalesce(auth.jwt() ->> 'role', '') in ('authenticated', 'anon') then
@@ -197,15 +210,6 @@ grant select, insert, update on public.crew_status to authenticated;
 grant execute on function public.is_commander() to authenticated;
 revoke all on public.profiles, public.readings, public.crew_status from anon;
 
--- Accounts made before this script ran get a profile too.
-insert into public.profiles (id, display_name)
-select u.id, coalesce(u.raw_user_meta_data ->> 'full_name', u.raw_user_meta_data ->> 'name', split_part(u.email, '@', 1), '')
-from auth.users u
-on conflict (id) do nothing;
-
--- ...and every profile has a unique crew number.
-update public.profiles set crew_id = public.new_crew_id(null) where crew_id = '';
-
 -- To make someone a commander (run here, in the SQL editor):
 --   update public.profiles set role = 'commander' where id = (select id from auth.users where email = 'someone@example.com');
 
@@ -226,7 +230,7 @@ update public.profiles set crew_id = public.new_crew_id(null) where crew_id = ''
 create table if not exists public.crews (
   id uuid primary key default gen_random_uuid(),
   name text not null check (char_length(name) between 1 and 60),
-  mission text not null default '61:4',
+  mission text not null default '8B',
   code text not null unique,                        -- join code: 10 random digits, e.g. "48213-90375"
   created_by uuid references auth.users (id) on delete set null,
   created_at timestamptz not null default now()
@@ -350,7 +354,7 @@ declare
   added integer;
 begin
   select crew into mine from public.crew_members where user_id = uid and role = 'lead';
-  if mine is null then raise exception 'Only the crew lead can invite crew cards.'; end if;
+  if mine is null then raise exception 'Only the class lead can invite student cards.'; end if;
   insert into public.crew_invites (crew, user_id, invited_by)
   select mine, x, uid
   from unnest(coalesce(members, '{}')) as x
@@ -378,12 +382,12 @@ declare
 begin
   if uid is null then raise exception 'Sign in first'; end if;
   if exists (select 1 from public.crew_members where user_id = uid) then
-    raise exception 'You are already in a crew. Leave it first.';
+    raise exception 'You are already in a class. Leave it first.';
   end if;
-  if clean = '' or char_length(clean) > 60 then raise exception 'Give your crew a name (up to 60 characters).'; end if;
-  if coalesce(array_length(members, 1), 0) > 11 then raise exception 'A crew has up to 12 members.'; end if;
+  if clean = '' or char_length(clean) > 60 then raise exception 'Give your class a name (up to 60 characters).'; end if;
+  if coalesce(array_length(members, 1), 0) > 11 then raise exception 'A class has up to 12 members.'; end if;
   insert into public.crews (name, mission, code, created_by)
-  values (clean, coalesce((select p.mission from public.profiles p where p.id = uid), '61:4'), public.new_crew_code(), uid)
+  values (clean, coalesce((select p.mission from public.profiles p where p.id = uid), '8B'), public.new_crew_code(), uid)
   returning * into made;
   insert into public.crew_members (user_id, crew, role) values (uid, made.id, 'lead');
   perform public.invite_to_crew(members);
@@ -404,12 +408,12 @@ declare
 begin
   if uid is null then raise exception 'Sign in first'; end if;
   if exists (select 1 from public.crew_members where user_id = uid) then
-    raise exception 'You are already in a crew. Leave it first.';
+    raise exception 'You are already in a class. Leave it first.';
   end if;
   select * into found from public.crews where id = target;
-  if found.id is null then raise exception 'That crew no longer exists.'; end if;
+  if found.id is null then raise exception 'That class no longer exists.'; end if;
   if (select count(*) from public.crew_members where crew = found.id) >= 12 then
-    raise exception 'That crew is full (12 members).';
+    raise exception 'That class is full (12 members).';
   end if;
   insert into public.crew_members (user_id, crew) values (uid, found.id);
   delete from public.crew_invites where user_id = uid;
@@ -430,9 +434,9 @@ declare
   target uuid;
 begin
   if auth.uid() is null then raise exception 'Sign in first'; end if;
-  if length(wanted) <> 10 then raise exception 'A crew code has 10 digits, like 48213-90375.'; end if;
+  if length(wanted) <> 10 then raise exception 'A class code has 10 digits, like 48213-90375.'; end if;
   select c.id into target from public.crews c where replace(c.code, '-', '') = wanted;
-  if target is null then raise exception 'No crew has that code. Check it with your crew lead.'; end if;
+  if target is null then raise exception 'No class has that code. Check it with your class lead.'; end if;
   return public.add_me_to_crew(target);
 end;
 $$;

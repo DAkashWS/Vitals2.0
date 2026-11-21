@@ -235,8 +235,8 @@ export function subscribeBoard(crewId: string, onChange: () => void): () => void
   if (!supabase) return () => undefined;
   const ch = supabase
     .channel(`crew-link-${crewId}`)
-    .on("postgres_changes", { event: "*", schema: "student", table: "crew_status" }, onChange)
-    .on("postgres_changes", { event: "INSERT", schema: "student", table: "crew_log", filter: `crew=eq.${crewId}` }, onChange)
+    .on("postgres_changes", { event: "*", schema: "public", table: "crew_status" }, onChange)
+    .on("postgres_changes", { event: "INSERT", schema: "public", table: "crew_log", filter: `crew=eq.${crewId}` }, onChange)
     .subscribe();
   return () => void supabase?.removeChannel(ch);
 }
