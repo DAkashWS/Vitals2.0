@@ -108,7 +108,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const loadProfile = useCallback(async (uid: string | undefined) => {
     if (!supabase || !uid) return setProfile(null);
-    const { data, error } = await supabase.from("profiles").select("*").eq("id", uid).maybeSingle();
+    let { data, error } = await supabase.from("profiles").select("*").eq("id", uid).maybeSingle();
+    // VITALS 2.0 has its own student profiles: the first sign-in here creates one (with its own student ID),
+    // even for someone who already has a VITALS astronaut account with the same email.
+    if (!error && !data) ({ data, error } = await supabase.rpc("ensure_profile").maybeSingle());
     // edits made offline and not yet sent stay on top of what the account has
     const pending = pendingProfile(uid);
     const withPending = (p: Profile | null) => (p && pending ? ({ ...p, ...pending } as Profile) : p);

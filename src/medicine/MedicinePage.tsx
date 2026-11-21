@@ -251,27 +251,24 @@ function PartIntro({ p }: { p: Part }) {
   );
 }
 
-/* The Space Medicines chatbot: answers only from knowledge/space-medicine.md (Nithin's research). */
 const MEDICINE_SCOPE: ChatScope = {
-  name: "Space medicine assistant",
+  name: "School medicine assistant",
   inputId: "medicine-input",
-  placeholder: "Ask about space medicine…",
-  hello: (
-    <>
-      Hi, I'm the space medicine assistant. Ask me how spaceflight affects the body and how doctors deal with it: blood
-      clots, decompression sickness, bone and muscle loss, eyesight, the immune system, or the sleep medicines astronauts
-      use. I share general information from the VITALS research library, not medical advice.
-    </>
-  ),
-  suggestions: ["What is space medicine?", "Can astronauts get blood clots?", "What is decompression sickness?", "Do astronauts take sleeping pills?", "How much bone do astronauts lose?", "What is SANS?"],
-  followUps: ["What is space medicine?", "Why is the immune system weaker in space?", "How is decompression sickness treated?", "How do doctors train in space medicine?", "How do you do CPR in weightlessness?", "Do medicines expire faster in space?", "Has anyone been evacuated from space for a medical reason?"],
-  unknownText:
-    "I only cover space medicine, and I don't have that in my library yet. Try one of these. For an injury or symptom, use the main VITALS assistant, and if it's serious, tell the commander and contact the flight surgeon.",
-  library: (p) => p.id.startsWith("space-medicine#") || p.id.startsWith("space-medicine-deep#"),
-  topics: [],
+  placeholder: "Ask about medicines, asthma, allergies or first aid…",
   tone: "violet",
   avatar: "stethoscope",
-  greet: "Hi! I'm the space medicine assistant. Ask me how spaceflight affects the body, like blood clots, the bends, bone loss or sleep in orbit.",
+  hello: (
+    <>
+      Hi, I'm the school medicine assistant. Ask me how schools give medicines safely, what to do in an asthma attack or anaphylaxis, how to help with a hypo or a seizure, or basic first aid like burns, nosebleeds and CPR. General information, not medical advice.
+    </>
+  ),
+  greet: "Hi! I'm the school medicine assistant. Ask me about medicines at school, long-term conditions and first aid.",
+  suggestions: ["Can a school give my child medicine?", "What should I do in an asthma attack?", "What is anaphylaxis and what do I do?", "What do I do if a diabetic student has a hypo?", "What should I do during a seizure?", "How do I do CPR?"],
+  followUps: ["Can children take aspirin?", "Where are medicines kept at school?", "What is an individual health care plan?", "When should a sick child stay home?", "How do I treat a burn?", "What should I do for a nosebleed?", "What do I do if someone is choking?"],
+  unknownText:
+    "I only cover school medicines and first aid, and I don't have that in my library yet. Try one of these. In an emergency, call your local emergency number and get a first aider.",
+  library: (p) => p.id.startsWith("school-medicines#"),
+  topics: [],
 };
 
 export default function MedicinePage() {
@@ -342,10 +339,10 @@ export default function MedicinePage() {
       <section id="med-assistant" className="mt-24 grid scroll-mt-8 gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
         <div className="lg:sticky lg:top-24">
           <h2 className="mb-4 flex items-center gap-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-            <GlyphTile name="chat" tone="violet" size="lg" /> Ask about space medicine
+            <GlyphTile name="chat" tone="violet" size="lg" /> Ask about school medicines
           </h2>
           <p className="max-w-[46ch] leading-relaxed text-white/65">
-            Blood clots, the bends, sleeping pills in orbit, bone loss. Ask anything from the research library.
+            Medicine rules, asthma, allergies, diabetes, seizures and first aid. Ask the school medicine assistant.
           </p>
         </div>
         <ChatPanel scope={MEDICINE_SCOPE} />

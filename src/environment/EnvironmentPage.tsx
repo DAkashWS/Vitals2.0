@@ -5,38 +5,22 @@ import { ChatPanel, type ChatScope } from "@/sections/Assistant";
 
 /** The cabin guide: answers from the environment, cabin air, emergency and radiation files in /knowledge. */
 const ENV_SCOPE: ChatScope = {
-  name: "Cabin guide",
+  name: "Classroom guide",
   inputId: "environment-input",
-  placeholder: "Ask about the air, water, noise, radiation…",
+  placeholder: "Ask about heat, fresh air, light, noise or mould…",
   tone: "emerald",
   avatar: "fan",
   hello: (
     <>
-      Hi, I'm the cabin guide. Ask me how the station makes oxygen, where the CO2 goes, what space smells like, why you see
-      flashes of light at night, or what happens if the station springs a leak.
+      Hi, I'm the classroom guide. Ask me what temperature a classroom should be, what a CO2 reading means, why the room feels stuffy, how to stop eye strain, or what to do about mould.
     </>
   ),
-  greet: "Hi! I'm the cabin guide. Ask me anything about the air, water, light, noise and radiation around you.",
-  suggestions: [
-    "How is oxygen made on the space station?",
-    "What does space smell like?",
-    "Why do astronauts see flashes of light with their eyes closed?",
-    "How much of the water on the ISS is recycled?",
-    "What happens if the station springs a leak?",
-    "What is the South Atlantic Anomaly?",
-  ],
-  followUps: [
-    "Why do astronauts sleep next to a fan?",
-    "What are oxygen candles?",
-    "Do germs and fungus grow on the space station?",
-    "Why do the lights on the space station change colour?",
-    "What is space debris and is it dangerous?",
-    "What is the air like on Mars?",
-  ],
+  greet: "Hi! I'm the classroom guide. Ask me about the air, temperature, light and noise in your classroom.",
+  suggestions: ["What temperature should a classroom be?", "What CO2 level is safe in a classroom?", "Why does the classroom feel stuffy?", "How can I stop eye strain from screens?", "What are the signs of heat exhaustion?", "What does mould do to students?"],
+  followUps: ["Does fresh air stop colds and flu spreading?", "What humidity is best for a classroom?", "How do I know if a student needs glasses?", "Can classroom noise affect learning?", "What triggers asthma in a classroom?", "What should we do on a very hot day?"],
   unknownText:
-    "I only cover the station environment, and I don't have that in the library yet. Try one of these. If an alarm is going off, follow the emergency procedure and the commander first.",
-  library: (p) =>
-    p.id.startsWith("environment-deep#") || p.id.startsWith("cabin-air-water-food#") || p.id.startsWith("emergencies-on-board#") || p.id.startsWith("radiation#"),
+    "I only cover the classroom environment, and I don't have that in my library yet. Try one of these, or ask the main VITALS assistant. If someone is unwell, tell a teacher or the school nurse.",
+  library: (p) => p.id.startsWith("school-classroom-environment#"),
   topics: [],
 };
 
@@ -227,7 +211,7 @@ export default function EnvironmentPage() {
           }}
           className="inline-flex items-center gap-2 rounded-full border border-emerald-300/30 bg-emerald-400/[0.06] px-4 py-2 text-sm text-white/85 hover:border-emerald-300/60 hover:text-white"
         >
-          <Glyph name="chat" className="h-4 w-4 text-emerald-300" /> Ask the cabin guide
+          <Glyph name="chat" className="h-4 w-4 text-emerald-300" /> Ask the classroom guide
         </a>
       </nav>
 
@@ -278,11 +262,11 @@ export default function EnvironmentPage() {
         {/* ---------- chatbot ---------- */}
         <section id="env-ask" className="grid scroll-mt-8 gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <div className="lg:sticky lg:top-24">
-            <p className="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-emerald-300/90">Cabin guide</p>
+            <p className="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-emerald-300/90">Classroom guide</p>
             <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Questions about the air you breathe?</h2>
             <p className="mt-4 max-w-[44ch] leading-relaxed text-white/65">
-              Oxygen from water, CO2 vented to space, recycled coffee, flashes of light at night and dodging debris. Ask anything,
-              offline.
+              Too hot, too stuffy, too loud, too dim? Temperature, CO2, humidity, mould, eye strain and noise. Ask the classroom
+              guide.
             </p>
           </div>
           <ChatPanel scope={ENV_SCOPE} />

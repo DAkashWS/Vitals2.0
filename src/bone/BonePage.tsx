@@ -63,23 +63,22 @@ function Bar({ label, value, width, tone }: { label: string; value: string; widt
 }
 
 const BONE_SCOPE: ChatScope = {
-  name: "Bone & muscle coach",
+  name: "Bones & sport coach",
   inputId: "bone-input",
-  placeholder: "Ask about bones and muscles in space…",
+  placeholder: "Ask about bones, posture, bags or sports injuries…",
   tone: "amber",
   avatar: "muscle",
   hello: (
     <>
-      Hi, I'm the bone and muscle coach. Ask me how fast astronauts lose muscle and bone, why it happens, what the ISS gym
-      looks like, or how NASA's digital astronaut plans workouts. General information from the VITALS research library.
+      Hi, I'm the bones and sport coach. Ask me how much exercise students need, how heavy a school bag should be, how to sit at a desk, or what to do for a sprain or a head knock.
     </>
   ),
-  greet: "Hi! I'm the bone and muscle coach. Ask me how space wears down muscle and bone, and how astronauts fight back.",
-  suggestions: ["How much muscle do astronauts lose?", "Why does bone break down in space?", "What exercise equipment is on the ISS?", "Why do astronauts wear special trousers?", "Can bone loss cause kidney stones?", "What is the Digital Astronaut Project?"],
-  followUps: ["How much bone do astronauts lose in space?", "How do muscle fibres change in space?", "Does bone grow back after spaceflight?", "Does weight-lifting on the ARED protect bones?", "Do the soles of astronauts' feet change?", "What were the mighty mice in space?", "Why is back pain so common in space?"],
+  greet: "Hi! I'm the bones and sport coach. Ask me about strong bones, posture, school bags and sports injuries.",
+  suggestions: ["How much exercise do students need?", "How heavy should a school bag be?", "What makes bones stronger?", "What should I do for a sprain?", "What should happen after a head knock in sport?", "What is good sitting posture?"],
+  followUps: ["How much calcium does a teenager need?", "Why do bones need vitamin D?", "What are growth plates?", "How can I tell if a bone is broken?", "Why does my neck hurt after using my phone?", "How can students prevent sports injuries?", "Why do my knees hurt when I'm growing?"],
   unknownText:
-    "I only cover bones and muscles in space, and I don't have that in my library yet. Try one of these, or ask the main VITALS assistant about other health questions.",
-  library: (p) => p.id.startsWith("bone-muscle-research#") || p.id.startsWith("bones-muscles-exercise#") || p.id.startsWith("bone-muscle-deep#"),
+    "I only cover bones, posture and sport, and I don't have that in my library yet. Try one of these, or ask the main VITALS assistant. For a bad injury, get the school nurse or a first aider.",
+  library: (p) => p.id.startsWith("school-bones-posture#"),
   topics: [],
 };
 
@@ -292,8 +291,8 @@ export default function BonePage() {
         <section id="bone-ask" className="grid scroll-mt-8 gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <div className="lg:sticky lg:top-24">
             <p className="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-amber-300/90">Ask the coach</p>
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Questions about bones and muscles?</h2>
-            <p className="mt-4 max-w-[44ch] leading-relaxed text-white/65">How fast does it go? Why? What's in the ISS gym? Ask the coach, offline.</p>
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Questions about bones and sport?</h2>
+            <p className="mt-4 max-w-[44ch] leading-relaxed text-white/65">How much exercise? How heavy a bag? What to do for a sprain or a head knock? Ask the coach.</p>
           </div>
           <ChatPanel scope={BONE_SCOPE} />
         </section>

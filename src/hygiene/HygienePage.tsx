@@ -196,23 +196,21 @@ function CabinPanel({ name, setName, cabin, setCabin }: { name: string; setName:
 const HYGIENE_SCOPE: ChatScope = {
   name: "Hygiene assistant",
   inputId: "hygiene-input",
-  placeholder: "Ask about hygiene, cleaning, water or waste…",
-  hello: (
-    <>
-      Hi, I'm the VITALS hygiene assistant. Ask me how to keep yourself and the cabin clean in space: washing up without
-      a sink, cleaning routines, mould, water, food safety, the toilet and the rubbish. I can also help with a rash, an
-      upset stomach or sore gums.
-    </>
-  ),
-  suggestions: ["How do I wash my hands in space?", "Is there mould on the space station?", "Where does the rubbish go?", "How is drinking water kept clean?", "I have an upset stomach", "I have a rash"],
-  followUps: ["How do I wash my hands in space?", "How do astronauts clean the station?", "What should I do if a crewmate is ill?", "How is food kept safe in space?"],
-  unknownText:
-    "I only cover hygiene and sanitation, and I don't have that in my library yet. Try one of these, or ask the main VITALS assistant about other health questions. If someone is unwell, tell the commander and contact the flight surgeon.",
-  library: (p) => p.id.startsWith("hygiene-") || p.id.startsWith("cabin-air-water-food"),
-  topics: ["skin", "stomach", "tooth", "cut", "eye", "nausea"],
+  placeholder: "Ask about handwashing, germs, teeth or lunch…",
   tone: "emerald",
   avatar: "soap",
-  greet: "Hi! I'm the hygiene assistant. Ask me how to stay clean in space, like washing without a sink, mould, water or the rubbish.",
+  hello: (
+    <>
+      Hi, I'm the VITALS hygiene assistant. Ask me how to wash your hands properly, how germs spread in a classroom, how to keep your lunch safe, or what to do about head lice, body odour or a stomach bug going round. I can also help with a rash, an upset stomach or a sore tooth.
+    </>
+  ),
+  greet: "Hi! I'm the hygiene assistant. Ask me how to stay clean and stop germs spreading at school.",
+  suggestions: ["How do I wash my hands properly?", "When should students wash their hands?", "How do germs spread in a classroom?", "How can I keep my lunch safe?", "What should I do about head lice?", "How often should I brush my teeth?"],
+  followUps: ["How should I cough or sneeze?", "How often should desks be cleaned?", "What should I do about body odour?", "How often should PE kit be washed?", "How can we stop a stomach bug spreading?", "What should I do if I get a rash at school?"],
+  unknownText:
+    "I only cover hygiene at school, and I don't have that in my library yet. Try one of these, or ask the main VITALS assistant. If someone is unwell, tell a teacher or the school nurse.",
+  library: (p) => p.id.startsWith("school-hygiene#"),
+  topics: ["skin", "stomach", "tooth", "cut", "eye", "nausea"],
 };
 
 /* ---------------- the page ---------------- */
@@ -309,7 +307,7 @@ export default function HygienePage() {
               <GlyphTile name="chat" tone="emerald" size="sm" /> Hygiene assistant
             </h2>
             <p className="max-w-[46ch] leading-relaxed text-white/65">
-              No sink? No shower? Mould behind the panels? Ask anything about staying clean in space.
+              Handwashing, germs, teeth, lunch boxes, head lice or a bug going round class? Ask anything about staying clean at school.
             </p>
           </div>
           <div className="min-w-0 font-sans">

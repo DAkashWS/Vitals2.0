@@ -1,7 +1,8 @@
 -- VITALS 2.0 (students): its own copy of every VITALS table and function, in the "student" schema.
 -- Logins (auth.users) are shared with VITALS, but nothing else is: a person who uses the same email
 -- for both gets an astronaut profile (public.profiles, astronaut ID) in VITALS and a separate
--- student profile (student.profiles, student ID) in VITALS 2.0. Generated from schema.sql with
+-- student profile (student.profiles, student ID) in VITALS 2.0. Nothing is copied from VITALS:
+-- a student profile is created the first time someone signs in to VITALS 2.0. Generated from schema.sql with
 -- "public." -> "student.". The "student" schema must be listed under Exposed schemas in the
 -- Supabase dashboard (Project Settings -> Data API) so the website can reach it.
 
@@ -114,29 +115,37 @@ end;
 $$;
 revoke execute on function student.new_crew_id(text) from public, anon, authenticated;
 
--- A new account gets a profile straight away (Google sign-ins bring their name with them).
-create or replace function student.handle_new_user()
-returns trigger
+-- A student profile is made only when someone signs in to VITALS 2.0 (not when they sign up for
+-- VITALS): the website calls this once if it finds no profile.
+create or replace function student.ensure_profile()
+returns student.profiles
 language plpgsql
 security definer
 set search_path = ''
 as $$
+declare
+  uid uuid := auth.uid();
+  meta jsonb;
+  mail text;
+  made student.profiles;
 begin
+  if uid is null then raise exception 'Sign in first'; end if;
+  select * into made from student.profiles where id = uid;
+  if found then return made; end if;
+  select u.raw_user_meta_data, u.email into meta, mail from auth.users u where u.id = uid;
   insert into student.profiles (id, display_name, crew_id)
   values (
-    new.id,
-    coalesce(new.raw_user_meta_data ->> 'full_name', new.raw_user_meta_data ->> 'name', split_part(new.email, '@', 1), ''),
-    student.new_crew_id(new.raw_user_meta_data ->> 'crew_id')
+    uid,
+    coalesce(meta ->> 'full_name', meta ->> 'name', split_part(mail, '@', 1), ''),
+    student.new_crew_id(meta ->> 'crew_id')
   )
   on conflict (id) do nothing;
-  return new;
+  select * into made from student.profiles where id = uid;
+  return made;
 end;
 $$;
-
-drop trigger if exists on_auth_user_created_student on auth.users;
-create trigger on_auth_user_created_student
-  after insert on auth.users
-  for each row execute function student.handle_new_user();
+revoke execute on function student.ensure_profile() from public, anon;
+grant execute on function student.ensure_profile() to authenticated;
 
 -- Nobody can change a role from the website. Only the database side (SQL editor, service role) can.
 create or replace function student.protect_role()
@@ -205,15 +214,6 @@ grant select, insert, delete on student.readings to authenticated;
 grant select, insert, update on student.crew_status to authenticated;
 grant execute on function student.is_commander() to authenticated;
 revoke all on student.profiles, student.readings, student.crew_status from anon;
-
--- Accounts made before this script ran get a profile too.
-insert into student.profiles (id, display_name)
-select u.id, coalesce(u.raw_user_meta_data ->> 'full_name', u.raw_user_meta_data ->> 'name', split_part(u.email, '@', 1), '')
-from auth.users u
-on conflict (id) do nothing;
-
--- ...and every profile has a unique crew number.
-update student.profiles set crew_id = student.new_crew_id(null) where crew_id = '';
 
 -- To make someone a commander (run here, in the SQL editor):
 --   update student.profiles set role = 'commander' where id = (select id from auth.users where email = 'someone@example.com');

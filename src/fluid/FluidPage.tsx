@@ -76,23 +76,22 @@ function SectionTitle({ id, icon, eyebrow, title, lead }: { id: string; icon: Gl
 }
 
 const FLUID_SCOPE: ChatScope = {
-  name: "Fluid shift guide",
+  name: "Hydration guide",
   inputId: "fluid-input",
-  placeholder: "Ask about fluid shift…",
+  placeholder: "Ask about water, drinks, thirst or dehydration…",
   tone: "violet",
-  avatar: "fluidUp",
+  avatar: "cup",
   hello: (
     <>
-      Hi, I'm the fluid shift guide. Ask me why fluids rise toward the head in space, what SANS does to the eyes, why
-      astronauts faint after landing, or how Chibis suits and fluid loading help.
+      Hi, I'm the hydration guide. Ask me how much water a student needs, how to tell if you're dehydrated, what your pee colour means, or whether energy drinks are safe.
     </>
   ),
-  greet: "Hi! I'm the fluid shift guide. Ask me how fluids move in space, what it does to the eyes and blood, and how crews fight it.",
-  suggestions: ["What is fluid shift in space?", "What is SANS?", "Why do astronauts faint after landing?", "What are Chibis suits?", "Can fluid shift cause blood clots?", "What is fluid loading before landing?"],
-  followUps: ["What is the puffy face, bird legs effect?", "Why do the kidneys get rid of water in space?", "Why do I feel less thirsty in space?", "How does VITALS help with fluid shift?", "Why do astronauts look younger in space?", "Why do astronauts need special glasses in space?", "What are Braslet cuffs?"],
+  greet: "Hi! I'm the hydration guide. Ask me how much to drink, the signs of dehydration, and which drinks are best.",
+  suggestions: ["How much water should a student drink?", "How do I know if I'm dehydrated?", "What colour should my pee be?", "Are energy drinks safe for students?", "Can not drinking cause headaches?", "How much should I drink during sport?"],
+  followUps: ["Why does drinking water help at school?", "When should students drink during the day?", "Are fizzy drinks and juice OK?", "What is heat exhaustion?", "Can you drink too much water?", "Does milk count as a drink?"],
   unknownText:
-    "I only cover fluid shift, and I don't have that in the team's research yet. Try one of these. Any change in your vision, or neck swelling or pain, goes to the flight surgeon.",
-  library: (p) => p.id.startsWith("fluid-shift#") || p.id.startsWith("fluid-shift-and-vision#") || p.id.startsWith("returning-to-earth#") || p.id.startsWith("fluid-shift-deep#"),
+    "I only cover hydration, and I don't have that in my library yet. Try one of these, or ask the main VITALS assistant. If someone is dizzy, confused or fainting, get an adult straight away.",
+  library: (p) => p.id.startsWith("school-hydration#"),
   topics: [],
 };
 
@@ -233,9 +232,9 @@ export default function FluidPage() {
         {/* ---------- chatbot ---------- */}
         <section id="fl-ask" className="grid scroll-mt-8 gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <div className="lg:sticky lg:top-24">
-            <p className="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-violet-300/90">Fluid shift guide</p>
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Questions about fluid shift?</h2>
-            <p className="mt-4 max-w-[44ch] leading-relaxed text-white/65">SANS, clots, fainting after landing, Chibis suits. Ask anything, offline.</p>
+            <p className="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-violet-300/90">Hydration guide</p>
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Questions about drinking enough?</h2>
+            <p className="mt-4 max-w-[44ch] leading-relaxed text-white/65">How much water, which drinks, pee colour, energy drinks and headaches. Ask the hydration guide.</p>
           </div>
           <ChatPanel scope={FLUID_SCOPE} />
         </section>
