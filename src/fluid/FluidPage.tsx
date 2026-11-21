@@ -1,7 +1,7 @@
 import { useEffect, type ReactNode } from "react";
 import { Shell } from "@/live/LivePage";
 import { Glyph, GlyphTile, type GlyphName } from "@/components/ui/glyph";
-import { ChatPanel, SCHOOL_MIN_SCORE, type ChatScope } from "@/sections/Assistant";
+import { ChatPanel, type ChatScope } from "@/sections/Assistant";
 
 /*
  * Hydration (#/fluid): why students need to drink through the school day, how to spot
@@ -90,10 +90,7 @@ const FLUID_SCOPE: ChatScope = {
   suggestions: ["How much water should I drink each day?", "How do I know if I'm dehydrated?", "What colour should my pee be?", "Are energy drinks safe for students?", "Can not drinking cause headaches?", "How much should I drink during sport?"],
   followUps: ["Why does drinking water help at school?", "When should students drink during the day?", "Are fizzy drinks and juice OK?", "What is heat exhaustion?", "Is it dangerous to overdo it with water?", "Does milk count as a drink?"],
   unknownText:
-    "I only cover hydration, and I don't have that in my library yet. Try one of these, or ask the main VITALS assistant. If someone is dizzy, confused or fainting, get an adult straight away.",
-  library: (p) => p.id.startsWith("school-hydration#"),
-  minScore: SCHOOL_MIN_SCORE,
-  topics: [],
+    "I couldn't reach the assistant just now. Check your internet connection and try again. If it's urgent, tell a teacher and get the school nurse.",
 };
 
 export default function FluidPage() {

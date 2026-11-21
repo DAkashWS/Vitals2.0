@@ -8,9 +8,8 @@ import path from "node:path";
  * <meta> tag). Build only: the dev server needs inline scripts for hot reload.
  *   script   our own files, plus WebAssembly for the 3D model decoder
  *   connect  our own origin, the Supabase project, a VITALS sensor over WebSocket on the local network,
- *            and blob: (three.js reads the textures packed inside the 3D models that way)
- *            Ollama on this computer (the onboard AI, when the site runs from its offline copy),
- *            and askvitals.pages.dev/api/chat, the chatbots' online model (functions/api/chat.ts)
+ *            and blob: (three.js reads the textures packed inside the 3D models that way). The chatbots'
+ *            online assistant is the Supabase "chat" Edge Function, on the same Supabase host.
  *   worker   blob: for the 3D model decoder's worker
  * frame-ancestors, HSTS and X-Content-Type-Options need real headers: use a host that sends them if required.
  */
@@ -24,7 +23,7 @@ const csp = (supabase: string): Plugin => ({
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob:",
       "font-src 'self' data:",
-      `connect-src 'self' blob: ${supabase} ${supabase.replace(/^http/, "ws")} ws: wss: https://askvitals.pages.dev http://127.0.0.1:11434`,
+      `connect-src 'self' blob: ${supabase} ${supabase.replace(/^http/, "ws")} ws: wss:`,
       "worker-src 'self' blob:",
       "media-src 'self' blob:",
       "object-src 'none'",
@@ -53,19 +52,5 @@ export default defineConfig(({ mode }) => ({
   },
   server: {
     port: 5190,
-    // The chatbots talk to the onboard AI (Ollama on this computer) through /ollama, so phones and
-    // laptops on the same Wi-Fi can use it too. The Origin header is dropped because Ollama only
-    // accepts browser requests from localhost by default. Without Ollama (or on GitHub Pages)
-    // the chatbots just answer from the library.
-    proxy: {
-      "/ollama": {
-        target: "http://127.0.0.1:11434",
-        changeOrigin: true,
-        rewrite: (p) => p.replace(/^\/ollama/, ""),
-        configure: (proxy) => {
-          proxy.on("proxyReq", (req) => req.removeHeader("origin"));
-        },
-      },
-    },
   },
 }));

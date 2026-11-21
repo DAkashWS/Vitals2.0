@@ -6,7 +6,7 @@ import { ChatPanel, type ChatScope } from "@/sections/Assistant";
 /*
  * Isolation (#/isolation): the gist of the team's research on isolation in spaceflight,
  * medical isolation rooms and other meanings of the word. Opened from the "Isolation" card
- * in the Modules tunnel. The chatbot answers from knowledge/isolation.md.
+ * in the Modules tunnel. The chatbot is the online assistant's "isolation-input" bot.
  */
 
 const STATS: { icon: GlyphName; big: string; small: string }[] = [
@@ -102,9 +102,7 @@ const ISOLATION_SCOPE: ChatScope = {
   suggestions: ["What is the third-quarter effect?", "Why is isolation worse on a Mars mission?", "How do astronauts cope with isolation?", "How do scientists study isolation on Earth?", "What is a medical isolation room?", "How small and cramped is the space station?"],
   followUps: ["What are the psychological effects of isolation?", "How are astronauts selected for isolation?", "What is social isolation for astronauts?", "What is the difference between negative and positive pressure rooms?", "What is the overview effect?", "What happened in the Mars-500 experiment?", "What is winter-over syndrome?"],
   unknownText:
-    "I only cover isolation, and I don't have that in the team's research yet. Try one of these. If you're struggling, talk to a crewmate, and the flight surgeon and psychologists are there for you too.",
-  library: (p) => p.id.startsWith("isolation#") || p.id.startsWith("sleep-and-mind#") || p.id.startsWith("isolation-deep#"),
-  topics: [],
+    "I couldn't reach the assistant just now. Check your internet connection and try again. If it's urgent, tell a teacher and get the school nurse.",
 };
 
 export default function IsolationPage() {

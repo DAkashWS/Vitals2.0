@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, type Dispatch, type SetStateAction } from
 import { LiquidButton } from "@/components/ui/liquid-glass-button";
 import { Minus, Plus, Radio, RotateCcw } from "lucide-react";
 import { Shell } from "@/live/LivePage";
-import { ChatPanel, SCHOOL_MIN_SCORE, type ChatScope } from "@/sections/Assistant";
+import { ChatPanel, type ChatScope } from "@/sections/Assistant";
 import HygieneCard from "@/hygiene/HygieneCard";
 import { GlyphTile, StatusDot } from "@/components/ui/glyph";
 import {
@@ -208,10 +208,7 @@ const HYGIENE_SCOPE: ChatScope = {
   suggestions: ["How do I wash my hands properly?", "When should students wash their hands?", "How do germs spread in a classroom?", "How can I keep my lunch safe?", "What should I do about head lice?", "How often should I brush my teeth?"],
   followUps: ["How should I cough or sneeze?", "How often should desks be cleaned?", "What should I do about body odour?", "How often should PE kit be washed?", "How can we stop a stomach bug spreading?", "What should I do if I get a rash at school?"],
   unknownText:
-    "I only cover hygiene at school, and I don't have that in my library yet. Try one of these, or ask the main VITALS assistant. If someone is unwell, tell a teacher or the school nurse.",
-  library: (p) => p.id.startsWith("school-hygiene#"),
-  minScore: SCHOOL_MIN_SCORE,
-  topics: ["skin", "stomach", "tooth", "cut", "eye", "nausea"],
+    "I couldn't reach the assistant just now. Check your internet connection and try again. If it's urgent, tell a teacher and get the school nurse.",
 };
 
 /* ---------------- the page ---------------- */

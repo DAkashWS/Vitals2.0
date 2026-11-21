@@ -13,21 +13,12 @@ npm run build      # outputs dist/
 npm run preview -- --port 5190 --host   # serve the build, also to other devices on the same network
 ```
 
-## Works offline
+## Chatbots (online only)
 
-Everything the page needs ships with it, so it runs with no internet:
-
-- **Images** are in `public/media/`.
-- **Fonts** (Inter and Geist Mono) are bundled from npm (`@fontsource/*`), not loaded from Google Fonts.
-- **The assistant** answers from built-in first-aid rules and the knowledge library, with no AI model or server.
-- **After one online visit** the service worker keeps every file (pages, 3D models, simulator voices), so the site opens with no network. A signed-in crew member stays signed in offline; readings, profile and baseline edits wait on the device and upload when the link is back (readings in batches of 200), and the commander board shows its last copy. Signing in on a new device rebuilds your crew card from your latest stored reading. Keep Supabase Auth session time-boxing and inactivity timeouts off, so a login survives a long mission.
-- **The onboard AI** (Ollama on the same computer) is used by the dev and preview servers through `/ollama`. For the published site opened offline to use it too, let Ollama accept that site and restart Ollama:
-
-  ```
-  setx OLLAMA_ORIGINS "https://dakashws.github.io,https://askvitals.pages.dev"
-  ```
-
-- **Needs the internet:** first sign-in, sign-up, Google sign-in and password reset (Supabase), the online chatbot model (Cloudflare), and the first visit. The Wi-Fi sensor can't be reached from an https site (browsers block `ws://` from secure pages): use USB, Bluetooth, or a local copy.
+- Every chatbot asks the **"chat" Edge Function** in the Vitals 2.0 Supabase project (`supabase/functions/chat`), which uses Google Gemini with a school-health instruction for each bot and keeps each bot to its own topic. Only signed-in users can use it.
+- Its key is the Edge Function secret `GEMINI_API_KEY` (Supabase dashboard → Edge Functions → Secrets), never in the site or the repo. `GEMINI_MODEL` can change the model (default `gemini-2.5-flash`).
+- **Emergencies** (chest pain, breathing trouble, fainting or seizures, heavy bleeding, head injuries, severe allergic reactions) are answered instantly in the browser with fixed steps (`src/lib/firstAid.ts`), even offline. Everything else needs the internet.
+- There is no offline knowledge library and no local AI model.
 
 ## Page sections and the components behind them
 

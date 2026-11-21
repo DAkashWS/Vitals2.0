@@ -1,9 +1,9 @@
 import { useEffect, type ReactNode } from "react";
 import { Shell } from "@/live/LivePage";
 import { Glyph, GlyphTile, type GlyphName } from "@/components/ui/glyph";
-import { ChatPanel, SCHOOL_MIN_SCORE, type ChatScope } from "@/sections/Assistant";
+import { ChatPanel, type ChatScope } from "@/sections/Assistant";
 
-/** The cabin guide: answers from the environment, cabin air, emergency and radiation files in /knowledge. */
+/** The classroom guide: the online assistant's "environment-input" bot (supabase/functions/chat). */
 const ENV_SCOPE: ChatScope = {
   name: "Classroom guide",
   inputId: "environment-input",
@@ -19,10 +19,7 @@ const ENV_SCOPE: ChatScope = {
   suggestions: ["What temperature should a classroom be?", "What CO2 level is safe in a classroom?", "Why does the classroom feel stuffy?", "How can I stop eye strain from screens?", "What are the signs of heat exhaustion?", "What does mould do to students?"],
   followUps: ["Does fresh air stop colds and flu spreading?", "What humidity is best for a classroom?", "How do I know if a student needs glasses?", "Can classroom noise affect learning?", "What triggers asthma in a classroom?", "What should we do on a very hot day?"],
   unknownText:
-    "I only cover the classroom environment, and I don't have that in my library yet. Try one of these, or ask the main VITALS assistant. If someone is unwell, tell a teacher or the school nurse.",
-  library: (p) => p.id.startsWith("school-classroom-environment#"),
-  minScore: SCHOOL_MIN_SCORE,
-  topics: [],
+    "I couldn't reach the assistant just now. Check your internet connection and try again. If it's urgent, tell a teacher and get the school nurse.",
 };
 
 /*
