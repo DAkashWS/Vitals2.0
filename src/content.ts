@@ -66,14 +66,14 @@ export const crew: {
 ];
 
 export const unique = [
-  { title: "Space baselines, not Earth's normal", body: "Every astronaut is measured against their own in-flight normal, not a textbook average." },
-  { title: "Space-only risks", body: "Radiation, bone loss and isolation never show up on a smartwatch. In VITALS, each one has its own place." },
-  { title: "Body plus environment", body: "A headache next to a CO2 spike is no coincidence. VITALS links the two and says \"check the air\"." },
-  { title: "Works offline", body: "No phone, no cloud, no signal. Exactly right when a message to Earth takes minutes." },
-  { title: "Tells you what to do next", body: "Every alert comes with a clear next step, and the moment it's time to call for help." },
-  { title: "Student view", body: "The commander sees at a glance who's doing fine and who's struggling." },
-  { title: "Flight surgeon report", body: "A ready-made report, written to survive the long delay to Earth." },
-  { title: "Works with watches", body: "A wearable is just one data source. VITALS is the brain that sits on top." },
+  { title: "Each student's own normal", body: "Every student is compared with their own usual readings, not a one-size-fits-all chart." },
+  { title: "Made for school days", body: "Hydration, posture, classroom air and sports injuries: the things that really affect students each have their own place." },
+  { title: "Body plus classroom", body: "A headache next to a stuffy, high-CO2 classroom is no coincidence. VITALS links the two and says \"open a window\"." },
+  { title: "Built for the nurse's room", body: "One student at a time: pick the student, take their readings, and the result is saved straight to their record." },
+  { title: "Tells you what to do next", body: "Every result comes with a clear next step, and the moment it's time to call a parent or a doctor." },
+  { title: "Teacher view", body: "Teachers and the school nurse see at a glance who's doing fine and who needs checking on." },
+  { title: "Ready for the doctor", body: "A clear summary of the readings, ready to share with parents or the family doctor." },
+  { title: "Works with watches", body: "A smartwatch is just one data source. VITALS is the brain that sits on top." },
 ];
 
 export const team = [

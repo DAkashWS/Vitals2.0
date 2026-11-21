@@ -268,9 +268,9 @@ export function Unique() {
   return (
     <section className="relative px-6 py-28 sm:px-12">
       <div className="mx-auto max-w-6xl">
-        <Eyebrow>What makes VITALS unique</Eyebrow>
+        <Eyebrow>What makes VITALS 2.0 different</Eyebrow>
         <h2 className="mb-14 max-w-[24ch] text-balance text-4xl font-semibold tracking-tight sm:text-5xl">
-          A smartwatch measures. VITALS explains.
+          A thermometer gives a number. VITALS explains it.
         </h2>
         <div className="grid gap-x-10 gap-y-9 sm:grid-cols-2 lg:grid-cols-4">
           {unique.map((u, i) => (
@@ -284,8 +284,7 @@ export function Unique() {
           ))}
         </div>
         <blockquote className="mt-24 max-w-4xl text-balance text-2xl font-medium leading-snug tracking-tight text-white/90 sm:text-4xl">
-          “A smartwatch tells you your heart rate. VITALS tells an astronaut, 200 million kilometres from a doctor, what
-          it means and what to do next.”
+          “A smartwatch tells you your heart rate. VITALS tells a student, and the school nurse beside them, what it means and what to do next.”
         </blockquote>
       </div>
     </section>

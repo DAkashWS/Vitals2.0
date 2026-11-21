@@ -157,7 +157,7 @@ const CrewCardForm = ({ defaults = {}, ring1 = "#dc2626", ring2 = "#e11d48", sub
           </div>
           <div>
             <label htmlFor="cc-job">Role in class</label>
-            <input id="cc-job" placeholder="e.g. Flight engineer" value={job} onChange={(e) => setJob(e.target.value)} {...on("holder")} />
+            <input id="cc-job" placeholder="e.g. Class monitor" value={job} onChange={(e) => setJob(e.target.value)} {...on("holder")} />
           </div>
           <div>
             <label htmlFor="cc-id">Student ID</label>
