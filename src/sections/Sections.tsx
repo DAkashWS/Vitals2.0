@@ -228,7 +228,7 @@ export function Crew() {
 
   const self = cards.find((c) => c.kind === "self");
   const add = async (m: MyReadings) => {
-    await putCard({ id: "self", name: m.name, role: "Crew member", crewId: crewIdFor(m.name), readings: m.readings, kind: "self", source: m.source, updatedAt: Date.now() });
+    await putCard({ id: "self", name: m.name, role: "Student", crewId: crewIdFor(m.name), readings: m.readings, kind: "self", source: m.source, updatedAt: Date.now() });
     load();
   };
   const remove = async () => {
@@ -239,12 +239,12 @@ export function Crew() {
   return (
     <section id="crew" className="relative px-6 py-28 sm:px-12">
       <div className="mx-auto max-w-6xl">
-        <Eyebrow>Crew view</Eyebrow>
+        <Eyebrow>Student health</Eyebrow>
         <h2 className="mb-4 max-w-[20ch] text-balance text-4xl font-semibold tracking-tight sm:text-5xl">
-          Mission 61:4, one glance at a time.
+          Every student, one glance at a time.
         </h2>
         <p className="mb-14 max-w-[58ch] text-white/65">
-          Each crew member's latest readings. Tilt, spin or tap a card, or press Readings to see them. Status is worked out from the
+          Each student's latest readings. Tilt, spin or tap a card, or press Readings to see them. Status is worked out from the
           ranges above. Add your own card from your readings on the Live monitor.
         </p>
         <div className="grid justify-items-center gap-14 md:grid-cols-2 lg:grid-cols-3">

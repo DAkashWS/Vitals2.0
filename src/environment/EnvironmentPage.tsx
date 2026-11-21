@@ -41,9 +41,8 @@ const ENV_SCOPE: ChatScope = {
 };
 
 /*
- * Environment (#/environment): how cabin temperature, CO2, radiation, humidity and pressure
- * affect the crew. Research by Vishnu (team Mission 61:4). Opened from the
- * "Environment monitor" card in the Modules tunnel.
+ * Classroom environment (#/environment): how classroom temperature, fresh air, noise, light and
+ * humidity affect students' health and learning. Opened from the "Classroom environment" card.
  */
 
 type Src = { label: string; href: string };
@@ -65,138 +64,114 @@ const TOPICS: Topic[] = [
   {
     id: "temperature",
     icon: "thermometer",
-    title: "Cabin temperature",
-    lead: "When the temperature inside a spacecraft gets too hot or too cold, it puts astronauts and their missions in danger.",
-    risksTitle: "Health and body risks",
+    title: "Classroom temperature",
+    lead: "A classroom that is too hot or too cold makes it harder for students to learn, and on hot days it can make them ill.",
+    risksTitle: "Health and learning risks",
     risks: [
-      { name: "Brain fog", text: "High heat makes it hard for astronauts to think clearly, make fast decisions, or focus on their work." },
-      { name: "Clumsiness", text: "Being too hot makes hands shaky and slows down reflexes, making it tough to use controls." },
-      { name: "Overheating", text: "In space, the body cannot cool itself down easily through sweating. This can cause heat stroke or exhaustion." },
-      { name: "Extreme environments", text: "Outside the ship, space shifts from freezing cold to boiling hot. If the cabin heater or cooler breaks, the inside can quickly become deadly." },
+      { name: "Brain fog", text: "In a stuffy, overheated room, students find it harder to concentrate, remember what they read and finish tasks." },
+      { name: "Heat exhaustion", text: "Headache, dizziness, heavy sweating, nausea and feeling faint after PE or a long hot lesson. It can turn into heatstroke if it isn't treated." },
+      { name: "Dehydration", text: "Warm rooms and sport make students lose water faster, and many don't drink until they already feel thirsty." },
+      { name: "Too cold to focus", text: "A cold room makes students restless and uncomfortable, and is hard for anyone who is already unwell." },
     ],
-    fixesTitle: "How space agencies fix it",
+    fixesTitle: "What schools can do",
     fixes: [
-      { name: "Special cooling suits", text: "Astronauts wear clothing woven with water tubes to pump heat away from their bodies." },
-      { name: "Strict emergency rules", text: "If a cabin gets too warm, astronauts must immediately change into lighter clothes or turn on backup cooling systems to stay safe." },
+      { name: "Cool, airy rooms", text: "Open windows early in the day, close blinds against direct sun, and use fans. Most classrooms are comfortable at roughly 18 to 25 °C." },
+      { name: "Hot-day rules", text: "Water bottles on every desk, shade at break time, lighter uniform allowed, and PE moved indoors or to a cooler time." },
     ],
     sources: [],
   },
   {
     id: "co2",
     icon: "bubbles",
-    title: "Carbon dioxide (CO2)",
-    lead: "In a closed spacecraft, carbon dioxide from an astronaut's breath cannot escape. If it builds up, it causes dangerous health and thinking problems.",
-    risksTitle: "Health and body risks",
+    title: "Fresh air (CO2)",
+    lead: "Thirty students breathing in a closed room raise the carbon dioxide level quickly. CO2 itself is a sign of how stale the air is, and of how easily colds and flu can spread.",
+    risksTitle: "Health and learning risks",
     risks: [
-      { name: "The \"space stupids\"", text: "Mildly elevated CO2 can cause brain fog, confusion, and slow down an astronaut's ability to complete basic or rehearsed tasks." },
-      { name: "Headaches and lethargy", text: "Even at low levels, astronauts in space report severe headaches, tiredness and full-headedness much quicker than people do on Earth." },
-      { name: "Invisible CO2 bubbles", text: "On Earth, warm breath rises and mixes into the air. In zero gravity, air does not move naturally. Without fans, an astronaut can wake up gasping for air because a stagnant bubble of their own exhaled CO2 has formed right around their head." },
-      { name: "Increased head pressure", text: "Microgravity already pushes blood and fluids into an astronaut's head. High CO2 widens blood vessels in the brain, which can worsen vision problems and eye pressure." },
+      { name: "Sleepy afternoons", text: "High CO2 is linked to tiredness, slower thinking and lower test scores, especially late in the day." },
+      { name: "Headaches", text: "Stale, crowded air is a common cause of headaches and \"heavy head\" feelings in class." },
+      { name: "Germs in the air", text: "Poor ventilation lets coughs and sneezes linger, so colds, flu and other infections pass round the class more easily." },
+      { name: "Asthma triggers", text: "Dust, chalk, strong cleaning sprays and stuffy air can all set off asthma in students who have it." },
     ],
-    fixesTitle: "How the air is kept safe",
+    fixesTitle: "How to keep the air fresh",
     fixes: [
-      { name: "Continuous scrubbing", text: "Machines like the Carbon Dioxide Removal Assembly (CDRA) continuously pull CO2 out of the cabin air to keep levels safe." },
-      { name: "Constant fan circulation", text: "Spaceships use non-stop ventilation fans to blend the air and break up invisible, toxic CO2 pockets before they can form." },
-    ],
-    sources: [
-      { label: "NASA: Carbon dioxide risk", href: "https://www.nasa.gov/directorates/esdmd/hhp/carbon-dioxide-risk/" },
-      { label: "NASA OCHMO technical brief: Carbon dioxide", href: "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-004-carbon-dioxide.pdf" },
-      { label: "NASA NTRS 20120016340", href: "https://ntrs.nasa.gov/api/citations/20120016340/downloads/20120016340.pdf" },
-      { label: "NASA NTRS 20150019624", href: "https://ntrs.nasa.gov/api/citations/20150019624/downloads/20150019624.pdf" },
-      { label: "NTIS N20120006045", href: "https://ntrl.ntis.gov/NTRL/dashboard/searchResults/titleDetail/N20120006045.xhtml" },
-      { label: "AIAA 2013-3463", href: "https://arc.aiaa.org/doi/pdf/10.2514/6.2013-3463" },
-      { label: "Let's Talk Science: Carbon dioxide and space missions", href: "https://letstalkscience.ca/educational-resources/backgrounders/carbon-dioxide-and-space-missions" },
-    ],
-  },
-  {
-    id: "radiation",
-    icon: "radiation",
-    title: "Space radiation",
-    lead: "Outside Earth's protective magnetic field, astronauts face invisible, high-energy space radiation. It behaves like subatomic cannonballs, slicing through human cells and DNA, and it is one of the greatest threats to long-duration space travel.",
-    risksTitle: "Health and body risks",
-    risks: [
-      { name: "Cancer risk", text: "The heavy ions and cosmic rays found in deep space can break both strands of the DNA helix, forcing incorrect cell repairs that can lead to aggressive or rare cancers later in life." },
-      { name: "\"Space brain\"", text: "Severe radiation damages the central nervous system. It can kill brain cells and cause neurotoxicity, leading to cognitive decline, short-term memory gaps and reduced motor skills." },
-      { name: "Heart disease", text: "Space radiation damages the delicate inner lining of blood vessels (endothelial dysfunction). This narrows the vessels and sharply increases the long-term risk of a heart attack or stroke." },
-      { name: "Early cataracts", text: "Cosmic radiation passes easily through standard equipment. Even relatively low cumulative exposure can cloud the eyes' lenses, causing cataracts to form much earlier than normal." },
-      { name: "Radiation sickness", text: "While long-term diseases are the main concern, a sudden solar storm (solar particle event) can bombard a spacecraft with a massive dose of radiation, causing nausea, vomiting and acute radiation sickness." },
-    ],
-    fixesTitle: "How space programs fight it",
-    fixes: [
-      { name: "Storm shelters", text: "Spacecraft are built with specially shielded sections where crew members can retreat during intense solar flares." },
-      { name: "Biomedical defences", text: "NASA and other agencies are researching cell-repair medicines, such as anti-inflammatory drugs and antioxidants, to help the body fight radiation damage at a molecular level." },
+      { name: "Measure it", text: "A CO2 monitor shows when to open a window. Below about 800 ppm is good; above 1,500 ppm the room needs airing right away." },
+      { name: "Air the room", text: "Open windows and doors between lessons, even for a few minutes in winter, and don't block air vents." },
     ],
     sources: [],
   },
   {
-    id: "humidity-pressure",
+    id: "noise-light",
+    icon: "eye",
+    title: "Noise, light and screens",
+    lead: "Students spend hours a day looking at boards, books and screens in a busy room. Bad light and constant noise wear them out.",
+    risksTitle: "Health and learning risks",
+    risks: [
+      { name: "Eye strain", text: "Long screen time, glare and dim light cause tired, sore or dry eyes, blurred vision and headaches." },
+      { name: "Undetected short sight", text: "A student squinting at the board may need glasses. Short sight is very common in school-age children and often goes unnoticed." },
+      { name: "Noise fatigue", text: "Loud, echoing rooms make it hard to hear the teacher, raise stress and tire students out, especially those with hearing problems." },
+      { name: "Poor posture at screens", text: "Laptops on low desks pull the head forward, leading to neck and shoulder aches." },
+    ],
+    fixesTitle: "What helps",
+    fixes: [
+      { name: "The 20-20-20 rule", text: "Every 20 minutes of screen work, look at something about 20 feet (6 m) away for 20 seconds." },
+      { name: "Regular eye checks", text: "Tell parents when a student struggles to read the board, and encourage a yearly eye test." },
+    ],
+    sources: [],
+  },
+  {
+    id: "humidity-hygiene",
     icon: "drop",
-    title: "Humidity and pressure",
-    lead: "Strict control over cabin humidity and pressure is vital to keep space crews healthy and onboard electronics working.",
+    title: "Humidity and clean rooms",
+    lead: "Air that is too damp or too dry, and surfaces that are rarely cleaned, both make students ill more often.",
     risksTitle: "Risks of the wrong humidity",
     risks: [
-      { name: "Electrical short circuits", text: "If humidity on the International Space Station rises past 70%, moisture can condense onto electronic equipment, causing short circuits or electrical fires." },
-      { name: "Mould and mould illness", text: "Warm, damp air promotes rapid microbial and mould growth in microgravity, which clogs vital water filters and makes the crew sick." },
-      { name: "Dry eyes and static shock", text: "If the cabin air gets too dry, astronauts suffer from respiratory pain and dry skin, and static electricity spikes, risking sensitive circuit failures." },
+      { name: "Mould", text: "Damp classrooms grow mould, which can trigger asthma, allergies, coughing and wheezing." },
+      { name: "Dry air", text: "Very dry air (often from heating in winter) gives students dry eyes, sore throats, nosebleeds and itchy skin." },
+      { name: "Faster spread of flu", text: "Flu viruses survive longer in very dry air, so winter outbreaks spread more easily." },
     ],
-    risksTitle2: "Risks of changing pressure",
+    risksTitle2: "Risks in shared spaces",
     risks2: [
-      { name: "Decompression sickness", text: "Going from the normal pressure of a spacecraft to a lower-pressure spacesuit can make dissolved nitrogen form bubbles in the blood and tissues (\"the bends\"), causing extreme joint pain, tissue damage or embolisms." },
-      { name: "Hypoxia (oxygen starvation)", text: "A drop in pressure limits how much oxygen the lungs can take in. This quickly leads to confusion, severe headaches, tunnel vision or sudden unconsciousness." },
-      { name: "Middle-ear problems", text: "Pressure changes, combined with breathing pure oxygen during spacewalk preparation, can trap fluid and cause painful pressure imbalances in the ears, leading to middle-ear effusions and temporary hearing problems." },
-      { name: "Catastrophic ruptures", text: "A complete or rapid loss of cabin pressure forces air out of the lungs and makes gases in the blood bubble out. Unconsciousness happens within about 15 seconds." },
+      { name: "Shared surfaces", text: "Desks, door handles, keyboards and taps are touched by dozens of hands a day and carry germs from one student to the next." },
+      { name: "Food in class", text: "Eating at desks spreads crumbs and germs and is dangerous for students with food allergies." },
+      { name: "Allergens", text: "Dust, pollen through open windows, class pets and some art materials can set off allergies." },
     ],
-    fixesTitle: "How space programs fight it",
+    fixesTitle: "What schools can do",
     fixes: [
-      { name: "Condensate collectors", text: "Active environmental systems continually pull excess moisture out of the air and recycle it into clean drinking water." },
-      { name: "Pre-breathe routines", text: "Before a spacewalk, astronauts spend hours breathing pure oxygen to purge nitrogen from their blood, which prevents the bends." },
+      { name: "Keep humidity at 40 to 60 %", text: "Fix leaks fast, air damp rooms, and in dry winters avoid overheating the room." },
+      { name: "Daily cleaning", text: "Wipe desks, handles and shared devices every day, and more often during flu season." },
     ],
-    sources: [
-      { label: "Let's Talk Science: Humidity and space missions", href: "https://letstalkscience.ca/educational-resources/backgrounders/humidity-and-space-missions" },
-      { label: "NASA NTRS 20150003045", href: "https://ntrs.nasa.gov/api/citations/20150003045/downloads/20150003045.pdf" },
-      { label: "NASA: Human spaceflight risks", href: "https://www.nasa.gov/humans-in-space/hhc-spaceflight-risks/" },
-      { label: "NASA: Risk of hypoxia", href: "https://www.nasa.gov/reference/risk-of-hypoxia/" },
-      { label: "JAMA Otolaryngology", href: "https://jamanetwork.com/journals/jamaotolaryngology/fullarticle/2763430" },
-      { label: "ScienceDirect", href: "https://www.sciencedirect.com/science/article/abs/pii/S1364032126001632" },
-      { label: "ResearchGate: Physiology in aviation", href: "https://www.researchgate.net/publication/401998353_Physiology_in_Aviation_Earth's_Atmosphere_Hypoxia_Pressure_Hazards_Cabin_Pressurization_and_Decompression" },
-      { label: "Washington Post: What is hypoxia?", href: "https://www.washingtonpost.com/nation/2023/06/06/what-is-hypoxia-cabin-depressurization/" },
-      { label: "Helen Cowan: 10 health hazards of outer space", href: "https://www.helencowan.co.uk/10-health-hazards-outer-space" },
-      { label: "YouTube", href: "https://www.youtube.com/watch?v=p2fvJ7shQPA" },
-      { label: "Reddit: ELI5 vacuum of space", href: "https://www.reddit.com/r/explainlikeimfive/comments/1tuhre9/eli5_what_is_vacuum_of_space_how_dangerous_is_it/" },
-    ],
+    sources: [],
   },
 ];
 
 /* A VITALS glyph for every risk and fix, so each card can be spotted at a glance. */
 const ICON: Record<string, GlyphName> = {
   "Brain fog": "fog",
-  Clumsiness: "shake",
-  Overheating: "flame",
-  "Extreme environments": "halfSun",
-  "Special cooling suits": "snowflake",
-  "Strict emergency rules": "clipboard",
-  'The "space stupids"': "spiral",
-  "Headaches and lethargy": "battery",
-  "Invisible CO2 bubbles": "bubbles",
-  "Increased head pressure": "head",
-  "Continuous scrubbing": "filter",
-  "Constant fan circulation": "fan",
-  "Cancer risk": "dna",
-  '"Space brain"': "brain",
-  "Heart disease": "heartBroken",
-  "Early cataracts": "eye",
-  "Radiation sickness": "sunFlare",
-  "Storm shelters": "shield",
-  "Biomedical defences": "pill",
-  "Electrical short circuits": "bolt",
-  "Mould and mould illness": "mushroom",
-  "Dry eyes and static shock": "dry",
-  "Decompression sickness": "bubbles",
-  "Hypoxia (oxygen starvation)": "lungs",
-  "Middle-ear problems": "ear",
-  "Catastrophic ruptures": "burst",
-  "Condensate collectors": "drop",
-  "Pre-breathe routines": "o2",
+  "Heat exhaustion": "flame",
+  Dehydration: "drop",
+  "Too cold to focus": "snowflake",
+  "Cool, airy rooms": "fan",
+  "Hot-day rules": "clipboard",
+  "Sleepy afternoons": "battery",
+  Headaches: "head",
+  "Germs in the air": "bubbles",
+  "Asthma triggers": "lungs",
+  "Measure it": "gauge",
+  "Air the room": "fan",
+  "Eye strain": "eye",
+  "Undetected short sight": "eye",
+  "Noise fatigue": "ear",
+  "Poor posture at screens": "shake",
+  "The 20-20-20 rule": "hourglass",
+  "Regular eye checks": "check",
+  Mould: "mushroom",
+  "Dry air": "dry",
+  "Faster spread of flu": "bubbles",
+  "Shared surfaces": "tap",
+  "Food in class": "cup",
+  Allergens: "warning",
+  "Keep humidity at 40 to 60 %": "drop",
+  "Daily cleaning": "soap",
 };
 
 function RiskGrid({ title, items }: { title: string; items: { name: string; text: string }[] }) {
@@ -225,9 +200,9 @@ export default function EnvironmentPage() {
 
   return (
     <Shell
-      eyebrow="Environment monitor"
-      title="The cabin keeps you alive."
-      intro="A small bubble of air in a place that wants to freeze, cook and irradiate you. Here's how it keeps the crew alive."
+      eyebrow="Classroom environment"
+      title="The room shapes the student."
+      intro="Heat, stale air, noise and glare make students tired, ill and unable to focus. Here's what to watch in every classroom."
       back={{ label: "Back to VITALS" }}
     >
       <nav aria-label="Topics" className="-mt-4 mb-16 flex flex-wrap gap-2">
@@ -315,8 +290,8 @@ export default function EnvironmentPage() {
       </div>
 
       <p className="mt-24 border-t border-white/10 pt-6 text-sm text-white/50">
-        Research by team Mission 61:4. Sources open on the
-        internet; the rest of this page works offline. General information, not medical advice.
+        School health guidance by team VITALS. This page works
+        offline. General information, not medical advice.
       </p>
     </Shell>
   );

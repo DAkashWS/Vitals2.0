@@ -39,7 +39,7 @@ export default function HygieneCard({ name, cabin, result }: { name: string; cab
       role="img"
       aria-label={`Hygiene card for ${name}, ${cabin.name}. Hygiene score ${result.score} out of 100, ${result.grade}.`}
     >
-      {/* fine grid, like a mission chart */}
+      {/* fine grid, like a medical chart */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.07]"
         style={{ backgroundImage: "linear-gradient(#b91c1c 1px, transparent 1px), linear-gradient(90deg, #b91c1c 1px, transparent 1px)", backgroundSize: "22px 22px" }}
@@ -52,8 +52,8 @@ export default function HygieneCard({ name, cabin, result }: { name: string; cab
             Vitals <span className="text-emerald-300">·</span> Hygiene
           </p>
           <p className="text-right text-[clamp(10px,2.2vw,12px)] uppercase tracking-[0.2em] text-white/55">
-            Mission
-            <span className="block text-[clamp(13px,3vw,16px)] font-semibold tracking-normal text-white">61:4</span>
+            School
+            <span className="block text-[clamp(13px,3vw,16px)] font-semibold tracking-normal text-white">Health</span>
           </p>
         </div>
 
@@ -82,20 +82,20 @@ export default function HygieneCard({ name, cabin, result }: { name: string; cab
               {result.grade}
             </p>
             <p className="mt-1 text-[clamp(11px,2.4vw,13px)] text-white/60">
-              {result.onTrack} of {result.total} on track · scaled to your cabin
+              {result.onTrack} of {result.total} on track · scaled to your class
             </p>
           </div>
         </div>
 
         <div className="flex items-end justify-between gap-3">
           <div className="min-w-0">
-            <p className="text-[clamp(9px,2vw,11px)] uppercase tracking-[0.22em] text-white/45">Crew member</p>
+            <p className="text-[clamp(9px,2vw,11px)] uppercase tracking-[0.22em] text-white/45">Student</p>
             <p className="truncate text-[clamp(15px,3.6vw,20px)] font-semibold tracking-wide">{name}</p>
           </div>
           <div className="min-w-0 text-right">
             <p className="truncate text-[clamp(11px,2.4vw,13px)] font-medium text-white/80">{cabin.name}</p>
             <p className="text-[clamp(10px,2.2vw,12px)] text-white/50">
-              {cabin.crew} crew · {cabin.humidity}% RH · air +{cabin.airQuality}% · {date}
+              {cabin.crew} at table · {cabin.humidity}% RH · air +{cabin.airQuality}% · {date}
             </p>
           </div>
         </div>

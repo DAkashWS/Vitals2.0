@@ -4,62 +4,62 @@ import { Glyph, GlyphTile, type GlyphName } from "@/components/ui/glyph";
 import { ChatPanel, type ChatScope } from "@/sections/Assistant";
 
 /*
- * Fluid shift (#/fluid): the gist of the team's research on how fluids move toward the head
- * in microgravity, the health risks and how space programs fight it. Opened from the
- * "Fluid shift" card in the Modules tunnel. The chatbot answers from knowledge/fluid-shift.md.
+ * Hydration (#/fluid): why students need to drink through the school day, how to spot
+ * dehydration, and what to drink. Opened from the "Hydration" card. The chatbot below is unchanged.
  */
 
 const STATS: { icon: GlyphName; big: string; small: string }[] = [
-  { icon: "fluidUp", big: "2 L", small: "of blood and lymph move up toward the chest and head" },
-  { icon: "eye", big: "SANS", small: "flattened eyeballs and swollen optic nerves" },
-  { icon: "clot", big: "Backward", small: "blood flow seen in the neck vein on the ISS" },
-  { icon: "faint", big: "Faint", small: "on standing, after landing back on Earth" },
+  { icon: "cup", big: "6–8", small: "glasses of fluid a day for most students, more in heat and sport" },
+  { icon: "brain", big: "1–2%", small: "body water lost is enough to dull attention and mood" },
+  { icon: "head", big: "#1", small: "simple cause of afternoon headaches in class" },
+  { icon: "tap", big: "Water", small: "is the best drink: no sugar, no caffeine, no cost" },
 ];
 
 const RISKS: { icon: GlyphName; title: string; tag: string; text: string }[] = [
   {
-    icon: "skullPressure",
-    title: "Spaceflight-associated neuro-ocular syndrome",
-    tag: "SANS",
-    text: "Fluid raises the pressure inside the skull. It pushes on the back of the eyes, flattening the eyeballs and swelling the optic nerves, which can leave vision blurry for the long term.",
+    icon: "brain",
+    title: "Poor concentration",
+    tag: "Learning",
+    text: "Even mild dehydration makes it harder to focus, remember and solve problems, and makes students more tired and irritable.",
   },
   {
-    icon: "moonFace",
-    title: "Puffy face, bird legs",
-    tag: "Swelling",
-    text: "Fluid pools in the upper body: the face swells and the sinuses block up like a permanent head cold, while the legs visibly shrink.",
+    icon: "head",
+    title: "Headaches and dizziness",
+    tag: "Common",
+    text: "A dry mouth, headache or light-headed feeling, especially after break or PE, is often the first sign a student needs a drink.",
   },
   {
-    icon: "clot",
-    title: "Stagnant blood and clots",
-    tag: "Clot risk",
-    text: "On the ISS, blood in the left internal jugular vein in the neck was seen to stall or even flow backward, sharply raising the risk of a dangerous clot.",
+    icon: "flame",
+    title: "Heat illness",
+    tag: "Hot days",
+    text: "Sport in hot weather without enough water can lead to heat exhaustion: heavy sweating, nausea, cramps and fainting.",
   },
   {
-    icon: "faint",
-    title: "Fainting after landing",
-    tag: "Orthostatic intolerance",
-    text: "The body treats the shifted fluid as too much blood and gets rid of water. Back on Earth there's less blood to go round, so standing up can bring severe dizziness or fainting.",
+    icon: "kidney",
+    title: "Constipation and bladder problems",
+    tag: "Long term",
+    text: "Students who avoid drinking (often to avoid school toilets) are more likely to get constipation and urinary infections.",
   },
 ];
 
-const CHAIN: { icon: GlyphName; title: string; text: string }[] = [
-  { icon: "fluidUp", title: "Fluid moves up", text: "Without gravity, up to 2 litres shift toward the head." },
-  { icon: "kidney", title: "Kidneys flush water", text: "The body reads it as too much blood and passes more water." },
-  { icon: "drop", title: "Less blood, less thirst", text: "Blood volume falls, and you don't feel thirsty." },
-  { icon: "faint", title: "Gravity returns", text: "Blood drops to the feet, the brain runs short: dizziness or fainting." },
+const URINE: { colour: string; label: string; tone: "ok" | "watch" | "act" }[] = [
+  { colour: "#fdf6d8", label: "Pale straw: well hydrated", tone: "ok" },
+  { colour: "#f9e79f", label: "Light yellow: good", tone: "ok" },
+  { colour: "#f4d03f", label: "Yellow: drink a glass now", tone: "watch" },
+  { colour: "#d4a017", label: "Dark yellow: dehydrated", tone: "act" },
+  { colour: "#a0522d", label: "Amber or brown: drink and tell an adult", tone: "act" },
 ];
 
-const FIGHT: { icon: GlyphName; title: string; text: string }[] = [
+const DRINKS: { icon: GlyphName; title: string; text: string }[] = [
   {
-    icon: "vacuum",
-    title: "Chibis suits",
-    text: "Vacuum trousers use suction (lower body negative pressure) to pull blood back to the legs, imitating Earth's gravity and easing the pressure in the head.",
+    icon: "tap",
+    title: "Best: water and milk",
+    text: "Plain water any time, and plain milk for calcium. A refillable bottle on the desk makes it easy to sip all day.",
   },
   {
-    icon: "salt",
-    title: "Fluid loading",
-    text: "Just before re-entry, astronauts drink plenty of salt water or take electrolyte tablets to quickly build back their blood volume.",
+    icon: "warning",
+    title: "Limit: juice, fizzy and energy drinks",
+    text: "Sugary drinks damage teeth and add empty calories. Energy drinks are high in caffeine and are not suitable for children.",
   },
 ];
 
@@ -72,52 +72,6 @@ function SectionTitle({ id, icon, eyebrow, title, lead }: { id: string; icon: Gl
       </h2>
       {lead && <p className="mt-4 max-w-2xl text-lg leading-relaxed text-white/70">{lead}</p>}
     </div>
-  );
-}
-
-/** A simple body: on Earth fluid sits low, in space it rises toward the head. */
-function BodyFigure({ space }: { space: boolean }) {
-  return (
-    <svg viewBox="0 0 120 200" className="mx-auto h-56 w-auto" aria-hidden="true">
-      <defs>
-        <linearGradient id={space ? "fl-space" : "fl-earth"} x1="0" y1="0" x2="0" y2="1">
-          {space ? (
-            <>
-              <stop offset="0" stopColor="#e11d48" stopOpacity="0.85" />
-              <stop offset="0.45" stopColor="#e11d48" stopOpacity="0.45" />
-              <stop offset="1" stopColor="#e11d48" stopOpacity="0.08" />
-            </>
-          ) : (
-            <>
-              <stop offset="0" stopColor="#dc2626" stopOpacity="0.1" />
-              <stop offset="0.55" stopColor="#dc2626" stopOpacity="0.35" />
-              <stop offset="1" stopColor="#dc2626" stopOpacity="0.8" />
-            </>
-          )}
-        </linearGradient>
-      </defs>
-      <g fill={`url(#${space ? "fl-space" : "fl-earth"})`} stroke="rgba(48,16,22,0.35)" strokeWidth="2" strokeLinejoin="round">
-        {/* head: puffier in space */}
-        <ellipse cx="60" cy="24" rx={space ? 19 : 15} ry={space ? 19 : 17} />
-        {/* torso and arms */}
-        <path d="M38 48h44l6 52-10 4-4-34-2 40H46l-2-40-4 34-10-4z" />
-        {/* legs: thinner in space */}
-        {space ? <path d="M50 110h7v80h-9zM63 110h7l2 80h-9z" /> : <path d="M46 110h13v80H45zM61 110h13l1 80H61z" />}
-      </g>
-      <g stroke={space ? "#fb7185" : "#ef4444"} strokeWidth="2.5" strokeLinecap="round" fill="none">
-        {space ? (
-          <>
-            <path d="M14 150V90M14 90l-6 8M14 90l6 8" />
-            <path d="M106 150V90M106 90l-6 8M106 90l6 8" />
-          </>
-        ) : (
-          <>
-            <path d="M14 90v60M14 150l-6-8M14 150l6-8" />
-            <path d="M106 90v60M106 150l-6-8M106 150l6-8" />
-          </>
-        )}
-      </g>
-    </svg>
   );
 }
 
@@ -148,18 +102,25 @@ export default function FluidPage() {
   }, []);
 
   const nav: [string, string, GlyphName][] = [
-    ["fl-how", "How it happens", "fluidUp"],
-    ["fl-risks", "Risks", "skullPressure"],
-    ["fl-chain", "Landing", "faint"],
-    ["fl-fight", "Fighting it", "vacuum"],
+    ["fl-how", "Check your colour", "drop"],
+    ["fl-risks", "Risks", "head"],
+    ["fl-chain", "School day plan", "calendar"],
+    ["fl-fight", "What to drink", "cup"],
     ["fl-ask", "Ask", "chat"],
+  ];
+
+  const DAY: { icon: GlyphName; title: string; text: string }[] = [
+    { icon: "sunrise", title: "Breakfast", text: "Start the day with a glass of water or milk before leaving home." },
+    { icon: "cup", title: "Every lesson", text: "Keep a water bottle on the desk and sip between tasks." },
+    { icon: "treadmill", title: "Before and after PE", text: "Drink before sport, during long sessions, and refill afterwards." },
+    { icon: "tap", title: "Home time", text: "An empty bottle by the end of the day is a good sign." },
   ];
 
   return (
     <Shell
-      eyebrow="Fluid shift"
-      title="When fluids forget which way is down."
-      intro="On Earth, gravity holds your blood in your legs. In orbit, up to two litres rush toward your head, and the body starts making mistakes."
+      eyebrow="Hydration"
+      title="A thirsty brain can't learn."
+      intro="Most students don't drink enough during the school day. By the time they feel thirsty, their focus has already dropped."
       back={{ label: "Back to VITALS" }}
     >
       <nav aria-label="Topics" className="-mt-4 mb-14 flex flex-wrap gap-2">
@@ -190,32 +151,23 @@ export default function FluidPage() {
       </div>
 
       <div className="space-y-28">
-        {/* ---------- how it happens ---------- */}
+        {/* ---------- urine colour check ---------- */}
         <section>
-          <SectionTitle id="fl-how" icon="fluidUp" eyebrow="How it happens" title="Gravity lets go." />
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="rounded-3xl border border-white/10 bg-[#ffffff]/95 p-7">
-              <BodyFigure space={false} />
-              <p className="mt-6 flex items-center gap-2 text-2xl font-semibold">
-                <Glyph name="globe" className="h-6 w-6 text-sky-300" /> On Earth
-              </p>
-              <p className="mt-2 text-[15px] leading-relaxed text-white/65">Gravity pulls blood and lymph down toward the legs. The body is built around that pull.</p>
-            </div>
-            <div className="rounded-3xl border border-violet-300/25 bg-[#ffffff]/95 p-7">
-              <BodyFigure space />
-              <p className="mt-6 flex items-center gap-2 text-2xl font-semibold">
-                <Glyph name="satellite" className="h-6 w-6 text-violet-300" /> In microgravity
-              </p>
-              <p className="mt-2 text-[15px] leading-relaxed text-white/65">
-                The pull disappears. Up to <strong className="text-white">two litres</strong> of fluid shift up from the lower body toward the chest and head.
-              </p>
-            </div>
+          <SectionTitle id="fl-how" icon="drop" eyebrow="The quick check" title="Check the colour." lead="The easiest way for a student to know if they're drinking enough: the colour of their pee." />
+          <div className="grid gap-3 sm:grid-cols-5">
+            {URINE.map((u) => (
+              <div key={u.label} className="overflow-hidden rounded-3xl border border-white/10 bg-[#ffffff]/95">
+                <div className="h-24" style={{ background: u.colour }} />
+                <p className={`p-4 text-sm font-medium ${u.tone === "ok" ? "text-ok" : u.tone === "watch" ? "text-watch" : "text-act"}`}>{u.label}</p>
+              </div>
+            ))}
           </div>
+          <p className="mt-4 text-sm text-white/55">Some vitamins and foods can change the colour too. Dark urine that doesn't clear with drinking needs a doctor.</p>
         </section>
 
         {/* ---------- risks ---------- */}
         <section>
-          <SectionTitle id="fl-risks" icon="skullPressure" eyebrow="Health and body risks" title="What the shift does." />
+          <SectionTitle id="fl-risks" icon="head" eyebrow="Health and learning risks" title="What dehydration does." />
           <div className="grid gap-4 md:grid-cols-2">
             {RISKS.map((r) => (
               <div key={r.title} className="flex flex-col rounded-3xl border border-white/10 bg-[#ffffff]/95 p-7 transition-colors hover:border-violet-300/30">
@@ -230,20 +182,20 @@ export default function FluidPage() {
           </div>
         </section>
 
-        {/* ---------- chain to fainting ---------- */}
+        {/* ---------- school day plan ---------- */}
         <section>
           <SectionTitle
             id="fl-chain"
-            icon="faint"
-            eyebrow="Why landing is hard"
-            title="From a puffy face to a fainting spell."
-            lead="Orthostatic intolerance is a chain reaction that starts on day one in orbit and ends the moment an astronaut stands up on Earth."
+            icon="calendar"
+            eyebrow="A school day plan"
+            title="Drink before you're thirsty."
+            lead="Thirst is a late signal. Little and often through the day works better than a lot at once."
           />
           <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {CHAIN.map((c, i) => (
+            {DAY.map((c, i) => (
               <li key={c.title} className="relative rounded-3xl border border-white/10 bg-[#ffffff]/95 p-6">
                 <span className="absolute right-5 top-4 font-mono text-sm text-white/30">0{i + 1}</span>
-                <GlyphTile name={c.icon} tone={i === CHAIN.length - 1 ? "red" : "violet"} />
+                <GlyphTile name={c.icon} tone="violet" />
                 <p className="mt-5 text-lg font-semibold">{c.title}</p>
                 <p className="mt-1.5 text-[15px] leading-relaxed text-white/65">{c.text}</p>
               </li>
@@ -251,13 +203,13 @@ export default function FluidPage() {
           </ol>
         </section>
 
-        {/* ---------- fighting it ---------- */}
+        {/* ---------- what to drink ---------- */}
         <section>
-          <SectionTitle id="fl-fight" icon="vacuum" eyebrow="How space programs fight it" title="Pulling the blood back down." />
+          <SectionTitle id="fl-fight" icon="cup" eyebrow="What to drink" title="Water first." />
           <div className="grid gap-4 md:grid-cols-2">
-            {FIGHT.map((f) => (
+            {DRINKS.map((f, i) => (
               <div key={f.title} className="rounded-3xl border border-white/10 bg-[#ffffff]/95 p-7">
-                <GlyphTile name={f.icon} tone="green" size="lg" />
+                <GlyphTile name={f.icon} tone={i === 0 ? "green" : "red"} size="lg" />
                 <p className="mt-5 text-2xl font-semibold">{f.title}</p>
                 <p className="mt-2 text-[15px] leading-relaxed text-white/65">{f.text}</p>
               </div>
@@ -269,9 +221,9 @@ export default function FluidPage() {
           >
             <GlyphTile name="tap" size="lg" />
             <div className="flex-1">
-              <p className="text-lg font-semibold">Your thirst lies to you. VITALS doesn't.</p>
+              <p className="text-lg font-semibold">Thirst comes late. VITALS doesn't.</p>
               <p className="mt-1 text-[15px] leading-relaxed text-white/65">
-                Fluid shift turns thirst down. Log every glass with + on the Live monitor and watch it against the 2.5–3.5 L green band.
+                Log every glass with + on the Live monitor and see how the day is going.
               </p>
             </div>
             <Glyph name="play" className="hidden h-6 w-6 text-sky-300 sm:block" />
@@ -290,14 +242,8 @@ export default function FluidPage() {
       </div>
 
       <div className="mt-24 space-y-2 border-t border-white/10 pt-6 text-sm text-white/50">
-        <p>Research by team Mission 61:4.</p>
-        <p>
-          Further reading:{" "}
-          <a href="https://www.nasa.gov/humans-in-space/nasa-fluid-shifts-study-advances-journey-to-mars/" target="_blank" rel="noreferrer" className="text-violet-300 hover:underline">
-            NASA Fluid Shifts study
-          </a>
-          . General information, not medical advice.
-        </p>
+        <p>School health guidance by team VITALS.</p>
+        <p>General information, not medical advice. Fluid needs vary with age, size, weather and activity.</p>
       </div>
     </Shell>
   );

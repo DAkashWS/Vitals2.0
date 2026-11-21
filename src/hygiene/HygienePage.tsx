@@ -134,24 +134,24 @@ function CabinPanel({ name, setName, cabin, setCabin }: { name: string; setName:
   };
   return (
     <div className="space-y-5 rounded-3xl border border-white/10 bg-[#ffffff]/95 p-6">
-      <h2 className="text-xl font-semibold tracking-tight">Your cabin</h2>
+      <h2 className="text-xl font-semibold tracking-tight">Your class</h2>
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="block">
           <span className="mb-1.5 block text-sm text-white/60">Your name</span>
           <input value={name} onChange={(e) => setName(e.target.value.slice(0, 28))} placeholder="Your name" className={field} autoComplete="given-name" />
         </label>
         <label className="block">
-          <span className="mb-1.5 block text-sm text-white/60">Cabin</span>
-          <input value={cabin.name} onChange={(e) => setCabin({ ...cabin, name: e.target.value.slice(0, 32) })} placeholder="e.g. Crew quarters 1" className={field} />
+          <span className="mb-1.5 block text-sm text-white/60">Class</span>
+          <input value={cabin.name} onChange={(e) => setCabin({ ...cabin, name: e.target.value.slice(0, 32) })} placeholder="e.g. Class 8B" className={field} />
         </label>
         <div>
-          <span className="mb-1.5 block text-sm text-white/60">Crew sharing it</span>
+          <span className="mb-1.5 block text-sm text-white/60">Students at your table</span>
           <div className="flex h-10 items-center gap-2">
-            <LiquidButton size="sm" type="button" aria-label="Fewer crew" onClick={() => setCabin((c) => ({ ...c, crew: Math.max(1, c.crew - 1) }))} className="grid h-10 w-10 place-items-center border border-white/15 p-0 hover:border-primary/60">
+            <LiquidButton size="sm" type="button" aria-label="Fewer students" onClick={() => setCabin((c) => ({ ...c, crew: Math.max(1, c.crew - 1) }))} className="grid h-10 w-10 place-items-center border border-white/15 p-0 hover:border-primary/60">
               <Minus className="h-4 w-4" aria-hidden="true" />
             </LiquidButton>
             <span className="w-10 text-center text-xl font-semibold tabular-nums">{cabin.crew}</span>
-            <LiquidButton size="sm" type="button" aria-label="More crew" onClick={() => setCabin((c) => ({ ...c, crew: Math.min(8, c.crew + 1) }))} className="grid h-10 w-10 place-items-center border border-white/15 p-0 hover:border-primary/60">
+            <LiquidButton size="sm" type="button" aria-label="More students" onClick={() => setCabin((c) => ({ ...c, crew: Math.min(8, c.crew + 1) }))} className="grid h-10 w-10 place-items-center border border-white/15 p-0 hover:border-primary/60">
               <Plus className="h-4 w-4" aria-hidden="true" />
             </LiquidButton>
           </div>
@@ -255,15 +255,15 @@ export default function HygienePage() {
     <Shell
       className="font-display"
       eyebrow="Hygiene & sanitation"
-      title="Keep yourself and the cabin clean."
-      intro="Up here, germs have nowhere to go but the next crewmate. Your score adapts to your cabin."
+      title="Keep yourself and the classroom clean."
+      intro="In a full classroom, germs pass from hand to desk to hand in minutes. Your score adapts to your class."
       back={{ label: "Back to VITALS" }}
     >
       <div className="space-y-16">
         {/* ---------- your hygiene card + cabin ---------- */}
         <section className="grid items-start gap-8 lg:grid-cols-[minmax(0,460px)_1fr]">
           <div className="space-y-4">
-            <HygieneCard name={name.trim() || "Crew member"} cabin={cabin} result={result} />
+            <HygieneCard name={name.trim() || "Student"} cabin={cabin} result={result} />
             <div className={`flex flex-wrap items-center justify-between gap-3 rounded-2xl border px-5 py-3.5 ${STATUS_RING[result.status]} ${STATUS_BG[result.status]}`}>
               <p className={`flex items-center gap-2.5 text-base font-semibold ${STATUS_TEXT[result.status]}`}>
                 <StatusDot status={result.status} />
@@ -294,7 +294,7 @@ export default function HygienePage() {
 
         <section>
           <h2 className="mb-5 flex items-center gap-3 text-2xl font-semibold tracking-tight">
-            <GlyphTile name="satellite" tone="emerald" size="sm" /> Cabin sanitation
+            <GlyphTile name="room" tone="emerald" size="sm" /> Classroom sanitation
           </h2>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {CABIN_ITEMS.map((i) => (
@@ -318,8 +318,8 @@ export default function HygienePage() {
         </section>
 
         <p className="border-t border-white/10 pt-6 text-xs leading-relaxed text-white/45">
-          The targets and weights are draft values for the demo, based on general hygiene guidance and public NASA
-          information, and still need the team's review. Your name, cabin and log are kept in this browser only; the log
+          The targets and weights are draft values for the demo, based on general school hygiene guidance, and
+          still need the team's review. Your name, class and log are kept in this browser only; the log
           starts fresh each day.
         </p>
       </div>

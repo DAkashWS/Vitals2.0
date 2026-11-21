@@ -106,7 +106,7 @@ function Pages() {
       ) : page === "account" || page === "reset" ? (
         <Suspense fallback={<p className="p-12 text-sm text-white/60">Loading…</p>}>{page === "account" ? <AccountPage /> : <ResetPasswordPage />}</Suspense>
       ) : page === "crewlink" ? (
-        <Suspense fallback={<p className="p-12 text-sm text-white/60">Linking to your crew…</p>}>
+        <Suspense fallback={<p className="p-12 text-sm text-white/60">Linking to your class…</p>}>
           <CrewLinkPage />
         </Suspense>
       ) : page === "simulator" ? (

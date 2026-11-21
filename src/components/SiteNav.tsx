@@ -12,21 +12,21 @@ import { syncLabel, useSyncState } from "@/lib/sync";
 
 const EXPLORE: { title: string; href: string; icon: GlyphName }[] = [
   { title: "Home", href: "#", icon: "globe" },
-  { title: "Crew health", href: "#crew", icon: "people" },
-  { title: "Crew Link", href: "#/crew-link", icon: "conjunction" },
-  { title: "Environment", href: "#/environment", icon: "fan" },
+  { title: "Student health", href: "#crew", icon: "people" },
+  { title: "Student Link", href: "#/crew-link", icon: "conjunction" },
+  { title: "Classroom environment", href: "#/environment", icon: "fan" },
   { title: "Simulator", href: "#/simulator", icon: "simulator" },
   { title: "Offline support", href: "#/offline", icon: "noSignal" },
-  { title: "Bone and muscle", href: "#/bone", icon: "bone" },
+  { title: "Bones and posture", href: "#/bone", icon: "bone" },
   { title: "Isolation", href: "#/isolation", icon: "cupola" },
-  { title: "Fluid shift", href: "#/fluid", icon: "fluidUp" },
-  { title: "Space medicines", href: "#/medicine", icon: "pill" },
+  { title: "Hydration", href: "#/fluid", icon: "cup" },
+  { title: "School medicines", href: "#/medicine", icon: "pill" },
   { title: "Hygiene", href: "#/hygiene", icon: "soap" },
 ];
 
 const HEALTH: { title: string; text: string; href: string; icon: GlyphName }[] = [
   { title: "Live monitor", text: "Pair your sensor and see your vitals.", href: "#/live", icon: "heartPulse" },
-  { title: "Crew Link", text: "Your crew's vitals on one live board.", href: "#/crew-link", icon: "people" },
+  { title: "Student Link", text: "Your class's vitals on one live board.", href: "#/crew-link", icon: "people" },
   { title: "Full-body checkup", text: "Tap your status on the live monitor.", href: "#/live", icon: "stethoscope" },
   { title: "Ask the assistant", text: "First aid and health in space, offline.", href: "#assistant", icon: "chat" },
 ];
@@ -41,8 +41,8 @@ function You({ close }: { close: () => void }) {
       <div className="flex items-center gap-3">
         <GlyphTile name="digitalAstronaut" />
         <div className="min-w-0">
-          <p className="truncate font-semibold text-white">{profile?.display_name || "Crew member"}</p>
-          <p className="font-mono text-xs tracking-wider text-white/55">{profile?.crew_id || "No crew number yet"}</p>
+          <p className="truncate font-semibold text-white">{profile?.display_name || "Student"}</p>
+          <p className="font-mono text-xs tracking-wider text-white/55">{profile?.crew_id || "No student number yet"}</p>
         </div>
       </div>
       <p className="text-xs text-white/50">{syncLabel(sync)}</p>

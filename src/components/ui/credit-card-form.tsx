@@ -57,7 +57,7 @@ const HIGHLIGHT: Record<Exclude<Focus, null>, string> = {
   mission: "highlight__mission",
 };
 
-const CrewCardForm = ({ defaults = {}, ring1 = "#dc2626", ring2 = "#e11d48", submitLabel = "Save my crew card", lockCrewId, busy, error, onChange, onSubmit, className = "" }: Props) => {
+const CrewCardForm = ({ defaults = {}, ring1 = "#dc2626", ring2 = "#e11d48", submitLabel = "Save my student card", lockCrewId, busy, error, onChange, onSubmit, className = "" }: Props) => {
   const [name, setName] = useState(defaults.name ?? "");
   const [job, setJob] = useState(defaults.job ?? "");
   const [crewId, setCrewId] = useState(digits(defaults.crewId ?? "", 16));
@@ -104,7 +104,7 @@ const CrewCardForm = ({ defaults = {}, ring1 = "#dc2626", ring2 = "#e11d48", sub
     <section className={`ccp ${className}`}>
       <div className="wrap">
         {/* CARD */}
-        <section className={`card ${focus === "mission" ? "flip" : ""}`} aria-label="Your crew card preview">
+        <section className={`card ${focus === "mission" ? "flip" : ""}`} aria-label="Your student card preview">
           <div id="highlight" className={highlight} />
           <section className="card__front" style={rings}>
             <div className="card__header">
@@ -114,9 +114,9 @@ const CrewCardForm = ({ defaults = {}, ring1 = "#dc2626", ring2 = "#e11d48", sub
                 </span>
                 VITALS
               </span>
-              <span className="card__tag">Crew card</span>
+              <span className="card__tag">Student card</span>
             </div>
-            <div className="card__number" aria-label="Crew ID">
+            <div className="card__number" aria-label="Student ID">
               {slots.map((s, i) => (
                 <span key={i} className="slot">
                   <span className={`digit ${s.filled ? "filed" : ""}`}>
@@ -128,12 +128,12 @@ const CrewCardForm = ({ defaults = {}, ring1 = "#dc2626", ring2 = "#e11d48", sub
             </div>
             <div className="card__footer">
               <div className="card__holder">
-                <div className="card__section__title">Crew member</div>
+                <div className="card__section__title">Student</div>
                 <div className="name">{name || "YOUR NAME"}</div>
-                <div className="card__job">{job || "Your job on the mission"}</div>
+                <div className="card__job">{job || "Your role in class"}</div>
               </div>
               <div className="card__expires">
-                <div className="card__section__title">Mission ends</div>
+                <div className="card__section__title">School year ends</div>
                 <span>{month || "MM"}</span>/<span>{year ? year.slice(-2) : "YY"}</span>
               </div>
             </div>
@@ -141,7 +141,7 @@ const CrewCardForm = ({ defaults = {}, ring1 = "#dc2626", ring2 = "#e11d48", sub
           <section className="card__back" style={rings}>
             <div className="card__strip" />
             <div className="card__mission">
-              <span>Mission</span>
+              <span>Class</span>
               <div className="card__mission_field">{mission || "—"}</div>
             </div>
           </section>
@@ -151,24 +151,24 @@ const CrewCardForm = ({ defaults = {}, ring1 = "#dc2626", ring2 = "#e11d48", sub
         <form className="form" onSubmit={submit} noValidate>
           <div>
             <label htmlFor="cc-name">Your name</label>
-            <input id="cc-name" autoComplete="name" placeholder="As the crew calls you" value={name} onChange={(e) => setName(e.target.value)} {...on("holder")} aria-invalid={!validity.name} />
+            <input id="cc-name" autoComplete="name" placeholder="As the class calls you" value={name} onChange={(e) => setName(e.target.value)} {...on("holder")} aria-invalid={!validity.name} />
           </div>
           <div>
-            <label htmlFor="cc-job">Job on the mission</label>
+            <label htmlFor="cc-job">Role in class</label>
             <input id="cc-job" placeholder="e.g. Flight engineer" value={job} onChange={(e) => setJob(e.target.value)} {...on("holder")} />
           </div>
           <div>
-            <label htmlFor="cc-id">Crew ID</label>
+            <label htmlFor="cc-id">Student ID</label>
             <input id="cc-id" inputMode="numeric" autoComplete="off" value={spaced(crewId)} readOnly={lockCrewId} onChange={(e) => setCrewId(digits(e.target.value, 16))} {...on("number")} aria-invalid={!validity.crewId} aria-describedby="cc-id-hint" />
             <p id="cc-id-hint" className="hint">
-              {lockCrewId ? "Assigned to your account when you signed up. No two crew numbers are the same." : "16 digits. We made one from your name; change it if your mission gave you one."}
+              {lockCrewId ? "Assigned to your account when you signed up. No two student numbers are the same." : "16 digits. We made one from your name; change it if your school gave you one."}
             </p>
           </div>
           <div className="filed__group">
             <div>
-              <label htmlFor="cc-month">Mission ends</label>
+              <label htmlFor="cc-month">School year ends</label>
               <div className="filed__date">
-                <select id="cc-month" value={month} onChange={(e) => setMonth(e.target.value)} {...on("expire")} aria-invalid={!validity.month} aria-label="Mission end month">
+                <select id="cc-month" value={month} onChange={(e) => setMonth(e.target.value)} {...on("expire")} aria-invalid={!validity.month} aria-label="School year end month">
                   <option value="" disabled>
                     Month
                   </option>
@@ -178,7 +178,7 @@ const CrewCardForm = ({ defaults = {}, ring1 = "#dc2626", ring2 = "#e11d48", sub
                     </option>
                   ))}
                 </select>
-                <select value={year} onChange={(e) => setYear(e.target.value)} {...on("expire")} aria-invalid={!validity.year} aria-label="Mission end year">
+                <select value={year} onChange={(e) => setYear(e.target.value)} {...on("expire")} aria-invalid={!validity.year} aria-label="School year end year">
                   <option value="" disabled>
                     Year
                   </option>
@@ -191,7 +191,7 @@ const CrewCardForm = ({ defaults = {}, ring1 = "#dc2626", ring2 = "#e11d48", sub
               </div>
             </div>
             <div>
-              <label htmlFor="cc-mission">Mission</label>
+              <label htmlFor="cc-mission">Class</label>
               <input id="cc-mission" placeholder="e.g. 61:4" value={mission} onChange={(e) => setMission(e.target.value)} {...on("mission")} aria-invalid={!validity.mission} />
             </div>
           </div>

@@ -2,11 +2,11 @@
 
 export const modules = [
   {
-    title: "Crew health profile",
-    caption: "Each astronaut's water, exercise, sleep, fatigue, heart rate and symptoms, measured against their own normal.",
+    title: "Student health profile",
+    caption: "Each student's water, activity, sleep, tiredness, heart rate and symptoms, measured against their own normal.",
     href: "#crew",
   },
-  { title: "Environment monitor", caption: "The air you can't feel: cabin heat, CO2, radiation, humidity and pressure.", href: "#/environment" },
+  { title: "Classroom environment", caption: "The air students can't feel: heat, stale air, humidity, noise and light in every classroom.", href: "#/environment" },
   {
     title: "Health intelligence",
     caption: "Connects the dots between readings and raises the alarm early. Hurt? Ask the assistant.",
@@ -14,16 +14,16 @@ export const modules = [
   },
   {
     title: "Scenario simulator",
-    caption: "Rehearse the bad days: CO2 build-up, a radiation storm, dehydration, sleepless nights, a spacewalk.",
+    caption: "Rehearse the bad days: stale air, dehydration, sleepless nights and more.",
     href: "#/simulator",
   },
-  { title: "Offline support", caption: "First-aid steps, a built-in assistant and a flight surgeon report, with no signal needed.", href: "#/offline" },
-  { title: "Bone and muscle", caption: "Without gravity, bones and muscles waste away. Every minute of exercise fights back.", href: "#/bone" },
-  { title: "Isolation", caption: "Months in a small cabin, far from home. Mood, sleep and reaction time, tracked all mission.", href: "#/isolation" },
-  { title: "Fluid shift", caption: "Fluids drift towards the head, so your thirst lies to you. VITALS doesn't.", href: "#/fluid" },
+  { title: "Offline support", caption: "First-aid steps, a built-in assistant and a school nurse report, with no signal needed.", href: "#/offline" },
+  { title: "Bones and posture", caption: "Heavy bags, long hours sitting and sports injuries. Strong bones are built at school.", href: "#/bone" },
+  { title: "Isolation", caption: "Mood, sleep and reaction time, tracked over time.", href: "#/isolation" },
+  { title: "Hydration", caption: "Thirst comes late, and focus goes first. VITALS keeps count of every glass.", href: "#/fluid" },
   {
-    title: "Space Medicines",
-    caption: "How doctors keep a crew healthy far beyond the nearest hospital.",
+    title: "School medicines",
+    caption: "Inhalers, allergy pens and first aid: how a school keeps every student safe.",
     href: "#/medicine",
   },
 ];

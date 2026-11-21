@@ -160,12 +160,12 @@ export default function CrewLinkPage() {
   const shown = useMemo(() => (demo ? demoBoard(tick, now) : board), [demo, tick, now, board]);
   const meId = demo ? "demo-0" : uid;
 
-  const intro = "Link your crew card with your mission crew: one live board for everyone's vitals, buddy pairs, check-ins and a shared crew log.";
+  const intro = "Link your student card with your class: one live board for everyone's vitals, buddy pairs, check-ins and a shared class log.";
 
   return (
     <Shell
-      eyebrow="Crew Link · group monitoring"
-      title={shown ? shown.crew.name : "Crew Link."}
+      eyebrow="Student Link · group monitoring"
+      title={shown ? shown.crew.name : "Student Link."}
       intro={shown ? undefined : intro}
       back={{ label: "Back to VITALS" }}
       width={shown ? "max-w-[1720px]" : "max-w-6xl"}
@@ -173,23 +173,23 @@ export default function CrewLinkPage() {
       {demo && (
         <Banner tone="sky">
           <span>
-            <b>Demo crew.</b> Simulated readings from the team's crew cards, so you can see how Crew Link works.
+            <b>Demo class.</b> Simulated readings from the team's student cards, so you can see how Student Link works.
           </span>
           {enabled && (
             <LiquidButton size="sm" type="button" onClick={() => setDemo(false)} className="h-8 px-3 text-xs text-white/80">
-              Back to my crew
+              Back to my class
             </LiquidButton>
           )}
         </Banner>
       )}
       {!demo && offlineAt && (
         <Banner tone="amber">
-          No connection: showing your crew as of {new Date(offlineAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}. Check-ins you
+          No connection: showing your class as of {new Date(offlineAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}. Check-ins you
           post now are sent when the link is back.
         </Banner>
       )}
 
-      {!demo && board === undefined && !error && <p className="text-white/60">Linking to your crew…</p>}
+      {!demo && board === undefined && !error && <p className="text-white/60">Linking to your class…</p>}
       {!demo && error && <SetupProblem error={error} onRetry={load} onDemo={() => setDemo(true)} />}
       {!demo && board === null && !error && profile && <FormCrew onDone={load} onDemo={() => setDemo(true)} />}
       {shown && (
@@ -226,10 +226,10 @@ function Banner({ tone, children }: { tone: "sky" | "amber"; children: ReactNode
 function SetupProblem({ error, onRetry, onDemo }: { error: LoadError; onRetry: () => void; onDemo: () => void }) {
   const text =
     error.kind === "setup"
-      ? "Crew Link isn't switched on in the VITALS database yet. A mission administrator needs to run the Crew Link part of supabase/schema.sql."
+      ? "Student Link isn't switched on in the VITALS database yet. A school administrator needs to run the Student Link part of supabase/schema.sql."
       : error.kind === "offline"
-        ? "No connection, and your crew hasn't been loaded on this device yet. Connect once and it will be kept for offline use."
-        : `Couldn't load your crew: ${error.message}`;
+        ? "No connection, and your class hasn't been loaded on this device yet. Connect once and it will be kept for offline use."
+        : `Couldn't load your class: ${error.message}`;
   return (
     <div className={`${card} max-w-2xl`}>
       <p className="text-white/75">{text}</p>
@@ -238,7 +238,7 @@ function SetupProblem({ error, onRetry, onDemo }: { error: LoadError; onRetry: (
           <RefreshCw className="h-4 w-4" /> Try again
         </LiquidButton>
         <RainbowButton onClick={onDemo} className="h-10 px-6 text-sm">
-          Preview with the demo crew
+          Preview with the demo class
         </RainbowButton>
       </div>
     </div>
@@ -263,7 +263,7 @@ function FormCrew({ onDone, onDemo }: { onDone: () => void; onDemo: () => void }
     <div className="space-y-8">
       {invites.length > 0 && <Invites invites={invites} onJoined={onDone} onChange={refreshInvites} />}
 
-      <div className="flex flex-wrap gap-3" role="tablist" aria-label="Create or join a crew">
+      <div className="flex flex-wrap gap-3" role="tablist" aria-label="Create or join a class">
         {(["create", "join"] as const).map((m) => (
           <LiquidButton
             key={m}
@@ -275,7 +275,7 @@ function FormCrew({ onDone, onDemo }: { onDone: () => void; onDemo: () => void }
             className={`h-14 min-w-[11rem] gap-3 px-7 text-base font-semibold text-white transition-opacity ${mode === m ? (m === "create" ? "bg-sky-400/25" : "bg-violet-400/25") : "opacity-60 hover:opacity-100"}`}
           >
             <Glyph name={m === "create" ? "satellite" : "conjunction"} className="h-5 w-5" />
-            {m === "create" ? "Create crew" : "Join crew"}
+            {m === "create" ? "Create class" : "Join class"}
           </LiquidButton>
         ))}
       </div>
@@ -287,10 +287,10 @@ function FormCrew({ onDone, onDemo }: { onDone: () => void; onDemo: () => void }
       </AnimatePresence>
 
       <p className="max-w-[70ch] text-xs leading-relaxed text-white/45">
-        Being in a crew shares your status, your latest readings and when you last synced with your crewmates, the same as commanders see. Your full history stays private. Nobody joins a crew without saying yes, and you can leave at any time.
+        Being in a class shares your status, your latest readings and when you last synced with your classmates, the same as teachers see. Your full history stays private. Nobody joins a class without saying yes, and you can leave at any time.
       </p>
       <RainbowButton onClick={onDemo} className="h-10 px-6 text-sm">
-        Preview with the demo crew
+        Preview with the demo class
       </RainbowButton>
     </div>
   );
@@ -319,7 +319,7 @@ function Invites({ invites, onJoined, onChange }: { invites: Invite[]; onJoined:
             <div className="min-w-0 flex-1">
               <p className="font-semibold">{i.crew_name}</p>
               <p className="text-sm text-white/55">
-                {i.invited_by || "The crew lead"} invited you · Mission {i.mission} · {i.members} member{i.members === 1 ? "" : "s"}
+                {i.invited_by || "The class lead"} invited you · Group {i.mission} · {i.members} member{i.members === 1 ? "" : "s"}
               </p>
             </div>
             <ShinyButton tone="emerald" disabled={!!busy} onClick={() => answer(i.crew, true)} className="h-10 px-5 text-sm">
@@ -351,11 +351,11 @@ function CreateCrew({ onDone }: { onDone: () => void }) {
   };
   return (
     <div className={card}>
-      <h2 className="text-lg font-semibold">Create a crew</h2>
-      <p className="mt-1 text-sm text-white/55">Name it, then add your crewmates' crew cards with the ^ button. You lead the crew, and each person you add gets an invitation.</p>
+      <h2 className="text-lg font-semibold">Create a class</h2>
+      <p className="mt-1 text-sm text-white/55">Name it, then add your classmates' student cards with the ^ button. You lead the class, and each person you add gets an invitation.</p>
       <label className="mt-5 block text-sm text-white/70">
-        Crew name
-        <input value={name} onChange={(e) => setName(e.target.value)} maxLength={60} placeholder="e.g. Mission 61:4 crew" className={`${field} mt-1.5`} />
+        Class name
+        <input value={name} onChange={(e) => setName(e.target.value)} maxLength={60} placeholder="e.g. Class 8B" className={`${field} mt-1.5`} />
       </label>
       <div className="mt-6">
         <CardPicker picked={picked} onChange={setPicked} />
@@ -363,9 +363,9 @@ function CreateCrew({ onDone }: { onDone: () => void }) {
       <div className="mt-6 flex flex-wrap items-center gap-3">
         <ShinyButton onClick={go} disabled={!name.trim() || busy} className="h-11 px-6 text-sm">
           <Glyph name="satellite" className="h-4 w-4" />
-          {busy ? "Creating…" : picked.length ? `Create crew and invite ${picked.length}` : "Create crew"}
+          {busy ? "Creating…" : picked.length ? `Create class and invite ${picked.length}` : "Create class"}
         </ShinyButton>
-        <span className="text-xs text-white/45">You can invite more later, or share the crew's 10-digit code.</span>
+        <span className="text-xs text-white/45">You can invite more later, or share the class's 10-digit code.</span>
       </div>
       {msg && <p className="mt-3 text-sm text-rose-300">{msg}</p>}
     </div>
@@ -393,20 +393,20 @@ function JoinCrew({ onDone }: { onDone: () => void }) {
         if (ready) void go();
       }}
     >
-      <h2 className="text-lg font-semibold">Join a crew</h2>
-      <p className="mt-1 text-sm text-white/55">Type the 10-digit crew code your crew lead shared with you.</p>
+      <h2 className="text-lg font-semibold">Join a class</h2>
+      <p className="mt-1 text-sm text-white/55">Type the 10-digit class code your class lead shared with you.</p>
       <input
         value={code}
         onChange={(e) => setCode(formatCrewCode(e.target.value))}
         inputMode="numeric"
         autoComplete="off"
         placeholder="48213-90375"
-        aria-label="Crew code"
+        aria-label="Class code"
         className={`${field} mt-5 h-14 text-center font-mono text-2xl tracking-[0.3em]`}
       />
       <ShinyButton type="submit" tone="violet" disabled={!ready || busy} className="mt-4 h-11 w-full text-sm">
         <Glyph name="conjunction" className="h-4 w-4" />
-        {busy ? "Joining…" : "Join crew"}
+        {busy ? "Joining…" : "Join class"}
       </ShinyButton>
       {msg && <p className="mt-3 text-sm text-rose-300">{msg}</p>}
     </form>
@@ -424,7 +424,7 @@ function CardPicker({ picked, onChange, exclude = [] }: { picked: CardPick[]; on
   const full = picked.length >= 11;
   return (
     <div>
-      <p className="text-sm text-white/70">Crew cards</p>
+      <p className="text-sm text-white/70">Student cards</p>
       <div className="mt-2 flex flex-wrap items-center gap-2.5">
         <AnimatePresence initial={false}>
           {picked.map((p) => (
@@ -438,7 +438,7 @@ function CardPicker({ picked, onChange, exclude = [] }: { picked: CardPick[]; on
             >
               <span className="grid h-8 w-8 place-items-center rounded-xl bg-white/[0.08] text-xs font-semibold text-white">{initials(p.display_name)}</span>
               <span className="leading-tight">
-                <span className="block text-sm font-semibold text-white">{p.display_name || "Crew member"}</span>
+                <span className="block text-sm font-semibold text-white">{p.display_name || "Student"}</span>
                 <span className="block font-mono text-[10px] tracking-[0.12em] text-white/50">{p.crew_number}</span>
               </span>
               <button type="button" onClick={() => remove(p)} className="ml-1 grid h-6 w-6 place-items-center rounded-full text-white/50 hover:bg-white/10 hover:text-white" aria-label={`Remove ${p.display_name}`}>
@@ -454,8 +454,8 @@ function CardPicker({ picked, onChange, exclude = [] }: { picked: CardPick[]; on
             onClick={() => setOpen((o) => !o)}
             disabled={full}
             aria-expanded={open}
-            aria-label={open ? "Close the crew card search" : "Add a crew card"}
-            title={full ? "A crew has up to 12 members" : "Add a crew card"}
+            aria-label={open ? "Close the student card search" : "Add a student card"}
+            title={full ? "A class has up to 12 members" : "Add a student card"}
             className="h-12 w-12 text-white"
           >
             <ChevronUp className={`h-6 w-6 transition-transform duration-300 ${open ? "rotate-180" : ""}`} strokeWidth={2.4} />
@@ -473,7 +473,7 @@ function CardPicker({ picked, onChange, exclude = [] }: { picked: CardPick[]; on
             )}
           </AnimatePresence>
         </div>
-        {!picked.length && <span className="text-sm text-white/45">Tap ^ to find a crewmate by name or crew card number.</span>}
+        {!picked.length && <span className="text-sm text-white/45">Tap ^ to find a classmate by name or student card number.</span>}
       </div>
     </div>
   );
@@ -540,14 +540,14 @@ function CardSearch({ exclude, onPick, onClose }: { exclude: string[]; onPick: (
       style={{ transformOrigin: "bottom left" }}
       className="absolute bottom-full left-0 z-30 mb-3 w-[min(380px,calc(100vw-3rem))] rounded-3xl border border-white/15 bg-[#ffffff]/95 p-3 shadow-[0_20px_60px_rgba(120,20,30,.16)] backdrop-blur-xl"
       role="dialog"
-      aria-label="Find a crew card"
+      aria-label="Find a student card"
     >
       {/* results sit above the search box, closest to it first */}
       <div className="flex max-h-[min(360px,50vh)] flex-col-reverse gap-2 overflow-y-auto">
         {err && <p className="px-2 py-1 text-sm text-amber-200/85">{err}</p>}
-        {!q.trim() && <p className="px-2 py-1 text-sm text-white/45">Type a name or part of a crew card number.</p>}
+        {!q.trim() && <p className="px-2 py-1 text-sm text-white/45">Type a name or part of a student card number.</p>}
         {q.trim() && busy && !cards?.length && <p className="px-2 py-1 text-sm text-white/45">Searching…</p>}
-        {cards && !cards.length && !busy && !err && <p className="px-2 py-1 text-sm text-white/45">No crew card matches “{q.trim()}”.</p>}
+        {cards && !cards.length && !busy && !err && <p className="px-2 py-1 text-sm text-white/45">No student card matches “{q.trim()}”.</p>}
         {cards?.map((c) => (
           <MiniCard key={c.user_id} card={c} picked={false} onToggle={() => onPick(c)} />
         ))}
@@ -556,8 +556,8 @@ function CardSearch({ exclude, onPick, onClose }: { exclude: string[]; onPick: (
         autoFocus
         value={q}
         onChange={(e) => setQ(e.target.value)}
-        placeholder="Name or crew card number"
-        aria-label="Search crew cards"
+        placeholder="Name or student card number"
+        aria-label="Search student cards"
         autoComplete="off"
         className={`${field} mt-3`}
       />
@@ -587,8 +587,8 @@ function MiniCard({ card: c, picked, onToggle }: { card: CardPick; picked: boole
           {initials(c.display_name)}
         </span>
         <span className="min-w-0 flex-1">
-          <span className="block truncate text-sm font-semibold text-white">{c.display_name || "Crew member"}</span>
-          <span className="block truncate text-xs text-white/50">{c.in_crew ? "Already in a crew" : c.job || "Crew"}</span>
+          <span className="block truncate text-sm font-semibold text-white">{c.display_name || "Student"}</span>
+          <span className="block truncate text-xs text-white/50">{c.in_crew ? "Already in a class" : c.job || "Class"}</span>
         </span>
         <span
           className={`grid h-5 w-5 shrink-0 place-items-center rounded-full ring-1 ring-inset transition-colors ${picked ? "bg-sky-400 text-[#ffffff] ring-sky-300" : "ring-white/25"}`}
@@ -597,7 +597,7 @@ function MiniCard({ card: c, picked, onToggle }: { card: CardPick; picked: boole
           {picked && <Check className="h-3.5 w-3.5" strokeWidth={3} />}
         </span>
       </span>
-      <span className="mt-3 block font-mono text-[11px] tracking-[0.18em] text-white/55">{c.crew_number || "No crew number"}</span>
+      <span className="mt-3 block font-mono text-[11px] tracking-[0.18em] text-white/55">{c.crew_number || "No student number"}</span>
     </button>
   );
 }
@@ -641,14 +641,14 @@ function CrewView({
         <Stat
           glyph="warning"
           tone={alerts.some((a) => a.level === "red") ? "red" : alerts.length ? "amber" : "green"}
-          label="Crew alerts"
+          label="Class alerts"
           value={String(alerts.length)}
           note={alerts.length ? "see below" : "nothing needs attention"}
         />
         <Stat
           glyph="thermometer"
           tone="emerald"
-          label="Cabin, crew average"
+          label="Classroom, class average"
           value={cabin.temp ? `${cabin.temp.avg.toFixed(1)}°C` : "—"}
           note={cabin.humidity ? `${Math.round(cabin.humidity.avg)}% humidity · ${cabin.temp?.n ?? 0} sensor${cabin.temp?.n === 1 ? "" : "s"}` : "no room readings yet"}
         />
@@ -671,18 +671,18 @@ function CrewView({
           </ul>
           {cabin.temp && cabin.temp.max - cabin.temp.min >= 3 && (
             <p className="mt-3 text-xs text-white/50">
-              Room temperatures across the crew differ by {(cabin.temp.max - cabin.temp.min).toFixed(1)}°C: one module may need its airflow checked.
+              Room temperatures across the class differ by {(cabin.temp.max - cabin.temp.min).toFixed(1)}°C: one classroom may need its windows opened or heating checked.
             </p>
           )}
         </div>
       )}
 
       <div className="grid gap-6 2xl:grid-cols-[minmax(0,1fr)_420px]">
-        <section aria-label="Crew board">
+        <section aria-label="Class board">
           <div className="mb-4 flex flex-wrap items-baseline justify-between gap-3">
-            <h2 className="text-2xl font-semibold">Live crew board</h2>
+            <h2 className="text-2xl font-semibold">Live class board</h2>
             <p className="text-sm text-white/45">
-              {demo ? "Simulated · updates every few seconds" : "Each crew member's own readings, from their account · updates live as they sync"}
+              {demo ? "Simulated · updates every few seconds" : "Each student's own readings, from their account · updates live as they sync"}
             </p>
           </div>
           <div className="space-y-5">
@@ -726,24 +726,24 @@ function CrewHeader({ board, isLead, demo, onRefresh }: { board: Board; isLead: 
   };
   return (
     <div className="-mt-6 flex flex-wrap items-center gap-3 text-sm text-white/65">
-      <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 font-mono text-xs tracking-wider">Mission {board.crew.mission}</span>
+      <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 font-mono text-xs tracking-wider">Group {board.crew.mission}</span>
       <span>
-        {board.members.length} crew member{board.members.length === 1 ? "" : "s"}
-        {isLead && " · you lead this crew"}
+        {board.members.length} student{board.members.length === 1 ? "" : "s"}
+        {isLead && " · you lead this class"}
       </span>
       <span className="ml-auto flex items-center gap-2">
-        <span className="text-xs text-white/45">Crew code</span>
+        <span className="text-xs text-white/45">Class code</span>
         <button
           type="button"
           onClick={copy}
           className="flex items-center gap-2 rounded-xl border border-white/15 bg-white/[0.05] px-3 py-1.5 font-mono text-sm tracking-[0.2em] text-white transition-colors hover:bg-white/[0.1]"
-          aria-label={`Copy crew code ${board.crew.code}`}
+          aria-label={`Copy class code ${board.crew.code}`}
         >
           {board.crew.code}
           {copied ? <Check className="h-4 w-4 text-ok" /> : <Copy className="h-4 w-4 text-white/50" />}
         </button>
         {!demo && (
-          <LiquidButton size="icon" type="button" aria-label="Refresh the crew board" onClick={onRefresh} className="h-9 w-9 text-white">
+          <LiquidButton size="icon" type="button" aria-label="Refresh the class board" onClick={onRefresh} className="h-9 w-9 text-white">
             <RefreshCw className="h-4 w-4" />
           </LiquidButton>
         )}
@@ -775,7 +775,7 @@ function Readiness({ pct, ready, total }: { pct: number; ready: number; total: n
         />
       </svg>
       <div>
-        <p className="text-xs uppercase tracking-wider text-white/45">Crew readiness</p>
+        <p className="text-xs uppercase tracking-wider text-white/45">Class readiness</p>
         <p className="text-2xl font-semibold tabular-nums">{pct}%</p>
         <p className="text-xs text-white/50">
           {ready} of {total} green and live
@@ -850,8 +850,8 @@ function MemberPanel({ m, mission, me, buddy, buddies, now }: { m: Member; missi
       <div className="grid items-center gap-7 lg:grid-cols-[minmax(260px,340px)_minmax(0,1fr)]">
         <div className="mx-auto w-full max-w-[340px]">
           <HoloCard
-            name={m.display_name || "Crew member"}
-            role={m.job || "Crew"}
+            name={m.display_name || "Student"}
+            role={m.job || "Class"}
             crewId={m.crew_number || "0000000000000000"}
             mission={mission}
             status={status}
@@ -868,13 +868,13 @@ function MemberPanel({ m, mission, me, buddy, buddies, now }: { m: Member; missi
           <div className="flex flex-wrap items-start gap-3">
             <div className="min-w-0 flex-1">
               <p className="flex flex-wrap items-center gap-2 text-2xl font-semibold tracking-tight">
-                <span className="truncate">{m.display_name || "Crew member"}</span>
+                <span className="truncate">{m.display_name || "Student"}</span>
                 {me && <Tag className="bg-sky-400/15 text-sky-200">You</Tag>}
                 {m.role === "lead" && <Tag className="bg-violet-400/15 text-violet-200">Lead</Tag>}
                 {buddy && <Tag className="bg-emerald-400/15 text-emerald-200">Your buddy</Tag>}
               </p>
               <p className="mt-0.5 text-sm text-white/55">
-                {m.job || "Crew"}
+                {m.job || "Class"}
                 {m.crew_number && <span className="ml-3 font-mono text-xs tracking-[0.15em] text-white/35">{m.crew_number}</span>}
               </p>
             </div>
@@ -928,7 +928,7 @@ function MemberPanel({ m, mission, me, buddy, buddies, now }: { m: Member; missi
                 <span className={`relative inline-flex h-2 w-2 rounded-full ${liveNow ? "bg-ok" : stale ? "bg-watch" : "bg-white/30"}`} />
               </span>
               {age === Infinity
-                ? "No readings shared yet: they appear once this crew member uses the Live monitor"
+                ? "No readings shared yet: they appear once this student uses the Live monitor"
                 : liveNow
                   ? `Live · synced ${ago(age)}${ago(age) === "just now" ? "" : " ago"}`
                   : `Last synced ${ago(age)} ago`}
@@ -955,14 +955,14 @@ function CheckIn({ demo, buddies, onPost }: { demo: boolean; buddies: Member[]; 
   const [done, setDone] = useState("");
   const send = async (kind: LogKind, body: string) => {
     if (demo) {
-      setDone("Demo crew: check-ins are saved when you're in a real crew.");
+      setDone("Demo class: check-ins are saved when you're in a real class.");
       return;
     }
     setBusy(true);
     await onPost(kind, body.trim());
     setBusy(false);
     setNote("");
-    setDone(kind === "help" ? "Your crew has been alerted. Contact the flight surgeon now if it's serious." : "Posted to the crew log.");
+    setDone(kind === "help" ? "Your class has been alerted. Contact the school nurse now if it's serious." : "Posted to the class log.");
     window.setTimeout(() => setDone(""), 5000);
   };
   const btn = "h-10 flex-1 gap-2 px-3 text-sm font-semibold text-white";
@@ -971,8 +971,8 @@ function CheckIn({ demo, buddies, onPost }: { demo: boolean; buddies: Member[]; 
       <h2 className="flex items-center gap-3 text-lg font-semibold">
         <GlyphTile name="headset" size="sm" tone="emerald" /> Check in
       </h2>
-      <p className="mt-2 text-sm text-white/55">Tell your crew how you are. It works offline and is sent when the link is back.</p>
-      <input value={note} onChange={(e) => setNote(e.target.value)} maxLength={500} placeholder="Add a note (optional)" className={`${field} mt-4`} aria-label="Note for your crew" />
+      <p className="mt-2 text-sm text-white/55">Tell your class how you are. It works offline and is sent when the link is back.</p>
+      <input value={note} onChange={(e) => setNote(e.target.value)} maxLength={500} placeholder="Add a note (optional)" className={`${field} mt-4`} aria-label="Note for your class" />
       <div className="mt-3 flex flex-wrap gap-2">
         <LiquidButton size="sm" type="button" disabled={busy} onClick={() => send("ok", note)} className={`${btn} bg-emerald-400/15`}>
           <Glyph name="check" className="h-4 w-4" /> I'm good
@@ -1016,7 +1016,7 @@ function CrewLog({ board, meId, now }: { board: Board; meId: string; now: number
   return (
     <div className={card}>
       <h2 className="flex items-center gap-3 text-lg font-semibold">
-        <GlyphTile name="report" size="sm" tone="violet" /> Crew log
+        <GlyphTile name="report" size="sm" tone="violet" /> Class log
       </h2>
       {!board.log.length && <p className="mt-4 text-sm text-white/50">Nothing yet. Check in to start the log.</p>}
       <ol className="mt-4 max-h-[460px] space-y-3 overflow-y-auto pr-1">
@@ -1030,7 +1030,7 @@ function CrewLog({ board, meId, now }: { board: Board; meId: string; now: number
                 </span>
                 <div className="min-w-0 flex-1">
                   <p className="text-white/85">
-                    <b className="text-white">{l.user_id === meId ? "You" : l.display_name || "Crew member"}</b> <span className={`text-xs ${k.tone}`}>{k.label}</span>
+                    <b className="text-white">{l.user_id === meId ? "You" : l.display_name || "Student"}</b> <span className={`text-xs ${k.tone}`}>{k.label}</span>
                   </p>
                   {l.body && <p className="break-words text-white/65">{l.body}</p>}
                   <p className="text-[11px] text-white/35">{l.pending ? "Waiting to send" : `${ago(now - Date.parse(l.created_at))}${ago(now - Date.parse(l.created_at)) === "just now" ? "" : " ago"}`}</p>
@@ -1057,7 +1057,7 @@ function InvitePanel({ board, isLead, onInvited }: { board: Board; isLead: boole
     const err = await inviteToCrew(picked.map((p) => p.user_id));
     setBusy(false);
     if (err) return setMsg(err);
-    setMsg(`Invited ${picked.length}. They'll see it on their Crew Link page.`);
+    setMsg(`Invited ${picked.length}. They'll see it on their Student Link page.`);
     setPicked([]);
     setOpen(false);
     onInvited();
@@ -1071,7 +1071,7 @@ function InvitePanel({ board, isLead, onInvited }: { board: Board; isLead: boole
         <ul className="mt-3 space-y-1.5 text-sm">
           {invited.map((i) => (
             <li key={i.user_id} className="flex items-center justify-between gap-3">
-              <span className="text-white/80">{i.display_name || "Crew member"}</span>
+              <span className="text-white/80">{i.display_name || "Student"}</span>
               <span className="font-mono text-[11px] text-white/40">waiting · ··{i.crew_number.slice(-4)}</span>
             </li>
           ))}
@@ -1081,7 +1081,7 @@ function InvitePanel({ board, isLead, onInvited }: { board: Board; isLead: boole
       )}
       {isLead && !open && (
         <LiquidButton size="sm" type="button" onClick={() => setOpen(true)} className="mt-4 h-9 gap-2 px-4 text-sm text-white/85">
-          <Glyph name="people" className="h-4 w-4" /> Invite crew cards
+          <Glyph name="people" className="h-4 w-4" /> Invite student cards
         </LiquidButton>
       )}
       {isLead && open && (
@@ -1107,10 +1107,10 @@ function LeaveCrew({ onLeave }: { onLeave: () => Promise<string | null> }) {
   const [msg, setMsg] = useState("");
   return (
     <div className="flex flex-wrap items-center gap-3 border-t border-white/[0.07] pt-6 text-sm text-white/50">
-      <p className="flex-1">Your crewmates see your status, your latest readings and when you last synced. Your full history stays private.</p>
+      <p className="flex-1">Your classmates see your status, your latest readings and when you last synced. Your full history stays private.</p>
       {sure ? (
         <>
-          <span>Leave this crew?</span>
+          <span>Leave this class?</span>
           <LiquidButton
             size="sm"
             type="button"
@@ -1129,7 +1129,7 @@ function LeaveCrew({ onLeave }: { onLeave: () => Promise<string | null> }) {
         </>
       ) : (
         <LiquidButton size="sm" type="button" onClick={() => setSure(true)} className="h-9 gap-2 px-4 text-sm text-white/70">
-          <LogOut className="h-4 w-4" /> Leave crew
+          <LogOut className="h-4 w-4" /> Leave class
         </LiquidButton>
       )}
       {msg && <p className="w-full text-rose-300">{msg}</p>}

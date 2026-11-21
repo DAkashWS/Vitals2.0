@@ -1,41 +1,38 @@
-import { useEffect, type ReactNode } from "react";
+import { useEffect } from "react";
+import type { ReactNode } from "react";
 import { Shell } from "@/live/LivePage";
 import { Glyph, GlyphTile, type GlyphName } from "@/components/ui/glyph";
 import { ChatPanel, type ChatScope } from "@/sections/Assistant";
 
 /*
- * Bone & muscle (#/bone): the gist of Nithin's research, adapted from the Wikipedia article
- * "Effect of spaceflight on the human body" (CC BY-SA 4.0). Opened from the "Bone and muscle"
- * card in the Modules tunnel. The chatbot answers from knowledge/bone-muscle-research.md.
+ * Bones, posture and sport (#/bone): how school-age bodies grow strong, and the everyday school
+ * risks to bones and muscles (heavy bags, long sitting, sports injuries). Opened from the
+ * "Bones and posture" card. The chatbot below is unchanged.
  */
 
 const STATS: { icon: GlyphName; big: string; small: string }[] = [
-  { icon: "muscle", big: "Up to 20%", small: "of muscle mass lost in 5–11 days without exercise" },
-  { icon: "chartDown", big: "1.5% / month", small: "of bone lost from the spine, hips and thigh bone" },
-  { icon: "boneCells", big: "+197%", small: "more bone-eating cells in mice after just 16 days" },
-  { icon: "hourglass", big: "2–3 years", small: "to rebuild bone after a 3–4 month trip" },
+  { icon: "bone", big: "~90%", small: "of adult bone mass is built by about age 18 to 20" },
+  { icon: "treadmill", big: "60 min", small: "of moderate to vigorous activity a day, on average, for ages 5 to 17 (WHO)" },
+  { icon: "scale", big: "10–15%", small: "of body weight: the most a school bag should weigh" },
+  { icon: "moon", big: "8–11 hrs", small: "of sleep a night, when growing bodies repair and grow" },
 ];
 
-const EFFECTS: { icon: GlyphName; label: string }[] = [
-  { icon: "muscle", label: "Muscle wasting" },
-  { icon: "bone", label: "Bone loss" },
-  { icon: "heartPulse", label: "A slower heart and circulation" },
-  { icon: "bloodCell", label: "Fewer red blood cells (space anemia)" },
-  { icon: "spiral", label: "Balance problems" },
-  { icon: "eye", label: "Eyesight changes" },
-  { icon: "shield", label: "A changed immune system" },
-  { icon: "moonFace", label: "Puffy \"moon face\"" },
-  { icon: "scale", label: "Loss of body mass" },
-  { icon: "fog", label: "Blocked nose" },
-  { icon: "moon", label: "Disturbed sleep" },
-  { icon: "bubbles", label: "Extra flatulence" },
+const RISKS: { icon: GlyphName; label: string }[] = [
+  { icon: "scale", label: "Heavy school bags" },
+  { icon: "spine", label: "Slouching at desks" },
+  { icon: "shake", label: "Neck ache from phones" },
+  { icon: "muscle", label: "Sprains and strains" },
+  { icon: "bone", label: "Broken bones from falls" },
+  { icon: "pelvis", label: "Growth plate injuries" },
+  { icon: "battery", label: "Too little exercise" },
+  { icon: "calcium", label: "Low calcium and vitamin D" },
 ];
 
-const GEAR: { icon: GlyphName; name: string; text: string }[] = [
-  { icon: "treadmill", name: "Two treadmills", text: "Including COLBERT. Bungee cords strap the runner down so they don't float off." },
-  { icon: "dumbbell", name: "ARED weights", text: "Resistance machine for squats and lifts. Builds muscle, but can't stop bone loss alone." },
-  { icon: "bike", name: "Stationary bike", text: "Cardio with no seat needed: you clip in and pedal." },
-  { icon: "pants", name: "Squeeze trousers", text: "Elastic bands from waist to cuff load the leg bones to slow bone loss." },
+const PLAY: { icon: GlyphName; name: string; text: string }[] = [
+  { icon: "treadmill", name: "Run, jump, skip", text: "Impact activities like running, skipping and ball games are what tell bones to grow denser." },
+  { icon: "dumbbell", name: "Strength, 3 days a week", text: "Climbing, push-ups, sport and play that make muscles work hard help both muscle and bone." },
+  { icon: "bike", name: "Active travel", text: "Walking or cycling to school adds activity to every day without extra time." },
+  { icon: "cup", name: "Food for bones", text: "Milk, yoghurt, cheese, green vegetables and fortified foods for calcium; daylight and some foods for vitamin D." },
 ];
 
 function SectionTitle({ id, icon, eyebrow, title, lead }: { id: string; icon: GlyphName; eyebrow: string; title: string; lead?: ReactNode }) {
@@ -93,18 +90,18 @@ export default function BonePage() {
 
   const nav: [string, string, GlyphName][] = [
     ["bone-big", "The big picture", "scale"],
-    ["bone-muscle", "Muscle", "muscle"],
-    ["bone-bone", "Bone", "bone"],
-    ["bone-gym", "Fighting back", "treadmill"],
-    ["bone-digital", "Digital astronaut", "digitalAstronaut"],
+    ["bone-bags", "School bags", "spine"],
+    ["bone-bone", "Growing bones", "bone"],
+    ["bone-gym", "Moving more", "treadmill"],
+    ["bone-sport", "Sports injuries", "medKit"],
     ["bone-ask", "Ask the coach", "chat"],
   ];
 
   return (
     <Shell
-      eyebrow="Bone & muscle"
-      title="Use it or lose it."
-      intro="Without gravity, the body stops keeping what it doesn't need. Here's what goes, how fast, and how astronauts fight back."
+      eyebrow="Bones, posture & sport"
+      title="Strong bones are built at school."
+      intro="Most of the bone a person will ever have is built before they leave school. Here's how to build it, and how to protect it."
       back={{ label: "Back to VITALS" }}
     >
       <nav aria-label="Topics" className="-mt-4 mb-14 flex flex-wrap gap-2">
@@ -137,9 +134,9 @@ export default function BonePage() {
       <div className="space-y-28">
         {/* ---------- the big picture ---------- */}
         <section>
-          <SectionTitle id="bone-big" icon="scale" eyebrow="The big picture" title="Space is hard on the body." lead="Mostly harmful, short term and long term. Muscle and bone take the biggest hit, but they're not alone." />
+          <SectionTitle id="bone-big" icon="scale" eyebrow="The big picture" title="What wears young bodies down." lead="School days mean heavy bags, long hours sitting, and plenty of sport. Each one can help or hurt." />
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {EFFECTS.map((e) => (
+            {RISKS.map((e) => (
               <div key={e.label} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-[#ffffff]/95 px-4 py-3.5">
                 <GlyphTile name={e.icon} tone="amber" size="sm" />
                 <span className="text-[15px] font-medium text-white/85">{e.label}</span>
@@ -149,29 +146,28 @@ export default function BonePage() {
           <div className="mt-6 grid gap-4 lg:grid-cols-2">
             <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
               <p className="text-[15px] leading-relaxed text-white/75">
-                A 2024 review called bone loss, cancer risk, vision problems, weaker immunity and mental health the
-                well-known problems, but what happens <span className="text-white">at a molecular level</span> still isn't
-                fully clear.
+                Childhood and the teenage years are the <span className="text-white">only window</span> to build peak bone
+                mass. Bone built now protects against fractures and osteoporosis for the rest of life.
               </p>
             </div>
             <div className="rounded-3xl border border-amber-300/20 bg-amber-400/[0.05] p-6">
               <p className="text-[15px] leading-relaxed text-white/75">
-                <span className="font-semibold text-amber-200">A new worry:</span> private and commercial spaceflights now
-                fly without any medical research on their passengers.
+                <span className="font-semibold text-amber-200">Watch for:</span> pain that lasts more than a few days, a limp,
+                swelling, or pain that wakes a student at night. These need a doctor, not just rest.
               </p>
             </div>
           </div>
         </section>
 
-        {/* ---------- muscle ---------- */}
+        {/* ---------- school bags and posture ---------- */}
         <section>
-          <SectionTitle id="bone-muscle" icon="muscle" eyebrow="Muscle" title="The standing muscles switch off." lead="Floating, you barely use your back and legs. So they shrink, fast." />
+          <SectionTitle id="bone-bags" icon="spine" eyebrow="School bags & posture" title="Carry it right, sit it right." lead="Back and neck pain are common in students, and most of it comes from how they carry and how they sit." />
           <div className="grid items-stretch gap-4 lg:grid-cols-[1fr_1.1fr]">
             <div className="space-y-4">
               {[
-                ["muscle", "Up to 20% gone in 5–11 days", "Without exercise, that's how fast muscle mass can disappear."],
-                ["spine", "Back and legs first", "The muscles that hold you upright on Earth have nothing to do in orbit."],
-                ["pill", "Help on the way", "Exercise research, hormone supplements and medicines may help hold on to muscle."],
+                ["scale", "Light enough", "A loaded bag should weigh no more than about 10 to 15% of the student's body weight."],
+                ["spine", "Both straps, worn high", "Two padded straps, tightened so the bag sits close to the back, heaviest books nearest the spine."],
+                ["shake", "Head up from screens", "Hold phones and tablets nearer eye level. Looking down for long periods strains the neck."],
               ].map(([icon, title, text]) => (
                 <div key={title} className="flex gap-4 rounded-2xl border border-white/10 bg-[#ffffff]/95 p-5">
                   <GlyphTile name={icon as GlyphName} tone="amber" />
@@ -183,65 +179,54 @@ export default function BonePage() {
               ))}
             </div>
             <div className="flex flex-col justify-center rounded-3xl border border-white/10 bg-[#ffffff]/95 p-7">
-              <p className="mb-5 font-mono text-xs uppercase tracking-[0.28em] text-white/50">The fibre switch</p>
-              <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
-                <div className="flex-1 rounded-2xl border border-white/15 bg-white/[0.04] p-5 text-center">
-                  <Glyph name="fibres" className="mx-auto h-9 w-9 text-white/80" />
-                  <p className="mt-3 font-semibold">Slow-twitch</p>
-                  <p className="mt-1 text-sm text-white/55">Endurance fibres that hold your posture</p>
-                </div>
-                <span className="text-center text-2xl text-amber-300" aria-hidden="true">
-                  {"→︎"}
-                </span>
-                <div className="flex-1 rounded-2xl border border-amber-300/30 bg-amber-400/[0.07] p-5 text-center">
-                  <Glyph name="bolt" className="mx-auto h-9 w-9 text-amber-300" />
-                  <p className="mt-3 font-semibold">Fast-twitch</p>
-                  <p className="mt-1 text-sm text-white/55">Quick to fire, but not built for heavy work</p>
-                </div>
+              <p className="mb-5 font-mono text-xs uppercase tracking-[0.28em] text-white/50">A 40 kg student</p>
+              <div className="space-y-5">
+                <Bar label="Safe bag weight (10–15%)" value="4–6 kg" width="38%" tone="calm" />
+                <Bar label="Typical overloaded bag" value="8+ kg" width="100%" tone="hot" />
               </div>
-              <p className="mt-5 text-sm text-white/55">In space, the endurance fibres are replaced by fast ones.</p>
+              <p className="mt-5 text-sm text-white/55">Weigh the bag on bathroom scales. Leave in school what isn't needed at home.</p>
             </div>
           </div>
         </section>
 
-        {/* ---------- bone ---------- */}
+        {/* ---------- growing bones ---------- */}
         <section>
-          <SectionTitle id="bone-bone" icon="bone" eyebrow="Bone" title="The builders fall behind." lead="Bone grows where it's stressed. In microgravity there's almost no stress, so the balance breaks." />
+          <SectionTitle id="bone-bone" icon="bone" eyebrow="Growing bones" title="Bones grow where they're used." lead="Bone is living tissue. Jumping, running and lifting tell it to grow stronger; sitting all day tells it to slow down." />
           <div className="grid gap-4 lg:grid-cols-2">
             <div className="rounded-3xl border border-white/10 bg-[#ffffff]/95 p-7">
-              <p className="mb-5 font-mono text-xs uppercase tracking-[0.28em] text-white/50">Two crews, one bone</p>
+              <p className="mb-5 font-mono text-xs uppercase tracking-[0.28em] text-white/50">Builders and recyclers</p>
               <div className="space-y-5">
                 <div className="flex items-center gap-4">
                   <GlyphTile name="boneCells" tone="green" />
                   <div className="flex-1">
-                    <p className="font-semibold">On Earth: balanced</p>
-                    <p className="text-sm text-white/60">Osteoclasts break old bone down and osteoblasts build new bone, always together.</p>
+                    <p className="font-semibold">Active student: building wins</p>
+                    <p className="text-sm text-white/60">Bone-building cells add new bone faster than old bone is removed, so bones get denser every year.</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
                   <GlyphTile name="boneCells" tone="red" />
                   <div className="flex-1">
-                    <p className="font-semibold">In space: the wreckers win</p>
-                    <p className="text-sm text-white/60">Osteoclasts speed up, osteoblasts don't keep up. Bone goes and isn't replaced, most of all in the pelvis.</p>
+                    <p className="font-semibold">Inactive student: a missed chance</p>
+                    <p className="text-sm text-white/60">With little impact and little calcium, bones grow longer but not as strong as they could.</p>
                   </div>
                 </div>
               </div>
             </div>
             <div className="rounded-3xl border border-white/10 bg-[#ffffff]/95 p-7">
-              <p className="mb-5 font-mono text-xs uppercase tracking-[0.28em] text-white/50">Bone lost in a year</p>
+              <p className="mb-5 font-mono text-xs uppercase tracking-[0.28em] text-white/50">Calcium a day (ages 9–18)</p>
               <div className="space-y-5">
-                <Bar label="Healthy adult on Earth" value="~0.3%" width="2.5%" tone="calm" />
-                <Bar label="Astronaut in microgravity" value="~12%" width="100%" tone="hot" />
+                <Bar label="Recommended" value="~1,300 mg" width="100%" tone="calm" />
+                <Bar label="One glass of milk" value="~300 mg" width="23%" tone="hot" />
               </div>
-              <p className="mt-5 text-sm text-white/55">About 3% per decade on Earth, versus about 1% every month in space.</p>
+              <p className="mt-5 text-sm text-white/55">Roughly three to four servings of dairy or calcium-rich foods a day.</p>
             </div>
           </div>
           <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              ["spine", "Lower spine", "One of the hardest-hit areas"],
-              ["pelvis", "Hips", "Where bone-eating cells are busiest"],
-              ["kidney", "Kidney stones", "Calcium from lost bone can form stones and harden soft tissue"],
-              ["hourglass", "Slow comeback", "Bone returns after landing, but takes 2–3 years"],
+              ["pelvis", "Growth plates", "Soft areas near the ends of bones where growth happens. They're weaker than the bone around them."],
+              ["calcium", "Calcium", "The main mineral in bone. Most teenagers get less than they need."],
+              ["sunrise", "Vitamin D", "Helps the body absorb calcium. Made in the skin in daylight and found in some foods."],
+              ["moon", "Sleep", "Growth hormone is released mostly during deep sleep."],
             ].map(([icon, title, text]) => (
               <div key={title} className="rounded-2xl border border-white/10 bg-[#ffffff]/95 p-5">
                 <GlyphTile name={icon as GlyphName} tone="amber" />
@@ -250,20 +235,13 @@ export default function BonePage() {
               </div>
             ))}
           </div>
-          <div className="mt-4 flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-            <GlyphTile name="mouse" tone="violet" />
-            <p className="text-[15px] text-white/75">
-              <span className="font-semibold text-white">The mouse study:</span> after only 16 days in microgravity, bone-eating
-              cells rose by 197% while bone-building cells fell.
-            </p>
-          </div>
         </section>
 
-        {/* ---------- fighting back ---------- */}
+        {/* ---------- moving more ---------- */}
         <section>
-          <SectionTitle id="bone-gym" icon="treadmill" eyebrow="Fighting back" title="The gym in orbit." lead="Every astronaut trains for at least two hours, every day." />
+          <SectionTitle id="bone-gym" icon="treadmill" eyebrow="Moving more" title="Every school is a gym." lead="Break time, PE and the walk home all count towards the hour a day." />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {GEAR.map((g) => (
+            {PLAY.map((g) => (
               <div key={g.name} className="group rounded-3xl border border-white/10 bg-[#ffffff]/95 p-6 transition-colors hover:border-amber-300/30">
                 <GlyphTile name={g.icon} tone="amber" size="lg" />
                 <p className="mt-5 text-lg font-semibold">{g.name}</p>
@@ -272,19 +250,19 @@ export default function BonePage() {
             ))}
           </div>
           <div className="mt-4 flex flex-wrap items-center justify-between gap-4 rounded-3xl border border-amber-300/25 bg-gradient-to-r from-amber-400/[0.12] to-transparent px-7 py-6">
-            <p className="text-2xl font-semibold tracking-tight">2+ hours a day</p>
-            <p className="max-w-md text-[15px] text-white/70">The minimum exercise for every astronaut on the ISS, to protect muscle, bone and heart.</p>
+            <p className="text-2xl font-semibold tracking-tight">60 minutes a day</p>
+            <p className="max-w-md text-[15px] text-white/70">The average daily activity the WHO recommends for ages 5 to 17, with muscle and bone strengthening at least 3 days a week.</p>
           </div>
         </section>
 
-        {/* ---------- digital astronaut ---------- */}
+        {/* ---------- sports injuries ---------- */}
         <section>
-          <SectionTitle id="bone-digital" icon="digitalAstronaut" eyebrow="The future" title="A digital astronaut." lead="NASA models the body on a computer to find the workout that actually works." />
+          <SectionTitle id="bone-sport" icon="medKit" eyebrow="Sports injuries" title="Hurt on the field." lead="Most sports injuries at school are sprains and strains. Here's what to do in the first minutes." />
           <div className="grid items-stretch gap-3 lg:grid-cols-[1fr_auto_1fr_auto_1fr]">
             {[
-              ["dumbbell", "ARED model", "A computer model of the weight machine on the ISS"],
-              ["digitalAstronaut", "+ OpenSim body", "A model of the human skeleton and muscles exercising on it"],
-              ["chartDown", "Forces → workouts", "Joint and muscle forces show whether a plan will keep bones and muscles healthy"],
+              ["warning", "Stop and check", "Stop playing. Don't run it off. Look for swelling, a strange shape, or not being able to put weight on it."],
+              ["snowflake", "Rest, ice, raise", "Rest it, apply a wrapped ice pack for up to 20 minutes, and keep the injured part raised."],
+              ["stethoscope", "Get it seen", "Suspected broken bone, head knock, severe pain or no better in 2 days: see the school nurse or a doctor."],
             ].flatMap(([icon, title, text], i) => [
               ...(i > 0
                 ? [
@@ -300,6 +278,14 @@ export default function BonePage() {
               </div>,
             ])}
           </div>
+          <div className="mt-4 flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+            <GlyphTile name="head" tone="violet" />
+            <p className="text-[15px] text-white/75">
+              <span className="font-semibold text-white">Head injuries:</span> any student with a knock to the head who is
+              dizzy, sick, confused or has a headache stops playing for the day and is checked by an adult. When in doubt, sit
+              them out.
+            </p>
+          </div>
         </section>
 
         {/* ---------- chatbot ---------- */}
@@ -314,21 +300,8 @@ export default function BonePage() {
       </div>
 
       <div className="mt-24 space-y-2 border-t border-white/10 pt-6 text-sm text-white/50">
-        <p>
-          Research by team Mission 61:4.
-        </p>
-        <p>
-          A summary of the Wikipedia article{" "}
-          <a href="https://en.wikipedia.org/wiki/Effect_of_spaceflight_on_the_human_body" target="_blank" rel="noreferrer" className="text-amber-300 hover:underline">
-            "Effect of spaceflight on the human body"
-          </a>
-          , licensed under{" "}
-          <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer" className="text-amber-300 hover:underline">
-            CC BY-SA 4.0
-          </a>
-          . Some figures, such as the 2–3 year recovery time, are marked "citation needed" in the article. General
-          information, not medical advice.
-        </p>
+        <p>School health guidance by team VITALS, drawing on WHO physical activity guidelines.</p>
+        <p>General information, not medical advice. Serious or lasting pain needs a doctor.</p>
       </div>
     </Shell>
   );

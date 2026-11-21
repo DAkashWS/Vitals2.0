@@ -119,8 +119,8 @@ function useScramble() {
 
 export const HoloCard = React.forwardRef<HoloCardHandle, HoloCardProps>(function HoloCard(
   {
-    name = "Crew member",
-    role = "Mission Specialist",
+    name = "Student",
+    role = "Class 8B",
     crewId = "2026 1114 0047 0001",
     mission = "61:4",
     status = "green",
@@ -329,7 +329,7 @@ export const HoloCard = React.forwardRef<HoloCardHandle, HoloCardProps>(function
         <div
           ref={cardRef}
           role="group"
-          aria-roledescription="crew card"
+          aria-roledescription="student card"
           aria-label={`${name}, ${role}, status ${st0.label}, ${side} side. Drag to spin, tap to flip.`}
           className="absolute inset-0 cursor-grab active:cursor-grabbing"
           style={{ transformStyle: "preserve-3d", willChange: "transform", ["--foil" as string]: String(foil) }}
@@ -358,7 +358,7 @@ export const HoloCard = React.forwardRef<HoloCardHandle, HoloCardProps>(function
                 type="button"
                 data-hc-tap
                 onClick={() => reveal()}
-                aria-label={shown ? "Hide crew ID" : "Show crew ID"}
+                aria-label={shown ? "Hide student ID" : "Show student ID"}
                 className="flex w-fit gap-3.5 rounded-md text-left text-[20px] font-medium leading-none tabular-nums tracking-[.06em] outline-none focus-visible:ring-2 focus-visible:ring-[#dc2626] focus-visible:ring-offset-4"
                 style={{ fontFamily: MONO, color: INK, textShadow: "0 1px 0 rgba(255,255,255,.8)" }}
               >
@@ -374,7 +374,7 @@ export const HoloCard = React.forwardRef<HoloCardHandle, HoloCardProps>(function
                   <b className="block truncate text-[15px] font-semibold uppercase tracking-[-0.01em]">{name}</b>
                 </div>
                 <div className="shrink-0 text-right">
-                  <span className="hc-label">Mission</span>
+                  <span className="hc-label">Class</span>
                   <b className="text-[15px] font-semibold tabular-nums tracking-[-0.01em]">{mission}</b>
                 </div>
               </div>
@@ -399,7 +399,7 @@ export const HoloCard = React.forwardRef<HoloCardHandle, HoloCardProps>(function
               ))}
             </dl>
             <div className="absolute bottom-[16px] left-6 right-6 text-[10px] leading-[14px]" style={{ color: "rgba(29,29,31,.55)" }}>
-              {statusNote ?? "Compared with this astronaut's own baseline, not Earth's average."}
+              {statusNote ?? "Compared with this student's own baseline, not a textbook average."}
             </div>
             <div className="hc-layer hc-edge" />
           </div>

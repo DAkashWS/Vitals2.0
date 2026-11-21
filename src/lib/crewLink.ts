@@ -132,7 +132,7 @@ async function call(fn: string, args?: Record<string, unknown>): Promise<string 
   if (!navigator.onLine) return "You need a connection to do this. Everything else keeps working offline.";
   const res = await withTimeout(supabase.rpc(fn, args));
   if (res === "timeout") return "The VITALS server didn't answer. Try again in a moment.";
-  if (res.error) return errorOf(res.error).kind === "setup" ? "Crew Link isn't switched on in the database yet." : res.error.message;
+  if (res.error) return errorOf(res.error).kind === "setup" ? "Student Link isn't switched on in the database yet." : res.error.message;
   return null;
 }
 
@@ -145,10 +145,10 @@ export const declineInvite = (crew: string) => call("decline_invite", { target: 
 /** Crew cards matching a name or any part of a crew number. Needs a connection. */
 export async function searchCards(q: string): Promise<CardPick[] | string> {
   if (!supabase) return "Accounts aren't set up on this copy of the site.";
-  if (!navigator.onLine) return "Connect to the internet to search crew cards.";
+  if (!navigator.onLine) return "Connect to the internet to search student cards.";
   const res = await withTimeout(supabase.rpc("crew_directory", { search: q }));
   if (res === "timeout") return "The VITALS server didn't answer. Try again in a moment.";
-  if (res.error) return errorOf(res.error).kind === "setup" ? "Crew Link isn't switched on in the database yet." : res.error.message;
+  if (res.error) return errorOf(res.error).kind === "setup" ? "Student Link isn't switched on in the database yet." : res.error.message;
   return res.data as CardPick[];
 }
 
@@ -236,7 +236,7 @@ export function subscribeBoard(crewId: string, onChange: () => void): () => void
   const ch = supabase
     .channel(`crew-link-${crewId}`)
     .on("postgres_changes", { event: "*", schema: "public", table: "crew_status" }, onChange)
-    .on("postgres_changes", { event: "INSERT", schema: "public", table: "crew_log", filter: `crew=eq.${crewId}` }, onChange)
+    .on("postgres_changes", { event: "INSERT", schema: "public", table: "crew_log", filter: `class=eq.${crewId}` }, onChange)
     .subscribe();
   return () => void supabase?.removeChannel(ch);
 }
@@ -276,9 +276,9 @@ export function alertsOf(b: Board, now: number): Alert[] {
   const recentHelp = new Map<string, LogEntry>();
   for (const l of b.log) if (l.kind === "help" && now - Date.parse(l.created_at) < 6 * 3600_000 && !recentHelp.has(l.user_id)) recentHelp.set(l.user_id, l);
   for (const m of b.members) {
-    const name = m.display_name || "A crew member";
+    const name = m.display_name || "A student";
     const help = recentHelp.get(m.user_id);
-    if (help) out.push({ level: "red", who: name, text: `asked for help${help.body ? `: "${help.body}"` : ""}. Go to them, and contact the flight surgeon if needed.` });
+    if (help) out.push({ level: "red", who: name, text: `asked for help${help.body ? `: "${help.body}"` : ""}. Go to them, and contact the school nurse if needed.` });
     if (m.status === "red") out.push({ level: "red", who: name, text: "has a reading in the red. Check on them now." });
     else if (m.status === "yellow") out.push({ level: "yellow", who: name, text: "has a reading to watch. Their buddy should check in." });
     const age = ageOf(m, now);
@@ -350,13 +350,13 @@ export function demoBoard(tick: number, now: number): Board {
     };
   });
   const at = (min: number) => new Date(now - min * 60_000).toISOString();
-  const by = (i: number) => ({ user_id: `demo-${i}`, display_name: TEAM[i]?.name ?? "Crew" });
+  const by = (i: number) => ({ user_id: `demo-${i}`, display_name: TEAM[i]?.name ?? "Class" });
   const log: LogEntry[] = [
     { id: "d1", ...by(1), kind: "ok", body: "Morning check-in. Slept well.", created_at: at(6) },
     { id: "d2", ...by(0), kind: "buddy", body: `Checked on ${TEAM[2]?.name}: SpO2 a little low, resting and drinking water.`, created_at: at(18) },
-    { id: "d3", ...by(2), kind: "watch", body: "Slight headache after the workout.", created_at: at(25) },
+    { id: "d3", ...by(2), kind: "watch", body: "Slight headache after PE.", created_at: at(25) },
     { id: "d4", ...by(4), kind: "note", body: "Sensor box recalibrated. Room readings look steady.", created_at: at(52) },
-    { id: "d5", ...by(3), kind: "ok", body: "All good before the night shift.", created_at: at(70) },
+    { id: "d5", ...by(3), kind: "ok", body: "All good before the maths test.", created_at: at(70) },
   ];
-  return { crew: { id: "demo", name: "Mission 61:4 crew", mission: "61:4", code: "61402-02026", created_at: at(60 * 24 * 3) }, members, log };
+  return { crew: { id: "demo", name: "Class 8B", mission: "8B", code: "61402-02026", created_at: at(60 * 24 * 3) }, members, log };
 }
