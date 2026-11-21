@@ -5,10 +5,12 @@
 // Each bot is kept to its own topic: anything else gets a one-line redirect to the right assistant.
 // Emergencies never reach here: the website answers red flags itself with fixed steps.
 //
-// Models: every Gemini text model this key can use (asked from Google's model list, refreshed hourly),
-// fastest kinds first. Requests rotate between them to spread the free quota; each model gets 3 seconds,
-// and one that is slow, busy, out of quota or retired is skipped for a few minutes. The whole answer is
-// given up on after ~9 seconds, so the website never waits forever. None of this is shown to students.
+// Models: every free Gemini text model this key can use (from Google's model list, refreshed hourly),
+// in two groups. Simple questions go to the fast "lite" models (3 s each); complex questions (long,
+// several questions, "why/explain/compare", or deep into a conversation) go to the bigger models
+// (8 s each), falling back to the fast ones. Requests rotate inside each group to spread the free quota.
+// A background check tests every model one at a time; models that need a paid plan, are retired or
+// fail are skipped. None of this is shown to students.
 //
 // Secret: GEMINI_API_KEY or GEMINI-API-KEY (Supabase dashboard -> Edge Functions -> Secrets).
 // Optional: GEMINI_MODEL (tried first). Deployed with verify_jwt off: the function checks the user itself.
@@ -16,9 +18,12 @@
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL") ?? "";
 const ANON = Deno.env.get("SUPABASE_ANON_KEY") ?? "";
 const API = "https://generativelanguage.googleapis.com/v1beta";
-const PER_MODEL_MS = 3000;
-const TOTAL_MS = 9000;
+const FAST_MS = 3000; // per model, simple questions
+const SMART_MS = 8000; // per model, complex questions
+const TOTAL_FAST_MS = 9000;
+const TOTAL_SMART_MS = 18000;
 const COOL_DOWN_MS = 5 * 60_000;
+const LONG_COOL_DOWN_MS = 6 * 60 * 60_000; // retired, or needs a paid plan
 // used if Google's model list can't be read
 const FALLBACK = ["gemini-3.8-flash", "gemini-flash-latest", "gemini-flash-lite-latest", "gemini-2.0-flash", "gemini-2.0-flash-lite"];
 
@@ -85,17 +90,24 @@ async function signedIn(req: Request): Promise<boolean> {
 
 let pool: string[] = [];
 let poolAt = 0;
-let next = 0; // round-robin position
+const turn = { fast: 0, smart: 0 }; // round-robin positions
 const coolUntil = new Map<string, number>(); // model -> time it may be tried again
+const passed = new Set<string>(); // models that answered the last background check
+let checked = false; // a background check has finished
 
-/** Text chat models only: no image, audio, speech, embedding, live or experimental ones. */
-const isChatModel = (name: string) => /^gemini-/.test(name) && !/(image|audio|tts|speech|live|embed|vision|exp|preview-tts|computer|robotics|native)/i.test(name);
-/** Fastest first: lite, then flash, then the rest; newer versions before older. */
+/** Text chat models only: no image, audio, speech, transcription, embedding, live or tool-only ones. */
+const isChatModel = (name: string) => /^gemini-/.test(name) && !/(image|audio|tts|speech|transcri|live|embed|vision|exp|computer|robotics|native|customtools)/i.test(name);
+const isFast = (name: string) => /lite/.test(name);
+/** Newer versions first; "latest" aliases just after the newest numbered one. */
 function rank(name: string): number {
-  const kind = /flash-lite/.test(name) ? 0 : /flash/.test(name) ? 1 : 2;
   const v = parseFloat(name.match(/gemini-(\d+(?:\.\d+)?)/)?.[1] ?? "0");
-  const latest = /latest/.test(name) ? 0.5 : 0;
-  return kind * 100 - v - latest;
+  return -(v + (/latest/.test(name) ? 0.5 : 0));
+}
+
+/** Skip a model for a while, longer when it's retired (404) or has no free quota (paid plan only). */
+function coolDown(model: string, why = "") {
+  const long = why.startsWith("404") || (why.startsWith("429") && /plan|billing/i.test(why));
+  coolUntil.set(model, Date.now() + (long ? LONG_COOL_DOWN_MS : COOL_DOWN_MS));
 }
 
 async function models(key: string): Promise<string[]> {
@@ -125,25 +137,56 @@ async function models(key: string): Promise<string[]> {
 }
 
 /**
- * Health check of the whole pool, in the background, whenever the list is (re)loaded: each model gets a
- * tiny question with the normal 3 s limit. The results go to the function logs only (names, ok/fail and
- * time); a model that fails is put on cool-down so students' questions skip it.
+ * Health check of the whole pool, in the background, whenever the list is (re)loaded: one model at a
+ * time (so the check never uses up the free quota), each with its normal time limit. Results go to the
+ * function logs only. Models that fail are cooled down; the ones that pass are preferred.
  */
 function checkAll(key: string, names: string[]) {
   const run = (async () => {
-    const ping = { contents: [{ role: "user", parts: [{ text: "Reply with the single word OK." }] }], generationConfig: { maxOutputTokens: 20 } };
-    const results = await Promise.all(
-      names.map(async (m) => {
-        const t = Date.now();
-        const r = await ask(m, key, ping, PER_MODEL_MS);
-        if (!r.text) coolUntil.set(m, Date.now() + (r.why?.startsWith("404") ? 6 * 60 * 60_000 : COOL_DOWN_MS));
-        return `${m}: ${r.text ? "ok" : `FAIL (${r.why})`} ${Date.now() - t} ms`;
-      }),
-    );
-    console.log("model check:\n" + results.join("\n"));
+    const ping = { contents: [{ role: "user", parts: [{ text: "Reply with the single word OK." }] }], generationConfig: { maxOutputTokens: 256 } };
+    const lines: string[] = [];
+    for (const m of names) {
+      const t = Date.now();
+      const r = await ask(m, key, ping, isFast(m) ? FAST_MS : SMART_MS);
+      if (r.text) passed.add(m);
+      else {
+        passed.delete(m);
+        coolDown(m, r.why);
+      }
+      lines.push(`${m} [${isFast(m) ? "fast" : "smart"}]: ${r.text ? "ok" : `FAIL (${r.why?.slice(0, 90)})`} ${Date.now() - t} ms`);
+    }
+    checked = true;
+    console.log("model check:\n" + lines.join("\n"));
   })();
   // keep the check running after the student's answer has been sent
   (globalThis as { EdgeRuntime?: { waitUntil(p: Promise<unknown>): void } }).EdgeRuntime?.waitUntil(run);
+}
+
+/** Long, several questions, asks for an explanation or comparison, or deep into a conversation. */
+function isComplex(question: string, turns: number): boolean {
+  const words = question.trim().split(/\s+/).length;
+  const questions = (question.match(/\?/g) ?? []).length;
+  return words > 25 || questions > 1 || turns > 4 || /\b(why|explain|compare|difference|versus|vs|plan|pros and cons|what happens if|how does|how do .* work|step by step|in detail)\b/i.test(question);
+}
+
+/** The models to try, in order: this group's working models (rotated), then the other group as backup. */
+function plan(all: string[], complex: boolean): { model: string; ms: number }[] {
+  const usable = (m: string) => (coolUntil.get(m) ?? 0) <= Date.now() && (!checked || passed.has(m));
+  const rotate = (list: string[], k: "fast" | "smart") => {
+    if (!list.length) return list;
+    const start = turn[k]++ % list.length;
+    return [...list.slice(start), ...list.slice(0, start)];
+  };
+  let fast = rotate(all.filter((m) => isFast(m) && usable(m)), "fast");
+  let smart = rotate(all.filter((m) => !isFast(m) && usable(m)), "smart");
+  if (!fast.length && !smart.length) {
+    // everything is cooling down: try the fast ones anyway rather than give up
+    fast = all.filter(isFast);
+    smart = [];
+  }
+  const f = fast.map((model) => ({ model, ms: FAST_MS }));
+  const s = smart.map((model) => ({ model, ms: SMART_MS }));
+  return complex ? [...s.slice(0, 2), ...f] : [...f, ...s.slice(0, 1)];
 }
 
 /** One try with one model: the answer text, or why it failed. */
@@ -206,22 +249,20 @@ Deno.serve(async (req) => {
   };
 
   const started = Date.now();
-  const all = await models(key);
-  const ready = all.filter((m) => (coolUntil.get(m) ?? 0) <= Date.now());
-  const list = ready.length ? ready : all; // everything cooling down: try them all again anyway
-  const start = next++ % list.length; // rotate the starting model to spread the free quota
-  const order = [...list.slice(start), ...list.slice(0, start)];
+  const question = messages[messages.length - 1].parts[0].text;
+  const complex = isComplex(question, messages.length);
+  const budget = complex ? TOTAL_SMART_MS : TOTAL_FAST_MS;
+  const order = plan(await models(key), complex);
   const env = Deno.env.get("GEMINI_MODEL");
-  if (env) order.unshift(env);
+  if (env) order.unshift({ model: env, ms: complex ? SMART_MS : FAST_MS });
 
-  for (const model of order) {
-    const left = TOTAL_MS - (Date.now() - started);
+  for (const { model, ms } of order) {
+    const left = budget - (Date.now() - started);
     if (left < 800) break;
-    const res = await ask(model, key, request, Math.min(PER_MODEL_MS, left));
+    const res = await ask(model, key, request, Math.min(ms, left));
     if (res.text) return json({ reply: res.text });
-    console.error("gemini", model, res.why);
-    // retired (404), busy/out of quota (429/503), refused (400/403) or slow: skip it for a while
-    coolUntil.set(model, Date.now() + (res.why?.startsWith("404") ? 6 * 60 * 60_000 : COOL_DOWN_MS));
+    console.error("gemini", complex ? "complex" : "simple", model, res.why);
+    coolDown(model, res.why);
   }
   return json({ error: "The assistant is busy right now. Try again in a moment." }, 503);
 });
