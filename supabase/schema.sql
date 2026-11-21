@@ -641,3 +641,43 @@ $$;
 
 revoke execute on function public.teacher_overview(), public.teacher_checkins(integer) from public, anon;
 grant execute on function public.teacher_overview(), public.teacher_checkins(integer) to authenticated;
+
+-- ================================================================ Nurse station
+-- The school nurse (or a teacher) checks one student at a time on the nurse's-room computer and saves
+-- that student's readings to the student's own record. Refused for anyone else.
+create or replace function public.nurse_save_reading(student uuid, src text, data jsonb, status text)
+returns timestamptz
+language plpgsql volatile security definer set search_path = ''
+as $$
+declare
+  p public.profiles;
+  at timestamptz := now();
+begin
+  if not public.is_commander() then
+    raise exception 'Only the school nurse or a teacher can save readings for a student.';
+  end if;
+  select * into p from public.profiles where id = student and role = 'crew';
+  if p.id is null then raise exception 'That student was not found.'; end if;
+  if status not in ('green', 'yellow', 'red') then raise exception 'Unknown status.'; end if;
+  if data is null or jsonb_typeof(data) <> 'object' or data = '{}'::jsonb then raise exception 'No readings to save yet.'; end if;
+
+  insert into public.readings (user_id, client_id, taken_at, source, data)
+  values (student, gen_random_uuid(), at, left(coalesce(src, ''), 80) || ' (nurse station)', data);
+
+  insert into public.crew_status as s (user_id, display_name, job, crew_id, status, heart, spo2, room_temp, humidity, ecg, sleep, water, exercise, air, updated_at)
+  values (
+    student, p.display_name, p.job, p.crew_id, status,
+    (data ->> 'heart')::numeric, (data ->> 'spo2')::numeric, (data ->> 'room')::numeric, (data ->> 'humidity')::numeric,
+    (data ->> 'ecg')::numeric, (data ->> 'sleep')::numeric, (data ->> 'water')::numeric, (data ->> 'exercise')::numeric, (data ->> 'air')::numeric,
+    at
+  )
+  on conflict (user_id) do update set
+    display_name = excluded.display_name, job = excluded.job, crew_id = excluded.crew_id, status = excluded.status,
+    heart = excluded.heart, spo2 = excluded.spo2, room_temp = excluded.room_temp, humidity = excluded.humidity,
+    ecg = excluded.ecg, sleep = excluded.sleep, water = excluded.water, exercise = excluded.exercise, air = excluded.air,
+    updated_at = excluded.updated_at;
+  return at;
+end;
+$$;
+revoke execute on function public.nurse_save_reading(uuid, text, jsonb, text) from public, anon;
+grant execute on function public.nurse_save_reading(uuid, text, jsonb, text) to authenticated;

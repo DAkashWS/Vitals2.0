@@ -9,6 +9,9 @@ import { Glyph, GlyphTile, StatusDot, type GlyphName } from "@/components/ui/gly
 import { readings } from "@/content";
 import { putCard, saveMyReadings, type CrewReadings } from "@/lib/crewDb";
 import { useAuth } from "@/lib/auth";
+import { setOutboxPaused } from "@/lib/crewDb";
+import { useStationStudent, setStationStudent } from "@/lib/station";
+import { NurseBar, StudentPicker } from "@/live/NurseStation";
 import {
   demoCandidate,
   pairedBluetooth,
@@ -629,7 +632,7 @@ function check(label: string, key: string, v: number | null | undefined, st: Sta
   return { label, value: v == null ? null : `${v.toFixed(dec)} ${r.unit}`, status: v == null ? null : st, normal: `${r.green} ${r.unit}` };
 }
 
-function VitalsStep({ link, name, crewId, data, lastAt, onDisconnect, onRename }: { link: Link; name: string; crewId: string; data: DeviceData | null; lastAt: number; onDisconnect: () => void; onRename: () => void }) {
+function VitalsStep({ link, name, crewId, data, lastAt, onDisconnect, onRename, station = false }: { station?: boolean; link: Link; name: string; crewId: string; data: DeviceData | null; lastAt: number; onDisconnect: () => void; onRename: () => void }) {
   const demo = link.kind === "demo";
   const [sim, setSim] = useState<Sim>({});
   const [typed, setTyped] = useState<Typed>({});
@@ -807,12 +810,17 @@ function VitalsStep({ link, name, crewId, data, lastAt, onDisconnect, onRename }
             <LiquidButton size="sm" type="button" onClick={() => card.current?.flip()} className="h-9 rounded-full bg-primary/25 px-4 text-[13px] font-semibold text-white">
               Flip card
             </LiquidButton>
-            <LiquidButton size="sm" type="button" onClick={onRename} className="h-9 rounded-full border border-white/15 px-4 text-[13px] font-medium text-white/80">
-              Change name
-            </LiquidButton>
-            <RainbowButton disabled={!hasReadings} onClick={addToCrew} className="h-9 px-5 text-[13px]">
-              Add to student
-            </RainbowButton>
+            {/* at the nurse station the student is changed and saved from the nurse bar above */}
+            {!station && (
+              <>
+                <LiquidButton size="sm" type="button" onClick={onRename} className="h-9 rounded-full border border-white/15 px-4 text-[13px] font-medium text-white/80">
+                  Change name
+                </LiquidButton>
+                <RainbowButton disabled={!hasReadings} onClick={addToCrew} className="h-9 px-5 text-[13px]">
+                  Add to student
+                </RainbowButton>
+              </>
+            )}
           </div>
         </div>
 
@@ -1044,10 +1052,18 @@ export default function LivePage() {
   const [connecting, setConnecting] = useState(false);
   const [link, setLink] = useState<Link | null>(null);
   const [typedName, setName] = useState("");
-  // signed in: your account's name and crew number; otherwise the name typed in on this device
+  // signed in: your account's name and student number; otherwise the name typed in on this device.
+  // The school nurse and teachers use the nurse station: the readings belong to the student being checked.
   const { profile } = useAuth();
-  const name = profile?.display_name || typedName;
-  const crewId = profile?.crew_id || crewIdFor(name);
+  const nurse = profile?.role === "commander" || profile?.role === "flight_surgeon";
+  const student = useStationStudent();
+  useEffect(() => {
+    if (!nurse) return;
+    setOutboxPaused(true); // students' readings never go into the nurse's own history
+    return () => setOutboxPaused(false);
+  }, [nurse]);
+  const name = nurse ? (student?.display_name ?? "") : profile?.display_name || typedName;
+  const crewId = nurse ? (student?.crew_number ?? "") : profile?.crew_id || crewIdFor(name);
   const [data, setData] = useState<DeviceData | null>(null);
   const [lastAt, setLastAt] = useState(0);
   const [notice, setNotice] = useState("");
@@ -1109,6 +1125,18 @@ export default function LivePage() {
     setCandidate(c);
   }, []);
 
+  if (nurse && !student) {
+    return (
+      <Shell
+        eyebrow="Nurse station"
+        title="Next student, please."
+        intro={link ? `The sensor (${link.name}) stays paired. Choose who you're checking next.` : "Choose the student you're checking, then pair the sensor and take their readings."}
+        back={{ label: "Back to VITALS" }}
+      >
+        <StudentPicker />
+      </Shell>
+    );
+  }
   if (link && !name) {
     return (
       <Shell eyebrow="Live monitor · step 2 of 2" title="Nice to meet you." back={{ label: "Disconnect", onClick: disconnect }}>
@@ -1118,8 +1146,19 @@ export default function LivePage() {
   }
   if (link) {
     return (
-      <Shell eyebrow="Live monitor" title="Your vital card." back={{ label: "Back to VITALS" }}>
-        <VitalsStep link={link} name={name} crewId={crewId} data={data} lastAt={lastAt} onDisconnect={disconnect} onRename={() => (profile ? (window.location.hash = "#/account") : setName(""))} />
+      <Shell eyebrow={nurse ? "Nurse station" : "Live monitor"} title={nurse ? `Checking ${name}.` : "Your vital card."} back={{ label: "Back to VITALS" }}>
+        {nurse && student && <NurseBar student={student} paired />}
+        <VitalsStep
+          key={nurse ? student?.id : "me"}
+          station={nurse}
+          link={link}
+          name={name}
+          crewId={crewId}
+          data={data}
+          lastAt={lastAt}
+          onDisconnect={disconnect}
+          onRename={() => (nurse ? setStationStudent(null) : profile ? (window.location.hash = "#/account") : setName(""))}
+        />
       </Shell>
     );
   }
@@ -1137,6 +1176,7 @@ export default function LivePage() {
       intro="Bluetooth, Wi-Fi or USB cable, or the demo device. Your readings never leave this screen."
       back={{ label: "Back to VITALS" }}
     >
+      {nurse && student && <NurseBar student={student} paired={false} />}
       <PairStep onPick={pick} notice={notice} />
     </Shell>
   );

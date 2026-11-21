@@ -113,7 +113,7 @@ export const setMeta = (key: string, value: unknown) => run("meta", "readwrite",
 export const saveMyReadings = async (r: MyReadings) => {
   await run("meta", "readwrite", (s) => s.put(r, "myReadings"));
   // while someone is signed in, keep one reading a minute for their history (uploaded by src/lib/sync.ts)
-  if (outboxOwner && Date.now() - lastQueued >= 60_000 && Object.keys(r.readings).length) {
+  if (outboxOwner && !outboxPaused && Date.now() - lastQueued >= 60_000 && Object.keys(r.readings).length) {
     lastQueued = Date.now();
     await queueReading({ client_id: crypto.randomUUID(), user_id: outboxOwner, taken_at: new Date(r.at).toISOString(), source: r.source, data: r.readings });
     onQueued?.();
@@ -127,6 +127,11 @@ export const saveMyReadings = async (r: MyReadings) => {
 export type OutboxItem = { client_id: string; user_id: string; taken_at: string; source: string; data: CrewReadings };
 
 let outboxOwner: string | null = null;
+/** True while the nurse station is checking students: their readings must never go into the nurse's own history. */
+let outboxPaused = false;
+export function setOutboxPaused(paused: boolean) {
+  outboxPaused = paused;
+}
 let lastQueued = 0;
 let onQueued: (() => void) | null = null;
 
