@@ -7,7 +7,8 @@ import { supabase } from "@/lib/supabase";
 import type { CrewReadings, MyReadings } from "@/lib/crewDb";
 
 export type Average = { key: keyof CrewReadings; label: string; unit: string; avg: number; min: number; max: number; n: number };
-export type History = { latest: MyReadings | null; averages: Average[]; checks: number; nurseChecks: number; lastNurseAt: number | null; days: number };
+export type Saved = { at: number; source: string; nurse: boolean; data: CrewReadings };
+export type History = { rows: Saved[]; latest: MyReadings | null; averages: Average[]; checks: number; nurseChecks: number; lastNurseAt: number | null; days: number };
 
 const KEYS: { key: keyof CrewReadings; label: string; unit: string; dp: number }[] = [
   { key: "heart", label: "Heart rate", unit: "bpm", dp: 0 },
@@ -46,6 +47,7 @@ export async function loadHistory(userId: string, days = 30): Promise<History | 
   }
   const top = rows[0];
   return {
+    rows: rows.map((r) => ({ at: Date.parse(r.taken_at), source: r.source ?? "", nurse: (r.source ?? "").includes("(nurse station)"), data: r.data ?? {} })),
     latest: top ? { name: "", source: top.source, readings: top.data ?? {}, at: Date.parse(top.taken_at) } : null,
     averages,
     checks: rows.length,

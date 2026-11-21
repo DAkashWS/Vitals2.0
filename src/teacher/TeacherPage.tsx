@@ -8,6 +8,7 @@ import { supabase } from "@/lib/supabase";
 import { withTimeout } from "@/lib/sync";
 import { ago, ageOf, alertsOf, readinessOf, STALE_MS, type Board, type LogEntry, type Member } from "@/lib/crewLink";
 import type { Level } from "@/lib/crewDb";
+import { StudentHistory } from "@/teacher/StudentHistory";
 
 /*
  * Teacher dashboard (#/teacher): for teachers and school nurses. Every student's shared status (the same
@@ -72,7 +73,8 @@ function Value({ v, unit, digits = 0 }: { v: number | null; unit: string; digits
   return <span className="tabular-nums">{v == null ? "—" : `${v.toFixed(digits)}${unit}`}</span>;
 }
 
-function Dashboard() {
+function Dashboard({ nurse }: { nurse: boolean }) {
+  const [open, setOpen] = useState<string | null>(null);
   const [data, setData] = useState<{ rows: Row[]; checkins: Checkin[] } | null>(null);
   const [err, setErr] = useState("");
   const [busy, setBusy] = useState(false);
@@ -196,11 +198,20 @@ function Dashboard() {
         </section>
       </div>
 
+      {nurse && open && (() => {
+        const st = data?.rows.find((x) => x.user_id === open);
+        return st ? <StudentHistory student={{ user_id: st.user_id, display_name: st.display_name, class_name: st.class_name, crew_number: st.crew_number, updated_at: st.updated_at ?? null }} onClose={() => setOpen(null)} /> : null;
+      })()}
+
       <section className={card} aria-labelledby="t-students">
         <h2 id="t-students" className="flex items-center gap-3 text-lg font-semibold">
           <GlyphTile name="clipboard" size="sm" /> All students
         </h2>
-        <p className="mt-2 text-sm text-white/55">Each student's shared summary, most urgent first. Their full reading history stays private to them.</p>
+        <p className="mt-2 text-sm text-white/55">
+          {nurse
+            ? "Each student's latest summary, most urgent first. Click a student to see their full health history."
+            : "Each student's shared summary, most urgent first. Their full reading history is kept for them and the school nurse."}
+        </p>
         {!sorted.length && <p className="mt-4 text-sm text-white/55">No students here yet. Students appear once they've built their student card.</p>}
         <div className="mt-4 overflow-x-auto">
           <table className="w-full min-w-[720px] text-left text-sm">
@@ -223,7 +234,13 @@ function Dashboard() {
                 return (
                   <tr key={r.user_id}>
                     <td className="py-3 pr-3">
-                      <b className="block text-white">{r.display_name || "Unnamed"}</b>
+                      {nurse ? (
+                        <button type="button" onClick={() => setOpen(r.user_id)} className="block text-left font-bold text-sky-300 underline-offset-4 hover:underline">
+                          {r.display_name || "Unnamed"}
+                        </button>
+                      ) : (
+                        <b className="block text-white">{r.display_name || "Unnamed"}</b>
+                      )}
                       <span className="text-xs text-white/45">{r.job}</span>
                     </td>
                     <td className="py-3 pr-3 text-white/70">{r.class_name || "—"}</td>
@@ -270,7 +287,7 @@ export default function TeacherPage() {
       {!enabled ? (
         <p className={`${card} text-white/70`}>Accounts aren't set up on this copy of the site, so there's no teacher dashboard here.</p>
       ) : teacher ? (
-        <Dashboard />
+        <Dashboard nurse={profile?.role === "flight_surgeon"} />
       ) : (
         <div className={`${card} max-w-2xl`}>
           <h2 className="flex items-center gap-3 text-lg font-semibold">

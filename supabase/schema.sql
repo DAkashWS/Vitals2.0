@@ -681,3 +681,22 @@ end;
 $$;
 revoke execute on function public.nurse_save_reading(uuid, text, jsonb, text) from public, anon;
 grant execute on function public.nurse_save_reading(uuid, text, jsonb, text) to authenticated;
+
+-- ================================================================ Head nurse
+-- The school nurse is the head account: they can read every student's full saved history (the same rows
+-- the student sees on their own account, so both stay in sync). Teachers still see only the summary.
+create or replace function public.is_nurse()
+returns boolean
+language sql
+stable
+security definer
+set search_path = ''
+as $$
+  select exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'flight_surgeon');
+$$;
+revoke execute on function public.is_nurse() from public, anon;
+grant execute on function public.is_nurse() to authenticated;
+
+drop policy if exists "readings: nurse reads all" on public.readings;
+create policy "readings: nurse reads all" on public.readings
+  for select to authenticated using ((select public.is_nurse()));
