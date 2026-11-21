@@ -3,48 +3,63 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>VITALS · Privacy policy and terms</title>
+<title>VITALS 2.0 · Privacy policy and terms</title>
 <style>
-  body { margin: 0; background: #0a0c12; color: #b9c0cc; font: 18px/1.6 Inter, system-ui, Arial, sans-serif; }
+  :root { --ink: #301016; --muted: #6b4a50; --red: #dc2626; --line: #f1d6d6; --paper: #fffbfb; }
+  body { margin: 0; background: var(--paper); color: var(--muted); font: 18px/1.6 Inter, system-ui, Arial, sans-serif; }
   main { max-width: 720px; margin: 0 auto; padding: 56px 20px 80px; }
-  h1 { color: #f2f4f8; font-size: 40px; line-height: 1.1; margin: 0 0 8px; letter-spacing: -1px; }
-  h2 { color: #f2f4f8; font-size: 24px; margin: 40px 0 8px; }
-  a { color: #6cb8ff; }
+  h1 { color: var(--ink); font-size: 40px; line-height: 1.1; margin: 0 0 8px; letter-spacing: -1px; }
+  h2 { color: var(--ink); font-size: 24px; margin: 40px 0 8px; padding-top: 24px; border-top: 1px solid var(--line); }
+  a { color: var(--red); }
+  b { color: var(--ink); }
   p, li { margin: 0 0 12px; }
-  .small { color: #8e98a9; font-size: 15px; }
+  .small { color: #8a6a70; font-size: 15px; }
+  .eyebrow { color: var(--red); font: 600 12px/1 "Geist Mono", ui-monospace, monospace; letter-spacing: .28em; text-transform: uppercase; margin: 0 0 14px; }
+  .note { background: #fff; border: 1px solid var(--line); border-left: 4px solid var(--red); border-radius: 12px; padding: 14px 18px; }
 </style>
 </head>
 <body>
 <main>
-<p><a href="./">← VITALS</a></p>
+<p><a href="./">← VITALS 2.0</a></p>
+<p class="eyebrow">Student health monitor</p>
 <h1>Privacy policy and terms</h1>
-<p class="small">VITALS, by team Mission 61:4, a NASA Space Apps Challenge 2026 project. Last updated 15 November 2026.</p>
+<p class="small">VITALS 2.0, the student health monitor. Last updated 21 November 2026.</p>
 
-<h2>What VITALS is</h2>
-<p>VITALS is an educational crew health monitor built for a hackathon. It is a prototype, not a medical device, and it gives general information, not a diagnosis. In an emergency, contact a real doctor or emergency services.</p>
+<h2>What VITALS 2.0 is</h2>
+<p>VITALS 2.0 is an educational student health tool for schools. It helps students, teachers and school nurses keep an eye on everyday health: readings from a sensor, hydration, sleep, hygiene and first aid. It is a prototype, not a medical device, and it gives general information, not a diagnosis.</p>
+<p class="note"><b>In an emergency,</b> tell a teacher or the school nurse straight away and call your local emergency number. Do not wait for VITALS 2.0.</p>
+
+<h2>Students under 18</h2>
+<p>Most people using VITALS 2.0 are school students. A student should use it with the agreement of a parent or carer and their school. Parents and carers can ask to see, change or delete their child's data at any time (see "Your choices" below).</p>
 
 <h2>What we collect</h2>
 <ul>
-<li><b>Your account:</b> your email address and name. If you sign in with Google, Google gives us only your email address and name. We never see your Google password.</li>
-<li><b>Your crew card:</b> the job, mission and mission end date you type in, and a crew number we generate.</li>
-<li><b>Your readings:</b> the heart rate, blood oxygen, ECG, room and daily-log values from your sensor or the demo device, and the personal baselines you enter.</li>
+<li><b>Your account:</b> your email address and name. If you sign in with Google, Google gives us only your name and email address. We never see your Google password.</li>
+<li><b>Your student card:</b> the name, role in class, class and school-year end date you type in, and a student ID we generate.</li>
+<li><b>Your readings:</b> heart rate, blood oxygen, ECG, room temperature and humidity from your sensor or the demo device, the daily log (sleep, water, exercise) and the personal baselines you enter.</li>
+<li><b>Student Link:</b> the class you create or join, check-ins and notes you post to your class log.</li>
 </ul>
-<p>Readings are saved on your own device first. When you are signed in and online, they are uploaded to your account so they follow you to other devices.</p>
+<p>We do not collect your location, contacts, photos or anything from your phone beyond what you type in or the sensor sends.</p>
 
 <h2>Who can see it</h2>
-<p>Your readings are visible only to you. A short status summary (name, job, status and a few key vitals) is also visible to crew members with a commander or flight-surgeon role, and to members of a crew you join in Crew Link. The database enforces this, not the website.</p>
+<ul>
+<li><b>You</b> can see all of your own data.</li>
+<li><b>Your teacher and school nurse</b> (accounts the school has given that role) can see a short status summary: your name, role in class, status (green, amber or red), a few key vitals and when you last synced. They cannot see your full reading history.</li>
+<li><b>Classmates in a Student Link class you join</b> see the same short summary and the class log. You only join a class by choosing to.</li>
+</ul>
+<p>The database enforces these rules, not just the website.</p>
 
 <h2>Chatbots</h2>
-<p>When you are online, a question you type into a chatbot is sent to our endpoint on Cloudflare, which asks an AI model to write the answer. We do not store your questions. Offline, answers come from a library on your device and nothing is sent.</p>
+<p>The chatbots answer school health questions. When you are online, a question you type may be sent to an AI service to write the answer; we do not store your questions. Otherwise answers come from a library built into the site. Don't type private details like your full name, address or passwords into a chatbot.</p>
 
 <h2>Where it is kept</h2>
-<p>Account data is kept in Supabase. Files and the chatbot endpoint are hosted on Cloudflare Pages and GitHub Pages. We do not sell your data, show ads or use trackers.</p>
+<p>Account data is kept in Supabase. The website is hosted on GitHub Pages. VITALS 2.0 is separate from the original VITALS: accounts and data are not shared between them. We do not sell your data, show ads or use trackers.</p>
 
 <h2>Your choices</h2>
-<p>You can edit your crew card and baselines on the account page at any time. To have your account and data deleted, ask the Mission 61:4 team through the NASA Space Apps Challenge 2026 team page.</p>
+<p>You can edit your student card and baselines on the account page at any time, and leave a Student Link class whenever you like. To have your account and all its data deleted, or if a parent or carer wants to see or delete a child's data, ask your school or the VITALS 2.0 team and we will delete it.</p>
 
 <h2>Terms of use</h2>
-<p>VITALS is provided as it is, for learning and demonstration, with no warranty. Do not rely on it for medical decisions. Use it lawfully and do not try to access other people's data. We may change or stop the service at any time.</p>
+<p>VITALS 2.0 is provided as it is, for learning and demonstration, with no warranty. Do not rely on it for medical decisions; always follow your school's health policy and a doctor's advice. Use it respectfully and lawfully, and do not try to see other people's data. We may change or stop the service at any time.</p>
 </main>
 </body>
 </html>
