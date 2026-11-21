@@ -587,3 +587,57 @@ begin
   end if;
 end;
 $$;
+
+-- ================================================================ Teacher dashboard
+-- Teachers ('commander') and school nurses ('flight_surgeon') see every student's shared status (the
+-- same summary as crew_status) with their class, and recent help/watch check-ins. Read-only, and
+-- refused for anyone else. To make someone a teacher or school nurse (SQL editor):
+--   update public.profiles set role = 'commander'      where id = (select id from auth.users where email = 'teacher@school.org');
+--   update public.profiles set role = 'flight_surgeon' where id = (select id from auth.users where email = 'nurse@school.org');
+
+create or replace function public.teacher_overview()
+returns table (
+  user_id uuid, display_name text, job text, crew_number text, class_id uuid, class_name text,
+  status text, heart numeric, spo2 numeric, room_temp numeric, humidity numeric,
+  ecg numeric, sleep numeric, water numeric, exercise numeric, air numeric, updated_at timestamptz
+)
+language plpgsql stable security definer set search_path = ''
+as $$
+begin
+  if not public.is_commander() then
+    raise exception 'Only teachers and school nurses can open the teacher dashboard.';
+  end if;
+  return query
+    select p.id, p.display_name, p.job, p.crew_id, c.id, coalesce(c.name, ''),
+           s.status, s.heart, s.spo2, s.room_temp, s.humidity,
+           s.ecg, s.sleep, s.water, s.exercise, s.air, s.updated_at
+    from public.profiles p
+    left join public.crew_status s on s.user_id = p.id
+    left join public.crew_members m on m.user_id = p.id
+    left join public.crews c on c.id = m.crew
+    where p.role = 'crew' and p.onboarded
+    order by lower(p.display_name);
+end;
+$$;
+
+create or replace function public.teacher_checkins(hours integer default 48)
+returns table (id bigint, user_id uuid, display_name text, class_name text, kind text, body text, created_at timestamptz)
+language plpgsql stable security definer set search_path = ''
+as $$
+begin
+  if not public.is_commander() then
+    raise exception 'Only teachers and school nurses can open the teacher dashboard.';
+  end if;
+  return query
+    select l.id, l.user_id, l.display_name, coalesce(c.name, ''), l.kind, l.body, l.created_at
+    from public.crew_log l
+    left join public.crews c on c.id = l.crew
+    where l.kind in ('help', 'watch')
+      and l.created_at > now() - make_interval(hours => greatest(1, least(coalesce(hours, 48), 168)))
+    order by l.created_at desc
+    limit 100;
+end;
+$$;
+
+revoke execute on function public.teacher_overview(), public.teacher_checkins(integer) from public, anon;
+grant execute on function public.teacher_overview(), public.teacher_checkins(integer) to authenticated;

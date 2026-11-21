@@ -10,7 +10,6 @@
  * can read is enforced by the database (supabase/schema.sql), not by this page.
  */
 import { useEffect, useMemo, useRef, useState } from "react";
-import { RefreshCw } from "lucide-react";
 import { Shell } from "@/live/LivePage";
 import { LiquidButton } from "@/components/ui/liquid-glass-button";
 import { SignIn1, type SignInMode } from "@/components/ui/modern-stunning-sign-in";
@@ -20,7 +19,7 @@ import { Glyph, GlyphTile } from "@/components/ui/glyph";
 import { appUrl, supabase } from "@/lib/supabase";
 import { friendlyError, takeAuthError, useAuth, type Baselines, type Profile } from "@/lib/auth";
 import { crewIdFor, randomCrewId, describe, getMyReadings, type MyReadings } from "@/lib/crewDb";
-import { syncLabel, syncNow, useSyncState, withTimeout } from "@/lib/sync";
+import { syncLabel, syncNow, useSyncState } from "@/lib/sync";
 import { ShinyButton } from "@/components/ui/shiny-button";
 
 const field =
@@ -295,75 +294,6 @@ function SignInMethods() {
   );
 }
 
-type StatusRow = { user_id: string; display_name: string; job: string; crew_id: string; status: "green" | "yellow" | "red"; heart: number | null; spo2: number | null; room_temp: number | null; humidity: number | null; updated_at: string };
-const DOT = { green: "bg-emerald-400", yellow: "bg-amber-400", red: "bg-rose-500" };
-const BOARD_KEY = "vitals2-crew-board";
-
-/** Commanders and flight surgeons: everyone's status. The database decides who may read it. */
-function CrewBoard() {
-  const [rows, setRows] = useState<StatusRow[] | null>(null);
-  const [err, setErr] = useState("");
-  const [note, setNote] = useState("");
-  const load = async () => {
-    const res = navigator.onLine ? await withTimeout(supabase!.from("crew_status").select("*").order("display_name")) : "timeout";
-    const { data, error } = res === "timeout" ? { data: null, error: { message: "No connection." } } : res;
-    if (!error) {
-      setRows(data as StatusRow[]);
-      setErr("");
-      setNote("");
-      try {
-        localStorage.setItem(BOARD_KEY, JSON.stringify({ at: Date.now(), rows: data }));
-      } catch {
-        /* just not kept for offline */
-      }
-      return;
-    }
-    // no connection: the last board this device loaded
-    let saved: { at: number; rows: StatusRow[] } | null = null;
-    try {
-      saved = JSON.parse(localStorage.getItem(BOARD_KEY) ?? "null");
-    } catch {
-      /* nothing kept */
-    }
-    if (saved && (!navigator.onLine || !("code" in error) || !error.code)) {
-      setRows(saved.rows);
-      setNote(`No connection: showing the student status from ${new Date(saved.at).toLocaleString()}.`);
-    } else setErr(navigator.onLine ? friendlyError(error.message) : "No connection, and the student status hasn't been loaded on this device yet.");
-  };
-  useEffect(() => {
-    void load();
-  }, []);
-  return (
-    <div className={card}>
-      <div className="flex items-center justify-between gap-3">
-        <h2 className="flex items-center gap-3 text-lg font-semibold">
-          <GlyphTile name="people" size="sm" tone="violet" /> Student status
-        </h2>
-        <LiquidButton size="icon" type="button" aria-label="Refresh student status" onClick={load} className="h-9 w-9 text-white">
-          <RefreshCw className="h-4 w-4" />
-        </LiquidButton>
-      </div>
-      <p className="mt-2 text-sm text-white/60">What each student shares with commanders: status, key vitals and their room's temperature and humidity. Their full history stays private.</p>
-      {err && <p className="mt-4 text-sm text-rose-300">{err}</p>}
-      {note && <p className="mt-4 text-sm text-amber-200/80">{note}</p>}
-      {rows && !rows.length && <p className="mt-4 text-sm text-white/50">No student data synced yet.</p>}
-      <ul className="mt-4 divide-y divide-white/10">
-        {rows?.map((r) => (
-          <li key={r.user_id} className="flex flex-wrap items-center gap-x-4 gap-y-1 py-3 text-sm">
-            <span className={`h-2.5 w-2.5 rounded-full ${DOT[r.status]}`} aria-label={r.status} />
-            <span className="min-w-[8rem] font-semibold">{r.display_name || "Unnamed"}</span>
-            <span className="text-white/50">{r.job}</span>
-            <span className="ml-auto font-mono text-white/75">
-              {r.heart ?? "—"} bpm · {r.spo2 ?? "—"}% · room {r.room_temp ?? "—"}°C · {r.humidity ?? "—"}% RH
-            </span>
-            <span className="w-full text-xs text-white/40 sm:w-auto">synced {new Date(r.updated_at).toLocaleString()}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
 function AccountHome({ profile }: { profile: Profile }) {
   const { user, signOut } = useAuth();
   const sync = useSyncState();
@@ -379,7 +309,7 @@ function AccountHome({ profile }: { profile: Profile }) {
 
   const d = mine ? describe({ id: "self", name: profile.display_name, role: profile.job, crewId: profile.crew_id, readings: mine.readings, kind: "self", source: mine.source, updatedAt: mine.at }) : null;
   const commander = profile.role === "commander" || profile.role === "flight_surgeon";
-  const roleLabel = { crew: "Student", commander: "Commander", flight_surgeon: "Flight surgeon" }[profile.role];
+  const roleLabel = { crew: "Student", commander: "Teacher", flight_surgeon: "School nurse" }[profile.role];
 
   return (
     <div className="space-y-6">
@@ -414,8 +344,8 @@ function AccountHome({ profile }: { profile: Profile }) {
             </LiquidButton>
           </div>
           <p className="mt-3 text-xs leading-relaxed text-white/45">
-            Readings are saved on this device first and sent when there's a connection, so VITALS keeps working far from Earth. Your history is private;
-            commanders see only your status and three key vitals.
+            Readings are saved on this device first and sent when there's a connection. Your history is private; teachers and the school nurse
+            see only your status and a few key vitals.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <ShinyButton onClick={() => (window.location.hash = "#/live")} className="h-10 px-5 text-sm">
@@ -430,7 +360,16 @@ function AccountHome({ profile }: { profile: Profile }) {
           </div>
         </div>
       </div>
-      {commander && <CrewBoard />}
+      {commander && (
+        <a href="#/teacher" className={`${card} flex items-center gap-4 transition-colors hover:border-sky-300/40`}>
+          <GlyphTile name="clipboard" size="lg" />
+          <span className="flex-1">
+            <span className="block text-lg font-semibold">{profile.role === "flight_surgeon" ? "School nurse dashboard" : "Teacher dashboard"}</span>
+            <span className="block text-sm text-white/60">Every student's status, who needs attention, and help check-ins, live.</span>
+          </span>
+          <Glyph name="play" className="h-5 w-5 text-sky-300" />
+        </a>
+      )}
       <div className="grid gap-6 lg:grid-cols-2">
         <BaselinesForm profile={profile} />
         <SignInMethods />

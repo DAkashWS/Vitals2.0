@@ -31,6 +31,28 @@ const HEALTH: { title: string; text: string; href: string; icon: GlyphName }[] =
   { title: "Ask the assistant", text: "First aid and health in space, offline.", href: "#assistant", icon: "chat" },
 ];
 
+/** The Health menu; teachers and school nurses also get their dashboard. */
+function HealthMenu({ close }: { close: () => void }) {
+  const { profile } = useAuth();
+  const teacher = profile?.role === "commander" || profile?.role === "flight_surgeon";
+  const items = teacher
+    ? [{ title: profile?.role === "flight_surgeon" ? "School nurse dashboard" : "Teacher dashboard", text: "Every student's status, alerts and check-ins.", href: "#/teacher", icon: "clipboard" as GlyphName }, ...HEALTH]
+    : HEALTH;
+  return (
+    <div className="space-y-1 p-3">
+      {items.map((h) => (
+        <a key={h.title} href={h.href} onClick={close} className={row}>
+          <GlyphTile name={h.icon} tone="green" />
+          <span>
+            <span className="block font-semibold text-white">{h.title}</span>
+            <span className="block text-sm text-white/55">{h.text}</span>
+          </span>
+        </a>
+      ))}
+    </div>
+  );
+}
+
 const row = "flex items-center gap-3 rounded-2xl p-2 text-left transition-colors duration-300 hover:bg-white/[0.07]";
 
 function You({ close }: { close: () => void }) {
@@ -92,19 +114,7 @@ const ACTIONS: ActionItem[] = [
     label: "Health",
     icon: HeartPulse,
     width: 420,
-    content: (close) => (
-      <div className="space-y-1 p-3">
-        {HEALTH.map((h) => (
-          <a key={h.title} href={h.href} onClick={close} className={row}>
-            <GlyphTile name={h.icon} tone="green" />
-            <span>
-              <span className="block font-semibold text-white">{h.title}</span>
-              <span className="block text-sm text-white/55">{h.text}</span>
-            </span>
-          </a>
-        ))}
-      </div>
-    ),
+    content: (close) => <HealthMenu close={close} />,
   },
   { id: "you", label: "You", icon: UserRound, width: 380, content: (close) => <You close={close} /> },
 ];

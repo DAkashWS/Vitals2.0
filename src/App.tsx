@@ -24,6 +24,7 @@ const CrewLinkPage = lazy(() => import("@/crewlink/CrewLinkPage"));
 // Accounts load the sign-in pages only when someone opens them.
 const AccountPage = lazy(() => import("@/account/AccountPage"));
 const ResetPasswordPage = lazy(() => import("@/account/ResetPasswordPage"));
+const TeacherPage = lazy(() => import("@/teacher/TeacherPage"));
 
 /** "#/live" and "#/hygiene" open their own pages. Every other hash is a section of the main page. */
 function usePage() {
@@ -41,6 +42,7 @@ function usePage() {
     if (h.startsWith("#/crew-link")) return "crewlink";
     if (h.startsWith("#/account")) return "account";
     if (h.startsWith("#/reset-password")) return "reset";
+    if (h.startsWith("#/teacher")) return "teacher";
     return "home";
   };
   const [page, setPage] = useState(read);
@@ -108,6 +110,10 @@ function Pages() {
       ) : page === "crewlink" ? (
         <Suspense fallback={<p className="p-12 text-sm text-white/60">Linking to your class…</p>}>
           <CrewLinkPage />
+        </Suspense>
+      ) : page === "teacher" ? (
+        <Suspense fallback={<p className="p-12 text-sm text-white/60">Loading the teacher dashboard…</p>}>
+          <TeacherPage />
         </Suspense>
       ) : page === "simulator" ? (
         <Suspense fallback={<p className="p-12 font-mono text-sm text-cyan-200/70">Loading the simulator…</p>}>
