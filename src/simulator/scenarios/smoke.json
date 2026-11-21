@@ -1,0 +1,241 @@
+{
+  "id": "smoke",
+  "order": 7,
+  "title": "Smoke in the Lab",
+  "short": "An experiment rack starts to burn. The smoke clears, but the carbon monoxide stays, and the finger clip can't see it.",
+  "difficulty": "Hard",
+  "icon": "flame",
+  "setting": "interior",
+  "look": "smoke",
+  "timeUnit": "min",
+  "secondsPerUnit": 1.5,
+  "duration": 40,
+  "briefing": "You and Sato are in the lab when an experiment rack overheats. Fire in a closed station fills the air with smoke and carbon monoxide, and there is nowhere to step outside. Watch cabin CO, the crew's blood CO and heart rate. The medical kit has the oxygen masks, and the scrubber can run the smoke filter.",
+  "story": {
+    "day": 55,
+    "intro": "The last week of the mission. Sato is working late on the furnace experiment in the lab, and you're helping.",
+    "goal": "Protect your breathing, stop the fire's power, and clear the carbon monoxide from the air and from Sato's blood.",
+    "crew": [
+      {
+        "at": 4,
+        "who": "Cmdr. Varga",
+        "text": "Reyes and Okafor are at the far end of the station with the hatches shut. Talk to me."
+      },
+      {
+        "at": 17,
+        "who": "Dr. Okafor",
+        "text": "A finger clip can't see carbon monoxide. Go by Sato's symptoms, not that number."
+      },
+      {
+        "at": 34,
+        "who": "Sato",
+        "text": "Thanks for staying with me. My head's finally clearing."
+      }
+    ],
+    "carry": {
+      "from": "kidney-stone",
+      "key": "heartRate",
+      "good": 0,
+      "bad": 8,
+      "goodText": "The stone is gone and you're back to full strength.",
+      "badText": "You're still sore from the kidney stone and sleeping badly: your heart rate starts higher."
+    }
+  },
+  "objects": ["scrubber", "medKit"],
+  "vitals": [
+    {
+      "key": "co",
+      "label": "Cabin CO",
+      "unit": "ppm",
+      "start": 2,
+      "rate": 0,
+      "min": 0,
+      "max": 400,
+      "decimals": 0,
+      "band": { "green": [0, 20], "amber": [0, 55] }
+    },
+    {
+      "key": "cohb",
+      "label": "Sato's blood CO",
+      "unit": "%",
+      "start": 1,
+      "rate": 0,
+      "min": 0.5,
+      "max": 50,
+      "decimals": 1,
+      "band": { "green": [0, 5], "amber": [0, 10] }
+    },
+    {
+      "key": "spo2",
+      "label": "Sato's finger clip",
+      "unit": "% SpO2",
+      "start": 98,
+      "rate": 0,
+      "min": 80,
+      "max": 100,
+      "decimals": 0,
+      "band": { "green": [95, 100], "amber": [92, 100] }
+    },
+    {
+      "key": "heartRate",
+      "label": "Your heart rate",
+      "unit": "bpm",
+      "start": 76,
+      "rate": 0,
+      "min": 50,
+      "max": 170,
+      "decimals": 0,
+      "band": { "green": [50, 105], "amber": [45, 125] }
+    }
+  ],
+  "rules": [
+    { "key": "co", "above": 20, "notFlag": "masks", "rateAdd": { "cohb": 0.4 } },
+    { "flag": "masks", "rateAdd": { "cohb": -0.25 } },
+    { "key": "co", "above": 55, "notFlag": "masks", "rateAdd": { "heartRate": 1.5 } },
+    { "key": "heartRate", "above": 80, "rateAdd": { "heartRate": -0.6 } }
+  ],
+  "events": [
+    { "at": 0, "text": "Day 55. A late shift in the lab.", "level": "info" },
+    {
+      "at": 2,
+      "text": "Smoke alarm! A burning smell from the furnace rack.",
+      "level": "alert",
+      "effect": { "set": { "co": 18 }, "rateAdd": { "co": 3 }, "add": { "heartRate": 12 }, "flags": { "fire": true } }
+    },
+    { "at": 22, "text": "Mission Control: we see the CO readings. Keep the filter running.", "level": "info" }
+  ],
+  "decisions": [
+    {
+      "id": "alarm",
+      "at": 3,
+      "title": "Fire alarm",
+      "prompt": "Smoke is curling out of the furnace rack and the alarm is sounding. Sato is coughing.",
+      "choices": [
+        {
+          "id": "masks",
+          "label": "Masks on, cut the rack's power, and call out the fire",
+          "feedback": "Protect your breathing first, then take away the fire's power. Most station fires are electrical: no power, no fire.",
+          "score": 0,
+          "best": true,
+          "effect": { "rateAdd": { "co": -3 }, "flags": { "masks": true, "powerCut": true } }
+        },
+        {
+          "id": "extinguish",
+          "label": "Grab the extinguisher and spray the rack first",
+          "feedback": "Without a mask you breathe smoke while you fight the fire, and the rack still has power. Masks and power first, then the extinguisher if it keeps burning.",
+          "score": -15,
+          "mistake": true,
+          "effect": { "rateAdd": { "co": -1 } }
+        },
+        {
+          "id": "open",
+          "label": "Open the rack to see what's burning",
+          "feedback": "Opening it feeds the fire fresh air and puts your face in the smoke.",
+          "score": -20,
+          "mistake": true,
+          "effect": { "rateAdd": { "co": 1 } }
+        }
+      ]
+    },
+    {
+      "id": "clip",
+      "at": 14,
+      "title": "Sato's finger clip reads 98 %",
+      "prompt": "Sato has a pounding headache and feels sick, but the pulse oximeter on Sato's finger reads a normal 98 %.",
+      "choices": [
+        {
+          "id": "oxygen",
+          "label": "Keep Sato on 100 % oxygen: the clip can't see carbon monoxide",
+          "feedback": "A pulse oximeter reads blood carrying carbon monoxide as if it carried oxygen. Headache and nausea after smoke mean CO poisoning until proven otherwise, and pure oxygen clears it several times faster than air.",
+          "score": 0,
+          "best": true,
+          "effect": { "add": { "cohb": -1 }, "flags": { "masks": true } }
+        },
+        {
+          "id": "maskOff",
+          "label": "98 % is normal. Take the mask off and help clean up",
+          "feedback": "The clip is fooling you. Carbon monoxide takes oxygen's place in the blood, and a finger clip can't tell the difference.",
+          "score": -20,
+          "mistake": true,
+          "effect": { "flags": { "masks": false } }
+        },
+        {
+          "id": "painkiller",
+          "label": "Give a painkiller for the headache",
+          "feedback": "The headache is a sign of the carbon monoxide. Oxygen treats it; a painkiller only hides it.",
+          "score": -10,
+          "mistake": true
+        }
+      ]
+    },
+    {
+      "id": "clear",
+      "at": 30,
+      "title": "The haze has thinned",
+      "prompt": "The fire is out and you can see across the module again. Sato wants the mask off.",
+      "choices": [
+        {
+          "id": "wait",
+          "label": "Keep the masks on and the filter running until the CO reading is green",
+          "feedback": "After a fire the air still holds carbon monoxide and other gases you can't see. Go by the readings, not by how clear the air looks.",
+          "score": 0,
+          "best": true
+        },
+        {
+          "id": "off",
+          "label": "Masks off, it looks clear now",
+          "feedback": "Clear air isn't clean air. Carbon monoxide has no colour and no smell.",
+          "score": -20,
+          "mistake": true,
+          "effect": { "flags": { "masks": false } }
+        },
+        {
+          "id": "hatch",
+          "label": "Open the hatch and let the air out into the rest of the station",
+          "feedback": "That spreads the smoke to the whole crew. Clean the air where it is, then open up.",
+          "score": -10,
+          "mistake": true,
+          "effect": { "rateAdd": { "co": 1 }, "flags": { "hatchOpen": true } }
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "id": "masks",
+      "object": "medKit",
+      "label": "Put the oxygen masks on you and Sato",
+      "message": "Masks on, pure oxygen flowing.",
+      "requires": "fire",
+      "hideIf": "masks",
+      "effect": { "flags": { "masks": true } }
+    },
+    {
+      "id": "filter",
+      "object": "scrubber",
+      "label": "Run the smoke filter",
+      "message": "Filter running. It pulls smoke and carbon monoxide out of the air.",
+      "requires": "fire",
+      "once": true,
+      "effect": { "rateAdd": { "co": -2.5 }, "flags": { "filtering": true, "scrubberOn": true } }
+    }
+  ],
+  "keySteps": [
+    {
+      "flag": "masks",
+      "by": 4,
+      "label": "Get breathing masks on in the first minutes",
+      "why": "Smoke and carbon monoxide build up fast in a closed module. Every breath without a mask adds to the dose."
+    },
+    {
+      "flag": "filtering",
+      "by": 8,
+      "label": "Start cleaning the air",
+      "why": "In a sealed station the smoke has nowhere to go. Only the filter takes the carbon monoxide out."
+    }
+  ],
+  "failAfterRed": 6,
+  "redPenalty": 1.5,
+  "successText": "The fire is out, the air is clean, and Sato's blood CO is back to normal.",
+  "failText": "The carbon monoxide got too high. The crew had to abandon the lab."
+}

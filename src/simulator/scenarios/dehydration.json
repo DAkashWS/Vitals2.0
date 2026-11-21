@@ -1,0 +1,353 @@
+{
+  "id": "dehydration",
+  "order": 1,
+  "title": "Dehydration",
+  "short": "A long, warm work day and a thirst that never comes. Fluid shift is lying to you.",
+  "difficulty": "Easy",
+  "icon": "dehydrate",
+  "setting": "interior",
+  "look": "dehydration",
+  "timeUnit": "h",
+  "secondsPerUnit": 6,
+  "duration": 10,
+  "briefing": "A packed day of experiments in a warm, dry module. In space, fluid shift turns thirst down, so you dry out without noticing. The water unit is empty: refill it, drink on a schedule, and make the right calls.",
+  "story": {
+    "day": 12,
+    "intro": "The busiest experiment week of the mission. Commander Varga has you running three payloads back to back in the warm lab.",
+    "goal": "Keep your hydration in the green until the end of the work day.",
+    "crew": [
+      {
+        "at": 0.5,
+        "who": "Reyes",
+        "text": "Water unit's showing empty again. Reserve bags are in the locker by the hatch."
+      },
+      {
+        "at": 3,
+        "who": "Dr. Okafor",
+        "text": "Nobody's logged a drink since breakfast. Thirst is a liar up here."
+      },
+      {
+        "at": 7,
+        "who": "Cmdr. Varga",
+        "text": "Good work on the payloads. Don't let the lab's heat sneak up on you."
+      }
+    ]
+  },
+  "objects": [
+    "waterUnit",
+    "medKit"
+  ],
+  "flags": {
+    "waterEmpty": true
+  },
+  "vitals": [
+    {
+      "key": "hydration",
+      "label": "Hydration",
+      "unit": "%",
+      "start": 99.5,
+      "rate": -0.45,
+      "min": 90,
+      "max": 101,
+      "decimals": 1,
+      "band": {
+        "green": [
+          98.5,
+          101
+        ],
+        "amber": [
+          97,
+          101
+        ]
+      }
+    },
+    {
+      "key": "heartRate",
+      "label": "Heart rate",
+      "unit": "bpm",
+      "start": 68,
+      "rate": 0,
+      "min": 50,
+      "max": 160,
+      "decimals": 0,
+      "band": {
+        "green": [
+          50,
+          100
+        ],
+        "amber": [
+          45,
+          110
+        ]
+      }
+    },
+    {
+      "key": "roomTemp",
+      "label": "Room temp",
+      "unit": "°C",
+      "start": 24,
+      "rate": 0,
+      "min": 15,
+      "max": 40,
+      "decimals": 1,
+      "band": {
+        "green": [
+          18,
+          33
+        ],
+        "amber": [
+          16,
+          36
+        ]
+      }
+    },
+    {
+      "key": "humidity",
+      "label": "Humidity",
+      "unit": "%",
+      "start": 34,
+      "rate": 0,
+      "min": 10,
+      "max": 90,
+      "decimals": 0,
+      "band": {
+        "green": [
+          30,
+          60
+        ],
+        "amber": [
+          25,
+          75
+        ]
+      }
+    }
+  ],
+  "rules": [
+    {
+      "key": "hydration",
+      "below": 98.5,
+      "rateAdd": {
+        "heartRate": 4
+      }
+    },
+    {
+      "key": "hydration",
+      "below": 97,
+      "rateAdd": {
+        "heartRate": 4
+      }
+    },
+    {
+      "key": "heartRate",
+      "above": 70,
+      "rateAdd": {
+        "heartRate": -2
+      }
+    },
+    {
+      "key": "roomTemp",
+      "above": 30,
+      "rateAdd": {
+        "hydration": -0.15
+      }
+    },
+    {
+      "key": "humidity",
+      "below": 30,
+      "rateAdd": {
+        "hydration": -0.08
+      }
+    }
+  ],
+  "events": [
+    {
+      "at": 0,
+      "text": "Busy day of experiments ahead. The water unit shows EMPTY.",
+      "level": "warn"
+    },
+    {
+      "at": 1,
+      "text": "You don't feel thirsty. Fluid shift turns thirst down in space.",
+      "level": "info"
+    },
+    {
+      "at": 4,
+      "text": "The lab module is hot and dry today: 34 °C and 28 % humidity.",
+      "level": "warn",
+      "effect": {
+        "set": {
+          "roomTemp": 34,
+          "humidity": 28
+        }
+      }
+    }
+  ],
+  "decisions": [
+    {
+      "id": "no-thirst",
+      "at": 2,
+      "title": "No thirst at all",
+      "prompt": "You've had only 300 ml since waking up, but you don't feel thirsty.",
+      "choices": [
+        {
+          "id": "schedule",
+          "label": "Drink on a schedule anyway, every hour",
+          "feedback": "In space, thirst lies. A schedule keeps you ahead of it.",
+          "score": 0,
+          "best": true,
+          "effect": {
+            "rateAdd": {
+              "hydration": 0.3
+            }
+          }
+        },
+        {
+          "id": "wait",
+          "label": "Wait until you feel thirsty",
+          "feedback": "Fluid shift turns thirst down, so it arrives late, after you're already dry.",
+          "score": -20,
+          "mistake": true
+        },
+        {
+          "id": "coffee",
+          "label": "Have a coffee instead",
+          "feedback": "Coffee does count towards your fluids, but one cup isn't a plan. Without a schedule, thirst still won't remind you in time.",
+          "score": -10,
+          "mistake": true,
+          "effect": {
+            "rateAdd": {
+              "hydration": 0.05
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "headache",
+      "at": 5,
+      "title": "Headache and dark urine",
+      "prompt": "Mid-afternoon: a dull headache, and your urine is dark yellow.",
+      "choices": [
+        {
+          "id": "drink",
+          "label": "Drink 500 ml and rest in a cooler module",
+          "feedback": "Fluid restores volume, and cooler, less dry air cuts how much water you lose.",
+          "score": 0,
+          "best": true,
+          "effect": {
+            "add": {
+              "hydration": 1.2
+            },
+            "set": {
+              "roomTemp": 22.5,
+              "humidity": 40
+            }
+          }
+        },
+        {
+          "id": "pill",
+          "label": "Take a painkiller and keep working",
+          "feedback": "The headache is a symptom of dehydration. Treat the cause.",
+          "score": -20,
+          "mistake": true
+        },
+        {
+          "id": "exercise",
+          "label": "Do the planned exercise session now",
+          "feedback": "Two hours of exercise while dry makes you lose even more water.",
+          "score": -15,
+          "mistake": true,
+          "effect": {
+            "rateAdd": {
+              "hydration": -0.2
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "tomorrow",
+      "at": 8.5,
+      "title": "End of the day",
+      "prompt": "How do you set up for tomorrow?",
+      "choices": [
+        {
+          "id": "plan",
+          "label": "Fill a drink bag and set hourly reminders",
+          "feedback": "Small habits beat good intentions. VITALS can log every glass.",
+          "score": 0,
+          "best": true
+        },
+        {
+          "id": "skip",
+          "label": "Skip it, you'll remember",
+          "feedback": "That's what you thought this morning.",
+          "score": -10,
+          "mistake": true
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "id": "refill",
+      "object": "waterUnit",
+      "label": "Refill the water unit from a reserve bag",
+      "message": "Water unit full again.",
+      "hideIf": "refilled",
+      "effect": {
+        "flags": {
+          "refilled": true,
+          "waterEmpty": false
+        }
+      }
+    },
+    {
+      "id": "drink",
+      "object": "waterUnit",
+      "label": "Drink 500 ml",
+      "message": "Half a litre down.",
+      "requires": "refilled",
+      "cooldown": 1,
+      "effect": {
+        "add": {
+          "hydration": 1
+        },
+        "flags": {
+          "drank": true
+        }
+      }
+    },
+    {
+      "id": "electrolyte",
+      "object": "medKit",
+      "label": "Take an electrolyte tablet with water",
+      "message": "Salts help your body hold on to the water.",
+      "requires": "refilled",
+      "once": true,
+      "effect": {
+        "add": {
+          "hydration": 0.8
+        }
+      }
+    }
+  ],
+  "keySteps": [
+    {
+      "flag": "refilled",
+      "by": 2,
+      "label": "Refill the water unit early",
+      "why": "No water within reach means no drinking. Fix supply first."
+    },
+    {
+      "flag": "drank",
+      "by": 3,
+      "label": "Drink before you feel thirsty",
+      "why": "Thirst comes late in space. Drinking on a schedule keeps you ahead."
+    }
+  ],
+  "failAfterRed": 3,
+  "redPenalty": 3,
+  "successText": "Day complete, and you stayed hydrated.",
+  "failText": "Dehydration got serious. The flight surgeon stopped your work for the day."
+}

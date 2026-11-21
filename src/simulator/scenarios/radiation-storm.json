@@ -1,0 +1,333 @@
+{
+  "id": "radiation-storm",
+  "order": 4,
+  "title": "Radiation Storm",
+  "short": "A solar flare sends a wave of protons your way. You have minutes to take cover.",
+  "difficulty": "Medium",
+  "icon": "sunFlare",
+  "setting": "interior",
+  "look": "radiation",
+  "timeUnit": "min",
+  "secondsPerUnit": 1.1,
+  "duration": 60,
+  "briefing": "A routine day on the station, until space weather turns. When a solar particle event hits, the storm shelter (crew quarters lined with water and equipment) cuts your dose sharply. Get there in time and stay there.",
+  "story": {
+    "day": 33,
+    "intro": "The Sun throws a flare at the station. The storm watch from Day 27 just became a warning.",
+    "goal": "Reach the shelter in time and keep your total dose low.",
+    "crew": [
+      {
+        "at": 2,
+        "who": "Cmdr. Varga",
+        "text": "All crew: flare confirmed. The shelter is behind the far hatch. Move with purpose."
+      },
+      {
+        "at": 15,
+        "who": "Sato",
+        "text": "Dosimeters are climbing in the lab. I've shut the experiments down."
+      },
+      {
+        "at": 40,
+        "who": "Dr. Okafor",
+        "text": "Log your dose when this passes. The flight surgeon will want every number."
+      }
+    ],
+    "carry": {
+      "from": "sleepless-nights",
+      "key": "heartRate",
+      "good": 0,
+      "bad": 8,
+      "goodText": "You're rested, and it shows: steady hands, steady pulse.",
+      "badText": "You're still short on sleep: your heart is already racing."
+    }
+  },
+  "objects": [
+    "hatch",
+    "medKit"
+  ],
+  "vitals": [
+    {
+      "key": "doseRate",
+      "label": "Dose rate",
+      "unit": "mSv/h",
+      "start": 0.02,
+      "rate": 0,
+      "min": 0,
+      "max": 20,
+      "decimals": 2,
+      "band": {
+        "green": [
+          0,
+          0.1
+        ],
+        "amber": [
+          0,
+          1
+        ]
+      },
+      "scale": {
+        "flag": "sheltered",
+        "factor": 0.12
+      }
+    },
+    {
+      "key": "dose",
+      "label": "Storm dose",
+      "unit": "mSv",
+      "start": 0.3,
+      "rate": 0,
+      "min": 0,
+      "max": 50,
+      "decimals": 2,
+      "band": {
+        "green": [
+          0,
+          1
+        ],
+        "amber": [
+          0,
+          2.5
+        ]
+      },
+      "integrates": {
+        "key": "doseRate",
+        "factor": 0.016667
+      }
+    },
+    {
+      "key": "heartRate",
+      "label": "Heart rate",
+      "unit": "bpm",
+      "start": 74,
+      "rate": 0,
+      "min": 50,
+      "max": 160,
+      "decimals": 0,
+      "band": {
+        "green": [
+          50,
+          100
+        ],
+        "amber": [
+          45,
+          115
+        ]
+      }
+    }
+  ],
+  "rules": [
+    {
+      "key": "doseRate",
+      "above": 1,
+      "notFlag": "sheltered",
+      "rateAdd": {
+        "heartRate": 0.4
+      }
+    },
+    {
+      "key": "heartRate",
+      "above": 76,
+      "rateAdd": {
+        "heartRate": -0.25
+      }
+    }
+  ],
+  "events": [
+    {
+      "at": 0,
+      "text": "Routine day on the station. Space weather is quiet.",
+      "level": "info"
+    },
+    {
+      "at": 4,
+      "text": "Space weather alert: a large solar flare has just erupted. Protons expected in about 10 minutes.",
+      "level": "alert",
+      "effect": {
+        "add": {
+          "heartRate": 8
+        }
+      }
+    },
+    {
+      "at": 14,
+      "text": "First protons arriving. The dose rate is rising.",
+      "level": "warn",
+      "effect": {
+        "set": {
+          "doseRate": 2
+        }
+      }
+    },
+    {
+      "at": 18,
+      "text": "Storm peak: the dose rate is hundreds of times normal.",
+      "level": "alert",
+      "effect": {
+        "set": {
+          "doseRate": 6
+        }
+      }
+    },
+    {
+      "at": 40,
+      "text": "The storm is easing.",
+      "level": "warn",
+      "effect": {
+        "set": {
+          "doseRate": 1.5
+        }
+      }
+    },
+    {
+      "at": 50,
+      "text": "The dose rate is back to normal.",
+      "level": "info",
+      "effect": {
+        "set": {
+          "doseRate": 0.03
+        }
+      }
+    }
+  ],
+  "decisions": [
+    {
+      "id": "warning",
+      "at": 6,
+      "title": "Protons in about 8 minutes",
+      "prompt": "Mission Control confirms a solar particle event. What do you do?",
+      "choices": [
+        {
+          "id": "shelter",
+          "label": "Go to the storm shelter now",
+          "feedback": "Water bags and equipment around the crew quarters block much of the proton flux.",
+          "score": 0,
+          "best": true,
+          "effect": {
+            "flags": {
+              "sheltered": true
+            }
+          }
+        },
+        {
+          "id": "finish",
+          "label": "Finish the experiment first",
+          "feedback": "Protons arrive close to light speed. Every minute outside the shelter at the peak adds dose. Click the hatch to take cover.",
+          "score": -15,
+          "mistake": true
+        },
+        {
+          "id": "layers",
+          "label": "Put on extra layers of clothing",
+          "feedback": "Fabric barely slows high-energy protons. Mass, like water, is what protects you. Click the hatch to take cover.",
+          "score": -20,
+          "mistake": true
+        }
+      ]
+    },
+    {
+      "id": "leave",
+      "at": 28,
+      "title": "Stay or go?",
+      "prompt": "A crewmate wants you both to leave the shelter for 10 minutes to save an experiment.",
+      "choices": [
+        {
+          "id": "stay",
+          "label": "Stay sheltered until the dose rate is green",
+          "feedback": "Right. Experiments can be repeated; dose can't be taken back.",
+          "score": 0,
+          "best": true
+        },
+        {
+          "id": "go",
+          "label": "Go together, quickly",
+          "feedback": "You're out in the storm peak. Get back in through the hatch.",
+          "score": -20,
+          "mistake": true,
+          "effect": {
+            "flags": {
+              "sheltered": false
+            }
+          }
+        },
+        {
+          "id": "ask",
+          "label": "Ask Mission Control first",
+          "feedback": "Good instinct, and the answer is: stay put while it's red.",
+          "score": -5
+        }
+      ]
+    },
+    {
+      "id": "after",
+      "at": 53,
+      "title": "Storm over",
+      "prompt": "The dose rate is back to normal.",
+      "choices": [
+        {
+          "id": "report",
+          "label": "Record your dose and report it to the flight surgeon",
+          "feedback": "Every storm dose goes on your lifetime record, which limits future missions.",
+          "score": 0,
+          "best": true
+        },
+        {
+          "id": "nothing",
+          "label": "Nothing to report, the storm has passed",
+          "feedback": "Dose adds up over a career. It has to be on the record.",
+          "score": -10,
+          "mistake": true
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "id": "enter-shelter",
+      "object": "hatch",
+      "label": "Move into the storm shelter",
+      "message": "Hatch closed behind you. Shielding up.",
+      "hideIf": "sheltered",
+      "effect": {
+        "flags": {
+          "sheltered": true
+        }
+      }
+    },
+    {
+      "id": "leave-shelter",
+      "object": "hatch",
+      "label": "Leave the storm shelter",
+      "message": "Out of the shelter. Only leave once the dose rate is green.",
+      "requires": "sheltered",
+      "effect": {
+        "flags": {
+          "sheltered": false
+        }
+      }
+    },
+    {
+      "id": "dosimeter",
+      "object": "medKit",
+      "label": "Read your dosimeter",
+      "message": "Dose noted in the log.",
+      "cooldown": 5,
+      "effect": {
+        "flags": {
+          "doseLogged": true
+        }
+      }
+    }
+  ],
+  "keySteps": [
+    {
+      "flag": "sheltered",
+      "by": 14,
+      "label": "Get into the storm shelter before the protons arrive",
+      "why": "The first 10 minutes after the warning are all the time you get. Shelter cuts the dose by around 90 %."
+    }
+  ],
+  "failAfterRed": 20,
+  "redPenalty": 1,
+  "successText": "Storm over. Your extra dose stayed low.",
+  "failText": "Too long unprotected at the storm peak. The flight surgeon ordered an emergency review."
+}

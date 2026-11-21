@@ -1,0 +1,10 @@
+node_modules
+dist
+*.log
+.env*
+*.tsbuildinfo
+.playwright-mcp
+bots/selftest.txt
+
+# local editor and assistant settings
+.claude/

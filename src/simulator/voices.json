@@ -1,0 +1,594 @@
+{
+ "A week of round-the-clock experiments pushed the CO2 scrubber hard. Tonight it gives up. You're working in the lab module with a crewmate. The main CO2 scrubber has just faulted, and CO2 builds up fast in still air. Watch the CO2 level, act on the objects in the module, and make the calls at each decision point. Your goal: Get the scrubber running again and keep cabin CO2 out of the red.": [
+  "audio/voices/co2-buildup-briefing.mp3",
+  "Mission Control"
+ ],
+ "Main CO2 scrubber faulted. The cabin fans are still running.": [
+  "audio/voices/co2-buildup-event-0.mp3",
+  "Mission Control"
+ ],
+ "CO2 is creeping up. Two people are breathing in this module.": [
+  "audio/voices/co2-buildup-event-1.mp3",
+  "Mission Control"
+ ],
+ "Your crewmate has a dull headache and can't concentrate.": [
+  "audio/voices/co2-buildup-event-2.mp3",
+  "Mission Control"
+ ],
+ "Mission Control: scrubber telemetry received, thanks.": [
+  "audio/voices/co2-buildup-event-3.mp3",
+  "Mission Control"
+ ],
+ "Is it me, or is the air thick in here? I've read the same line four times.": [
+  "audio/voices/co2-buildup-crew-0.mp3",
+  "Sato"
+ ],
+ "A headache with high CO2 isn't a coincidence. Fix the air first.": [
+  "audio/voices/co2-buildup-crew-1.mp3",
+  "Dr. Okafor"
+ ],
+ "Earth's answer is twenty minutes out. This one is ours to solve.": [
+  "audio/voices/co2-buildup-crew-2.mp3",
+  "Cmdr. Varga"
+ ],
+ "CO2 is climbing. The CO2 reading has turned amber and your crewmate looks tired. What's your first move?": [
+  "audio/voices/co2-buildup-first-move-prompt.mp3",
+  "Mission Control"
+ ],
+ "Right call. Naming the problem early gets everyone acting. Next: restart the scrubber.": [
+  "audio/voices/co2-buildup-first-move-warn.mp3",
+  "Mission Control"
+ ],
+ "CO2 doesn't wait. Effort makes you breathe harder and add even more CO2.": [
+  "audio/voices/co2-buildup-first-move-finish.mp3",
+  "Mission Control"
+ ],
+ "The headache is your warning sign. A painkiller hides it while the CO2 keeps rising.": [
+  "audio/voices/co2-buildup-first-move-pill.mp3",
+  "Mission Control"
+ ],
+ "Crewmate in trouble. Your crewmate is flushed, breathing fast and has a pounding headache.": [
+  "audio/voices/co2-buildup-crewmate-prompt.mp3",
+  "Mission Control"
+ ],
+ "Moving air breaks up the CO2 pocket that forms around your face in weightlessness.": [
+  "audio/voices/co2-buildup-crewmate-vent.mp3",
+  "Mission Control"
+ ],
+ "Exercise produces more CO2 and raises the heart rate. The opposite of what's needed.": [
+  "audio/voices/co2-buildup-crewmate-exercise.mp3",
+  "Mission Control"
+ ],
+ "It helps them feel better, but oxygen doesn't remove CO2. Airflow and the scrubber come first.": [
+  "audio/voices/co2-buildup-crewmate-oxygen.mp3",
+  "Mission Control"
+ ],
+ "The air is clearing. The worst is over. How do you close this out?": [
+  "audio/voices/co2-buildup-report-prompt.mp3",
+  "Mission Control"
+ ],
+ "A written record survives the delay to Earth and helps spot patterns across the crew.": [
+  "audio/voices/co2-buildup-report-log.mp3",
+  "Mission Control"
+ ],
+ "Without a record, the flight surgeon can't link future headaches to this event.": [
+  "audio/voices/co2-buildup-report-skip.mp3",
+  "Mission Control"
+ ],
+ "Good, but write it down too.": [
+  "audio/voices/co2-buildup-report-watch.mp3",
+  "Mission Control"
+ ],
+ "Shift complete. Cabin CO2 is back to normal.": [
+  "audio/voices/co2-buildup-success.mp3",
+  "Mission Control"
+ ],
+ "CO2 stayed in the red too long. The crew had to leave the module.": [
+  "audio/voices/co2-buildup-fail.mp3",
+  "Mission Control"
+ ],
+ "The busiest experiment week of the mission. Commander Varga has you running three payloads back to back in the warm lab. A packed day of experiments in a warm, dry module. In space, fluid shift turns thirst down, so you dry out without noticing. The water unit is empty: refill it, drink on a schedule, and make the right calls. Your goal: Keep your hydration in the green until the end of the work day.": [
+  "audio/voices/dehydration-briefing.mp3",
+  "Mission Control"
+ ],
+ "Busy day of experiments ahead. The water unit shows EMPTY.": [
+  "audio/voices/dehydration-event-0.mp3",
+  "Mission Control"
+ ],
+ "You don't feel thirsty. Fluid shift turns thirst down in space.": [
+  "audio/voices/dehydration-event-1.mp3",
+  "Mission Control"
+ ],
+ "The lab module is hot and dry today: 34 °C and 28 % humidity.": [
+  "audio/voices/dehydration-event-2.mp3",
+  "Mission Control"
+ ],
+ "Water unit's showing empty again. Reserve bags are in the locker by the hatch.": [
+  "audio/voices/dehydration-crew-0.mp3",
+  "Reyes"
+ ],
+ "Nobody's logged a drink since breakfast. Thirst is a liar up here.": [
+  "audio/voices/dehydration-crew-1.mp3",
+  "Dr. Okafor"
+ ],
+ "Good work on the payloads. Don't let the lab's heat sneak up on you.": [
+  "audio/voices/dehydration-crew-2.mp3",
+  "Cmdr. Varga"
+ ],
+ "No thirst at all. You've had only 300 ml since waking up, but you don't feel thirsty.": [
+  "audio/voices/dehydration-no-thirst-prompt.mp3",
+  "Mission Control"
+ ],
+ "In space, thirst lies. A schedule keeps you ahead of it.": [
+  "audio/voices/dehydration-no-thirst-schedule.mp3",
+  "Mission Control"
+ ],
+ "Fluid shift turns thirst down, so it arrives late, after you're already dry.": [
+  "audio/voices/dehydration-no-thirst-wait.mp3",
+  "Mission Control"
+ ],
+ "Coffee does count towards your fluids, but one cup isn't a plan. Without a schedule, thirst still won't remind you in time.": [
+  "audio/voices/dehydration-no-thirst-coffee.mp3",
+  "Mission Control"
+ ],
+ "Headache and dark urine. Mid-afternoon: a dull headache, and your urine is dark yellow.": [
+  "audio/voices/dehydration-headache-prompt.mp3",
+  "Mission Control"
+ ],
+ "Fluid restores volume, and cooler, less dry air cuts how much water you lose.": [
+  "audio/voices/dehydration-headache-drink.mp3",
+  "Mission Control"
+ ],
+ "The headache is a symptom of dehydration. Treat the cause.": [
+  "audio/voices/dehydration-headache-pill.mp3",
+  "Mission Control"
+ ],
+ "Two hours of exercise while dry makes you lose even more water.": [
+  "audio/voices/dehydration-headache-exercise.mp3",
+  "Mission Control"
+ ],
+ "End of the day. How do you set up for tomorrow?": [
+  "audio/voices/dehydration-tomorrow-prompt.mp3",
+  "Mission Control"
+ ],
+ "Small habits beat good intentions. VITALS can log every glass.": [
+  "audio/voices/dehydration-tomorrow-plan.mp3",
+  "Mission Control"
+ ],
+ "That's what you thought this morning.": [
+  "audio/voices/dehydration-tomorrow-skip.mp3",
+  "Mission Control"
+ ],
+ "Day complete, and you stayed hydrated.": [
+  "audio/voices/dehydration-success.mp3",
+  "Mission Control"
+ ],
+ "Dehydration got serious. The flight surgeon stopped your work for the day.": [
+  "audio/voices/dehydration-fail.mp3",
+  "Mission Control"
+ ],
+ "A week after the spacewalk, a quiet morning of lab work. Then a pain in your side that won't let you sit still. In weightlessness your bones lose calcium and it ends up in your urine, so kidney stones are one of the top medical risks of a long mission. Watch pain, hydration, temperature and heart rate. The water unit, the medical kit and the sleep station can all help. Your goal: Get the pain under control, keep drinking, and catch any sign of infection early.": [
+  "audio/voices/kidney-stone-briefing.mp3",
+  "Mission Control"
+ ],
+ "Day 48. A quiet morning of lab work.": [
+  "audio/voices/kidney-stone-event-0.mp3",
+  "Mission Control"
+ ],
+ "Sudden, cramping pain in your right side and back. It comes in waves.": [
+  "audio/voices/kidney-stone-event-1.mp3",
+  "Mission Control"
+ ],
+ "Chills. Your temperature is starting to climb.": [
+  "audio/voices/kidney-stone-event-2.mp3",
+  "Mission Control"
+ ],
+ "The stone has passed. Dr. Okafor bags it for the lab on Earth.": [
+  "audio/voices/kidney-stone-event-3.mp3",
+  "Mission Control"
+ ],
+ "The samples you brought in are already in the freezer. Earth is very excited about tray three.": [
+  "audio/voices/kidney-stone-crew-0.mp3",
+  "Sato"
+ ],
+ "Bone loss up here puts calcium in your urine. Stones are one of the things I watch for.": [
+  "audio/voices/kidney-stone-crew-1.mp3",
+  "Dr. Okafor"
+ ],
+ "Houston has an early return plan ready if we need it. Let's make sure we don't.": [
+  "audio/voices/kidney-stone-crew-2.mp3",
+  "Cmdr. Varga"
+ ],
+ "Pain out of nowhere. The pain comes in waves, from your back round to your belly. You can't get comfortable and you feel sick.": [
+  "audio/voices/kidney-stone-pain-prompt.mp3",
+  "Mission Control"
+ ],
+ "Waves of side pain you can't lie still through are typical of a kidney stone. Tell the medical officer, then scan with the ultrasound in the medical kit.": [
+  "audio/voices/kidney-stone-pain-call.mp3",
+  "Mission Control"
+ ],
+ "A strained muscle hurts when you move and eases when you keep still. Pain that comes in waves and won't let you settle points to a stone, not a muscle.": [
+  "audio/voices/kidney-stone-pain-muscle.mp3",
+  "Mission Control"
+ ],
+ "On a station, the medical officer needs to know early. The ultrasound, the medicines and the ground team all take time to bring in.": [
+  "audio/voices/kidney-stone-pain-wait.mp3",
+  "Mission Control"
+ ],
+ "Too sick to drink. You feel sick and the last thing you want is water.": [
+  "audio/voices/kidney-stone-drink-prompt.mp3",
+  "Mission Control"
+ ],
+ "Staying well hydrated keeps your urine dilute, and settling the nausea makes drinking possible. Small steady sips work better than big gulps.": [
+  "audio/voices/kidney-stone-drink-sip.mp3",
+  "Mission Control"
+ ],
+ "Drying out concentrates your urine, which is how stones form and grow. Space already pushes extra calcium into it.": [
+  "audio/voices/kidney-stone-drink-stop.mp3",
+  "Mission Control"
+ ],
+ "Forcing down a big volume doesn't push a stone out faster, and it can make you vomit. Steady sips do the job.": [
+  "audio/voices/kidney-stone-drink-chug.mp3",
+  "Mission Control"
+ ],
+ "Fever and chills. You're shivering, your temperature keeps rising, and the pain in your side hasn't gone.": [
+  "audio/voices/kidney-stone-fever-prompt.mp3",
+  "Mission Control"
+ ],
+ "A fever with a blocked kidney can mean infection trapped behind the stone, which is an emergency. Start antibiotics now, and Houston gets an early return ready in case they aren't enough.": [
+  "audio/voices/kidney-stone-fever-antibiotics.mp3",
+  "Mission Control"
+ ],
+ "Paracetamol hides the fever, but the infection keeps growing behind the stone. Treat the cause: antibiotics, and tell the ground.": [
+  "audio/voices/kidney-stone-fever-paracetamol.mp3",
+  "Mission Control"
+ ],
+ "An infected, blocked kidney can lead to sepsis within hours. Never sleep off a fever and shivering when you have a stone.": [
+  "audio/voices/kidney-stone-fever-sleep.mp3",
+  "Mission Control"
+ ],
+ "The stone has passed and the fever is gone. You're back on light duties tomorrow.": [
+  "audio/voices/kidney-stone-success.mp3",
+  "Mission Control"
+ ],
+ "The pain and infection got out of control. Mission Control is preparing an early return.": [
+  "audio/voices/kidney-stone-fail.mp3",
+  "Mission Control"
+ ],
+ "The Sun throws a flare at the station. The storm watch from Day 27 just became a warning. A routine day on the station, until space weather turns. When a solar particle event hits, the storm shelter (crew quarters lined with water and equipment) cuts your dose sharply. Get there in time and stay there. Your goal: Reach the shelter in time and keep your total dose low.": [
+  "audio/voices/radiation-storm-briefing.mp3",
+  "Mission Control"
+ ],
+ "Routine day on the station. Space weather is quiet.": [
+  "audio/voices/radiation-storm-event-0.mp3",
+  "Mission Control"
+ ],
+ "Space weather alert: a large solar flare has just erupted. Protons expected in about 10 minutes.": [
+  "audio/voices/radiation-storm-event-1.mp3",
+  "Mission Control"
+ ],
+ "First protons arriving. The dose rate is rising.": [
+  "audio/voices/radiation-storm-event-2.mp3",
+  "Mission Control"
+ ],
+ "Storm peak: the dose rate is hundreds of times normal.": [
+  "audio/voices/radiation-storm-event-3.mp3",
+  "Mission Control"
+ ],
+ "The storm is easing.": [
+  "audio/voices/radiation-storm-event-4.mp3",
+  "Mission Control"
+ ],
+ "The dose rate is back to normal.": [
+  "audio/voices/radiation-storm-event-5.mp3",
+  "Mission Control"
+ ],
+ "All crew: flare confirmed. The shelter is behind the far hatch. Move with purpose.": [
+  "audio/voices/radiation-storm-crew-0.mp3",
+  "Cmdr. Varga"
+ ],
+ "Dosimeters are climbing in the lab. I've shut the experiments down.": [
+  "audio/voices/radiation-storm-crew-1.mp3",
+  "Sato"
+ ],
+ "Log your dose when this passes. The flight surgeon will want every number.": [
+  "audio/voices/radiation-storm-crew-2.mp3",
+  "Dr. Okafor"
+ ],
+ "Protons in about 8 minutes. Mission Control confirms a solar particle event. What do you do?": [
+  "audio/voices/radiation-storm-warning-prompt.mp3",
+  "Mission Control"
+ ],
+ "Water bags and equipment around the crew quarters block much of the proton flux.": [
+  "audio/voices/radiation-storm-warning-shelter.mp3",
+  "Mission Control"
+ ],
+ "Protons arrive close to light speed. Every minute outside the shelter at the peak adds dose. Click the hatch to take cover.": [
+  "audio/voices/radiation-storm-warning-finish.mp3",
+  "Mission Control"
+ ],
+ "Fabric barely slows high-energy protons. Mass, like water, is what protects you. Click the hatch to take cover.": [
+  "audio/voices/radiation-storm-warning-layers.mp3",
+  "Mission Control"
+ ],
+ "Stay or go? A crewmate wants you both to leave the shelter for 10 minutes to save an experiment.": [
+  "audio/voices/radiation-storm-leave-prompt.mp3",
+  "Mission Control"
+ ],
+ "Right. Experiments can be repeated; dose can't be taken back.": [
+  "audio/voices/radiation-storm-leave-stay.mp3",
+  "Mission Control"
+ ],
+ "You're out in the storm peak. Get back in through the hatch.": [
+  "audio/voices/radiation-storm-leave-go.mp3",
+  "Mission Control"
+ ],
+ "Good instinct, and the answer is: stay put while it's red.": [
+  "audio/voices/radiation-storm-leave-ask.mp3",
+  "Mission Control"
+ ],
+ "Storm over. The dose rate is back to normal.": [
+  "audio/voices/radiation-storm-after-prompt.mp3",
+  "Mission Control"
+ ],
+ "Every storm dose goes on your lifetime record, which limits future missions.": [
+  "audio/voices/radiation-storm-after-report.mp3",
+  "Mission Control"
+ ],
+ "Dose adds up over a career. It has to be on the record.": [
+  "audio/voices/radiation-storm-after-nothing.mp3",
+  "Mission Control"
+ ],
+ "Storm over. Your extra dose stayed low.": [
+  "audio/voices/radiation-storm-success.mp3",
+  "Mission Control"
+ ],
+ "Too long unprotected at the storm peak. The flight surgeon ordered an emergency review.": [
+  "audio/voices/radiation-storm-fail.mp3",
+  "Mission Control"
+ ],
+ "A week of CO2 alarms and headaches has wrecked everyone's sleep, and yours most of all. Three days with a shifted schedule, noisy fans and 16 sunrises a day. Sleep debt builds quietly and slows your reactions. Use the sleep station, the window shade and the medical kit, and make good calls. Your goal: Keep your sleep debt down and your reactions sharp for three days.": [
+  "audio/voices/sleepless-nights-briefing.mp3",
+  "Mission Control"
+ ],
+ "Day 1. The schedule has shifted 2 hours for a cargo ship arrival.": [
+  "audio/voices/sleepless-nights-event-0.mp3",
+  "Mission Control"
+ ],
+ "Day 2. Experiments ran late again.": [
+  "audio/voices/sleepless-nights-event-1.mp3",
+  "Mission Control"
+ ],
+ "Day 3. Spacewalk prep starts tomorrow.": [
+  "audio/voices/sleepless-nights-event-2.mp3",
+  "Mission Control"
+ ],
+ "You look like I feel. The shade's by the window if the sunrises bother you.": [
+  "audio/voices/sleepless-nights-crew-0.mp3",
+  "Reyes"
+ ],
+ "Sixteen sunrises a day will fool any body clock. Protect your sleep window.": [
+  "audio/voices/sleepless-nights-crew-1.mp3",
+  "Dr. Okafor"
+ ],
+ "I need you sharp. A solar storm watch just came up from the ground.": [
+  "audio/voices/sleepless-nights-crew-2.mp3",
+  "Cmdr. Varga"
+ ],
+ "Sleep is broken. Noisy fans and 16 sunrises a day keep waking you. What do you change?": [
+  "audio/voices/sleepless-nights-routine-prompt.mp3",
+  "Mission Control"
+ ],
+ "A steady wind-down routine is the first fix astronauts are taught.": [
+  "audio/voices/sleepless-nights-routine-routine.mp3",
+  "Mission Control"
+ ],
+ "Bright screens late at night push your body clock later still.": [
+  "audio/voices/sleepless-nights-routine-films.mp3",
+  "Mission Control"
+ ],
+ "Sleep medicine is used on the station, but only as the flight surgeon directs. Taken every night on your own, it leaves you groggy in the morning and works less well over time.": [
+  "audio/voices/sleepless-nights-routine-pills.mp3",
+  "Mission Control"
+ ],
+ "A delicate task tomorrow. You're driving the robotic arm tomorrow, and you slept badly again.": [
+  "audio/voices/sleepless-nights-robot-arm-prompt.mp3",
+  "Mission Control"
+ ],
+ "Honest about fatigue, and a short nap restores alertness without grogginess.": [
+  "audio/voices/sleepless-nights-robot-arm-nap.mp3",
+  "Mission Control"
+ ],
+ "Caffeine masks tiredness for a while and then wrecks the next night's sleep.": [
+  "audio/voices/sleepless-nights-robot-arm-coffee.mp3",
+  "Mission Control"
+ ],
+ "Fatigue on a delicate task is a safety issue. The commander needs to know.": [
+  "audio/voices/sleepless-nights-robot-arm-silent.mp3",
+  "Mission Control"
+ ],
+ "Mood is slipping. You feel flat and irritable with the crew.": [
+  "audio/voices/sleepless-nights-mood-prompt.mp3",
+  "Mission Control"
+ ],
+ "That's what they're there for. Sleep and mood problems are easier to fix early.": [
+  "audio/voices/sleepless-nights-mood-surgeon.mp3",
+  "Mission Control"
+ ],
+ "Low mood and poor sleep feed each other. Talk to someone.": [
+  "audio/voices/sleepless-nights-mood-hide.mp3",
+  "Mission Control"
+ ],
+ "Helps a lot, but tell the flight surgeon too.": [
+  "audio/voices/sleepless-nights-mood-family.mp3",
+  "Mission Control"
+ ],
+ "Three days done. You kept your reactions sharp.": [
+  "audio/voices/sleepless-nights-success.mp3",
+  "Mission Control"
+ ],
+ "Too tired for too long. The commander pulled you from critical tasks.": [
+  "audio/voices/sleepless-nights-fail.mp3",
+  "Mission Control"
+ ],
+ "The last week of the mission. Sato is working late on the furnace experiment in the lab, and you're helping. You and Sato are in the lab when an experiment rack overheats. Fire in a closed station fills the air with smoke and carbon monoxide, and there is nowhere to step outside. Watch cabin CO, the crew's blood CO and heart rate. The medical kit has the oxygen masks, and the scrubber can run the smoke filter. Your goal: Protect your breathing, stop the fire's power, and clear the carbon monoxide from the air and from Sato's blood.": [
+  "audio/voices/smoke-briefing.mp3",
+  "Mission Control"
+ ],
+ "Day 55. A late shift in the lab.": [
+  "audio/voices/smoke-event-0.mp3",
+  "Mission Control"
+ ],
+ "Smoke alarm! A burning smell from the furnace rack.": [
+  "audio/voices/smoke-event-1.mp3",
+  "Mission Control"
+ ],
+ "Mission Control: we see the CO readings. Keep the filter running.": [
+  "audio/voices/smoke-event-2.mp3",
+  "Mission Control"
+ ],
+ "Reyes and Okafor are at the far end of the station with the hatches shut. Talk to me.": [
+  "audio/voices/smoke-crew-0.mp3",
+  "Cmdr. Varga"
+ ],
+ "A finger clip can't see carbon monoxide. Go by Sato's symptoms, not that number.": [
+  "audio/voices/smoke-crew-1.mp3",
+  "Dr. Okafor"
+ ],
+ "Thanks for staying with me. My head's finally clearing.": [
+  "audio/voices/smoke-crew-2.mp3",
+  "Sato"
+ ],
+ "Fire alarm. Smoke is curling out of the furnace rack and the alarm is sounding. Sato is coughing.": [
+  "audio/voices/smoke-alarm-prompt.mp3",
+  "Mission Control"
+ ],
+ "Protect your breathing first, then take away the fire's power. Most station fires are electrical: no power, no fire.": [
+  "audio/voices/smoke-alarm-masks.mp3",
+  "Mission Control"
+ ],
+ "Without a mask you breathe smoke while you fight the fire, and the rack still has power. Masks and power first, then the extinguisher if it keeps burning.": [
+  "audio/voices/smoke-alarm-extinguish.mp3",
+  "Mission Control"
+ ],
+ "Opening it feeds the fire fresh air and puts your face in the smoke.": [
+  "audio/voices/smoke-alarm-open.mp3",
+  "Mission Control"
+ ],
+ "Sato's finger clip reads 98 %. Sato has a pounding headache and feels sick, but the pulse oximeter on Sato's finger reads a normal 98 %.": [
+  "audio/voices/smoke-clip-prompt.mp3",
+  "Mission Control"
+ ],
+ "A pulse oximeter reads blood carrying carbon monoxide as if it carried oxygen. Headache and nausea after smoke mean CO poisoning until proven otherwise, and pure oxygen clears it several times faster than air.": [
+  "audio/voices/smoke-clip-oxygen.mp3",
+  "Mission Control"
+ ],
+ "The clip is fooling you. Carbon monoxide takes oxygen's place in the blood, and a finger clip can't tell the difference.": [
+  "audio/voices/smoke-clip-maskOff.mp3",
+  "Mission Control"
+ ],
+ "The headache is a sign of the carbon monoxide. Oxygen treats it; a painkiller only hides it.": [
+  "audio/voices/smoke-clip-painkiller.mp3",
+  "Mission Control"
+ ],
+ "The haze has thinned. The fire is out and you can see across the module again. Sato wants the mask off.": [
+  "audio/voices/smoke-clear-prompt.mp3",
+  "Mission Control"
+ ],
+ "After a fire the air still holds carbon monoxide and other gases you can't see. Go by the readings, not by how clear the air looks.": [
+  "audio/voices/smoke-clear-wait.mp3",
+  "Mission Control"
+ ],
+ "Clear air isn't clean air. Carbon monoxide has no colour and no smell.": [
+  "audio/voices/smoke-clear-off.mp3",
+  "Mission Control"
+ ],
+ "That spreads the smoke to the whole crew. Clean the air where it is, then open up.": [
+  "audio/voices/smoke-clear-hatch.mp3",
+  "Mission Control"
+ ],
+ "The fire is out, the air is clean, and Sato's blood CO is back to normal.": [
+  "audio/voices/smoke-success.mp3",
+  "Mission Control"
+ ],
+ "The carbon monoxide got too high. The crew had to abandon the lab.": [
+  "audio/voices/smoke-fail.mp3",
+  "Mission Control"
+ ],
+ "The storm damaged a camera, shook a cable clamp loose, and the sample tray has to come in. You're going outside. You're outside the station, 400 km above Earth. Lock your tether, finish the three tasks on the hull by clicking them, and keep an eye on suit oxygen, heart rate and suit CO2. Know when to call it off. Your goal: Finish all three tasks and get back inside with oxygen to spare.": [
+  "audio/voices/spacewalk-briefing.mp3",
+  "Mission Control"
+ ],
+ "Hatch open. Earth is 400 km below you.": [
+  "audio/voices/spacewalk-event-0.mp3",
+  "Mission Control"
+ ],
+ "Mission Control: you're ahead of the timeline. Nice work.": [
+  "audio/voices/spacewalk-event-1.mp3",
+  "Mission Control"
+ ],
+ "Suit CO2 sensor is rising.": [
+  "audio/voices/spacewalk-event-2.mp3",
+  "Mission Control"
+ ],
+ "I'm on the arm camera. I've got eyes on you the whole way.": [
+  "audio/voices/spacewalk-crew-0.mp3",
+  "Reyes"
+ ],
+ "Halfway. Check your gauges before you start the next task.": [
+  "audio/voices/spacewalk-crew-1.mp3",
+  "Cmdr. Varga"
+ ],
+ "Suit CO2 is the one that sneaks up. Tell me if your head feels tight.": [
+  "audio/voices/spacewalk-crew-2.mp3",
+  "Dr. Okafor"
+ ],
+ "Before you leave the airlock. The hatch is open and the timeline is tight.": [
+  "audio/voices/spacewalk-tether-prompt.mp3",
+  "Mission Control"
+ ],
+ "Always. A tether is the only thing between you and drifting away.": [
+  "audio/voices/spacewalk-tether-check.mp3",
+  "Mission Control"
+ ],
+ "A loose tether is how astronauts get lost. Click the airlock to lock it now.": [
+  "audio/voices/spacewalk-tether-skip.mp3",
+  "Mission Control"
+ ],
+ "Working hard. Wrestling with stiff hardware has pushed your heart rate up.": [
+  "audio/voices/spacewalk-effort-prompt.mp3",
+  "Mission Control"
+ ],
+ "Resting lowers heart rate and oxygen use. The hardware isn't going anywhere.": [
+  "audio/voices/spacewalk-effort-rest.mp3",
+  "Mission Control"
+ ],
+ "A high heart rate burns through suit oxygen faster.": [
+  "audio/voices/spacewalk-effort-push.mp3",
+  "Mission Control"
+ ],
+ "Suit CO2 is rising. The suit CO2 reading keeps climbing and you have a slight headache.": [
+  "audio/voices/spacewalk-co2-prompt.mp3",
+  "Mission Control"
+ ],
+ "Rising CO2 in a suit is an abort signal. Then click the airlock to get inside.": [
+  "audio/voices/spacewalk-co2-abort.mp3",
+  "Mission Control"
+ ],
+ "Every minute adds CO2 to the suit. Tasks can wait for another spacewalk.": [
+  "audio/voices/spacewalk-co2-finish.mp3",
+  "Mission Control"
+ ],
+ "Never assume a glitch outside. A headache backs up the reading.": [
+  "audio/voices/spacewalk-co2-ignore.mp3",
+  "Mission Control"
+ ],
+ "Spacewalk ended safely. Everyone's back inside.": [
+  "audio/voices/spacewalk-success.mp3",
+  "Mission Control"
+ ],
+ "Suit CO2 got dangerous outside. Mission Control called an emergency return.": [
+  "audio/voices/spacewalk-fail.mp3",
+  "Mission Control"
+ ]
+}

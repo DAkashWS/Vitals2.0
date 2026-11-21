@@ -1,0 +1,358 @@
+{
+  "id": "sleepless-nights",
+  "order": 3,
+  "title": "Sleepless Nights",
+  "short": "Three days of short, broken sleep. Reaction time slips before you notice.",
+  "difficulty": "Medium",
+  "icon": "tiredEye",
+  "setting": "interior",
+  "look": "sleep",
+  "timeUnit": "h",
+  "secondsPerUnit": 1,
+  "duration": 72,
+  "briefing": "Three days with a shifted schedule, noisy fans and 16 sunrises a day. Sleep debt builds quietly and slows your reactions. Use the sleep station, the window shade and the medical kit, and make good calls.",
+  "story": {
+    "day": 27,
+    "intro": "A week of CO2 alarms and headaches has wrecked everyone's sleep, and yours most of all.",
+    "goal": "Keep your sleep debt down and your reactions sharp for three days.",
+    "crew": [
+      {
+        "at": 4,
+        "who": "Reyes",
+        "text": "You look like I feel. The shade's by the window if the sunrises bother you."
+      },
+      {
+        "at": 26,
+        "who": "Dr. Okafor",
+        "text": "Sixteen sunrises a day will fool any body clock. Protect your sleep window."
+      },
+      {
+        "at": 50,
+        "who": "Cmdr. Varga",
+        "text": "I need you sharp. A solar storm watch just came up from the ground."
+      }
+    ],
+    "carry": {
+      "from": "co2-buildup",
+      "key": "sleepDebt",
+      "good": 0,
+      "bad": 1.5,
+      "goodText": "The scrubber fix held, so the nights were quiet: you start rested.",
+      "badText": "The scrubber limped along all week: you start with extra sleep debt."
+    }
+  },
+  "objects": [
+    "bed",
+    "medKit",
+    "window"
+  ],
+  "vitals": [
+    {
+      "key": "sleepDebt",
+      "label": "Sleep debt",
+      "unit": "h",
+      "start": 1,
+      "rate": 0.15,
+      "min": 0,
+      "max": 30,
+      "decimals": 1,
+      "band": {
+        "green": [
+          0,
+          4
+        ],
+        "amber": [
+          0,
+          8
+        ]
+      }
+    },
+    {
+      "key": "reaction",
+      "label": "Reaction time",
+      "unit": "ms",
+      "start": 255,
+      "rate": 0.3,
+      "min": 200,
+      "max": 600,
+      "decimals": 0,
+      "band": {
+        "green": [
+          200,
+          300
+        ],
+        "amber": [
+          200,
+          340
+        ]
+      }
+    },
+    {
+      "key": "mood",
+      "label": "Mood",
+      "unit": "/10",
+      "start": 8,
+      "rate": -0.02,
+      "min": 0,
+      "max": 10,
+      "decimals": 1,
+      "band": {
+        "green": [
+          6,
+          10
+        ],
+        "amber": [
+          4,
+          10
+        ]
+      }
+    }
+  ],
+  "rules": [
+    {
+      "key": "sleepDebt",
+      "above": 4,
+      "rateAdd": {
+        "reaction": 0.8
+      }
+    },
+    {
+      "key": "sleepDebt",
+      "above": 8,
+      "rateAdd": {
+        "reaction": 1
+      }
+    },
+    {
+      "key": "reaction",
+      "above": 255,
+      "rateAdd": {
+        "reaction": -0.5
+      }
+    },
+    {
+      "key": "sleepDebt",
+      "above": 6,
+      "rateAdd": {
+        "mood": -0.04
+      }
+    }
+  ],
+  "events": [
+    {
+      "at": 0,
+      "text": "Day 1. The schedule has shifted 2 hours for a cargo ship arrival.",
+      "level": "warn"
+    },
+    {
+      "at": 24,
+      "text": "Day 2. Experiments ran late again.",
+      "level": "info",
+      "effect": {
+        "rateAdd": {
+          "sleepDebt": 0.03
+        }
+      }
+    },
+    {
+      "at": 48,
+      "text": "Day 3. Spacewalk prep starts tomorrow.",
+      "level": "info"
+    }
+  ],
+  "decisions": [
+    {
+      "id": "routine",
+      "at": 8,
+      "title": "Sleep is broken",
+      "prompt": "Noisy fans and 16 sunrises a day keep waking you. What do you change?",
+      "choices": [
+        {
+          "id": "routine",
+          "label": "Set a routine: eye mask, earplugs, dim lights an hour before bed",
+          "feedback": "A steady wind-down routine is the first fix astronauts are taught.",
+          "score": 0,
+          "best": true,
+          "effect": {
+            "rate": {
+              "sleepDebt": 0.03
+            }
+          }
+        },
+        {
+          "id": "films",
+          "label": "Watch films late to wind down",
+          "feedback": "Bright screens late at night push your body clock later still.",
+          "score": -15,
+          "mistake": true,
+          "effect": {
+            "rateAdd": {
+              "sleepDebt": 0.05
+            }
+          }
+        },
+        {
+          "id": "pills",
+          "label": "Take a sleeping pill every night, your call",
+          "feedback": "Sleep medicine is used on the station, but only as the flight surgeon directs. Taken every night on your own, it leaves you groggy in the morning and works less well over time.",
+          "score": -15,
+          "mistake": true,
+          "effect": {
+            "rate": {
+              "sleepDebt": 0.08
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "robot-arm",
+      "at": 34,
+      "title": "A delicate task tomorrow",
+      "prompt": "You're driving the robotic arm tomorrow, and you slept badly again.",
+      "choices": [
+        {
+          "id": "nap",
+          "label": "Tell the commander and take a 20-minute nap before the task",
+          "feedback": "Honest about fatigue, and a short nap restores alertness without grogginess.",
+          "score": 0,
+          "best": true,
+          "effect": {
+            "add": {
+              "sleepDebt": -1.5,
+              "reaction": -15
+            },
+            "flags": {
+              "napped": true
+            }
+          }
+        },
+        {
+          "id": "coffee",
+          "label": "Drink lots of coffee and push on",
+          "feedback": "Caffeine masks tiredness for a while and then wrecks the next night's sleep.",
+          "score": -20,
+          "mistake": true,
+          "effect": {
+            "rateAdd": {
+              "reaction": 0.4
+            }
+          }
+        },
+        {
+          "id": "silent",
+          "label": "Say nothing and hope it's fine",
+          "feedback": "Fatigue on a delicate task is a safety issue. The commander needs to know.",
+          "score": -20,
+          "mistake": true
+        }
+      ]
+    },
+    {
+      "id": "mood",
+      "at": 58,
+      "title": "Mood is slipping",
+      "prompt": "You feel flat and irritable with the crew.",
+      "choices": [
+        {
+          "id": "surgeon",
+          "label": "Book a private call with the flight surgeon or psychologist",
+          "feedback": "That's what they're there for. Sleep and mood problems are easier to fix early.",
+          "score": 0,
+          "best": true,
+          "effect": {
+            "add": {
+              "mood": 1.5
+            }
+          }
+        },
+        {
+          "id": "hide",
+          "label": "Keep it to yourself",
+          "feedback": "Low mood and poor sleep feed each other. Talk to someone.",
+          "score": -15,
+          "mistake": true,
+          "effect": {
+            "rateAdd": {
+              "mood": -0.02
+            }
+          }
+        },
+        {
+          "id": "family",
+          "label": "Call your family tonight",
+          "feedback": "Helps a lot, but tell the flight surgeon too.",
+          "score": -5,
+          "effect": {
+            "add": {
+              "mood": 1
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "id": "nap",
+      "object": "bed",
+      "label": "Take a 20-minute nap",
+      "message": "Short nap done. Sharper already.",
+      "cooldown": 12,
+      "effect": {
+        "add": {
+          "sleepDebt": -1,
+          "reaction": -8
+        },
+        "flags": {
+          "napped": true
+        }
+      }
+    },
+    {
+      "id": "shade",
+      "object": "window",
+      "label": "Close the window shade for the night",
+      "message": "Shade closed. No more sunrises every 90 minutes.",
+      "once": true,
+      "effect": {
+        "rateAdd": {
+          "sleepDebt": -0.02
+        },
+        "flags": {
+          "shade": true
+        }
+      }
+    },
+    {
+      "id": "melatonin",
+      "object": "medKit",
+      "label": "Take melatonin, as the flight surgeon directed",
+      "message": "Taken as directed. Easier to fall asleep tonight.",
+      "once": true,
+      "effect": {
+        "add": {
+          "sleepDebt": -1.5
+        }
+      }
+    }
+  ],
+  "keySteps": [
+    {
+      "flag": "napped",
+      "by": 40,
+      "label": "Use a short nap before demanding work",
+      "why": "A 20-minute nap restores alertness for hours, without the grogginess of a long sleep."
+    },
+    {
+      "flag": "shade",
+      "by": 24,
+      "label": "Block the light at night",
+      "why": "The station sees 16 sunrises a day. Darkness tells your body clock it's night."
+    }
+  ],
+  "failAfterRed": 6,
+  "redPenalty": 0.5,
+  "successText": "Three days done. You kept your reactions sharp.",
+  "failText": "Too tired for too long. The commander pulled you from critical tasks."
+}

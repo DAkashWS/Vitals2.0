@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VITALS Live Sensor</title>
+<!--
+  VITALS live sensor dashboard - prototype. Plain HTML + JavaScript, works offline.
+  Live hardware needs Chrome or Edge (Web Serial) and http://localhost (npm run dev -> /dashboard.html).
+  Without the hardware it runs on the built-in simulator.
+-->
+<style>
+  :root {
+    --bg: #0a0b10; --card: #11131b; --line: #23263a; --text: #e8eaf2; --muted: #8b90a5;
+    --ok: #34d399; --watch: #fbbf24; --act: #f87171; --accent: #4ea1ff;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 48px; }
+  header { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  h1 { font-size: 20px; margin: 0; font-weight: 600; }
+  h1 small { color: var(--muted); font-weight: 400; font-size: 14px; margin-left: 6px; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; margin: 28px 0 10px; }
+  .controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  button { background: var(--accent); color: #06101f; border: 0; border-radius: 8px; padding: 8px 16px; font: inherit; font-weight: 600; cursor: pointer; }
+  button.secondary { background: transparent; color: var(--text); border: 1px solid var(--line); }
+  button:disabled { opacity: .5; cursor: not-allowed; }
+  .pill { border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; font-size: 13px; color: var(--muted); }
+  .pill.live { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 40%, transparent); }
+  .pill.warn { color: var(--watch); border-color: color-mix(in srgb, var(--watch) 40%, transparent); }
+
+  .banner { display: flex; gap: 16px; align-items: center; background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--ok); border-radius: 0; padding: 14px 16px; }
+  .banner.WATCH { border-left-color: var(--watch); }
+  .banner.ACT { border-left-color: var(--act); }
+  .banner b { font-size: 22px; letter-spacing: .04em; }
+  .banner span { color: var(--muted); }
+
+  .grid { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; min-height: 112px; }
+  .card .top { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+  .tag { font-size: 11px; font-weight: 600; letter-spacing: .06em; padding: 1px 6px; border-radius: 4px; border: 1px solid var(--line); }
+  .tag.LIVE { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 40%, transparent); }
+  .tag.SIM, .tag.OFF { color: var(--muted); }
+  .value { font: 600 30px/1.2 ui-monospace, "Cascadia Mono", Consolas, monospace; margin-top: 8px; font-variant-numeric: tabular-nums; }
+  .value .unit { font-size: 14px; color: var(--muted); font-weight: 400; margin-left: 4px; }
+  .foot { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); margin-top: 6px; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--line); flex: none; }
+  .dot.NORMAL { background: var(--ok); } .dot.WATCH { background: var(--watch); } .dot.ACT { background: var(--act); }
+
+  .ecg { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+  .ecg .top { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+  canvas { width: 100%; height: 180px; display: block; }
+
+  .note { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>VITALS <small>Live sensor · prototype</small></h1>
+    <div class="controls">
+      <span id="source" class="pill">Simulator</span>
+      <button id="connect" type="button">Connect sensor</button>
+    </div>
+  </header>
+
+  <div id="banner" class="banner"><b id="overall">NORMAL</b><span id="message">Running on the simulator. Connect the sensor for live readings.</span></div>
+
+  <h2>Crew · hardware</h2>
+  <div class="grid" id="crew"></div>
+
+  <h2>ECG</h2>
+  <div class="ecg">
+    <div class="top"><span id="ecgLabel">No ECG signal</span><span>Last 4 seconds · 250 samples/s</span></div>
+    <canvas id="ecgCanvas"></canvas>
+  </div>
+
+  <h2>Cabin · hardware</h2>
+  <div class="grid" id="cabin"></div>
+
+  <h2>Simulated · also shown on OLED 3</h2>
+  <div class="grid" id="sim"></div>
+
+  <p class="note">
+    Prototype with hobby-grade sensors, not a medical device. Heart rate, SpO2, ECG and cabin air come from the
+    hardware when it is connected. Body temperature, breathing, sleep, water and exercise are simulated or
+    self-reported. Air quality is an MQ-135 estimate (percent worse than clean air), not CO2 in ppm.
+    A real mission would use certified spacecraft sensors.
+  </p>
+</main>
+
+<script>
+'use strict';
+
+// ======================= METRICS AND RANGES =======================
+// green / yellow ranges: [min, max]. Outside yellow = red (ACT). null = no range, no colour.
+const METRICS = [
+  // group, key, label, unit, decimals, green, yellow
+  ['crew',  'heartRate',     'Heart rate',       'bpm',   0, [60, 100],  [50, 110]],
+  ['crew',  'spo2',          'Oxygen (SpO2)',    '%',     0, [95, 100],  [92, 100]],
+  ['crew',  'ecgHeartRate',  'ECG heart rate',   'bpm',   0, [60, 100],  [50, 110]],
+  ['cabin', 'cabinTemp',     'Cabin temperature','°C',    1, null, null],
+  ['cabin', 'cabinHumidity', 'Humidity',         '%',     0, null, null],
+  ['cabin', 'airQuality',    'Air quality',      '% vs clean', 0, [0, 19], [0, 50]],
+  ['sim',   'bodyTemp',      'Body temperature', '°C',    1, [36.1, 37.2], [35.5, 38.0]],
+  ['sim',   'breathing',     'Breathing',        '/min',  0, [12, 20],   [10, 24]],
+  ['sim',   'sleep',         'Sleep',            'hrs',   1, [7, 9],     [6, 10]],
+  ['sim',   'water',         'Water intake',     'L/day', 1, [2.5, 3.5], [1.8, 4.0]],
+  ['sim',   'exercise',      'Exercise',         'min/day', 0, [30, 180], [15, 240]],
+].map(([group, key, label, unit, dec, green, yellow]) => ({ group, key, label, unit, dec, green, yellow }));
+
+const HARDWARE_KEYS = ['heartRate', 'spo2', 'ecgHeartRate', 'cabinTemp', 'cabinHumidity', 'airQuality'];
+const RANK = { NORMAL: 0, WATCH: 1, ACT: 2 };
+
+function statusOf(m, v) {
+  if (v == null || !m.green) return null;
+  if (v >= m.green[0] && v <= m.green[1]) return 'NORMAL';
+  if (v >= m.yellow[0] && v <= m.yellow[1]) return 'WATCH';
+  return 'ACT';
+}
+
+// ======================= BUILD THE CARDS =======================
+const cards = {};
+for (const m of METRICS) {
+  const el = document.createElement('div');
+  el.className = 'card';
+  el.innerHTML =
+    '<div class="top"><span>' + m.label + '</span><span class="tag SIM">SIM</span></div>' +
+    '<div class="value">--<span class="unit">' + m.unit + '</span></div>' +
+    '<div class="foot"><i class="dot"></i><span></span></div>';
+  document.getElementById(m.group).appendChild(el);
+  cards[m.key] = {
+    tag: el.querySelector('.tag'),
+    value: el.querySelector('.value').firstChild,   // the text node before the unit
+    dot: el.querySelector('.dot'),
+    foot: el.querySelector('.foot span'),
+    m,
+  };
+}
+
+// ======================= SIMULATOR =======================
+// Gentle random walk so the numbers look alive. Used when no sensor is connected,
+// and always for the body values (they have no hardware). The ECG is NEVER simulated:
+// it only appears when the AD8232 electrodes are attached and touching the skin.
+const sim = {
+  heartRate: 72, spo2: 98, cabinTemp: 22.4, cabinHumidity: 45,
+  airQuality: 8, bodyTemp: 36.8, breathing: 15, sleep: 7.4, water: 2.6, exercise: 45,
+};
+const SIM_LIMITS = {
+  heartRate: [64, 82, 1.5], spo2: [96, 99, 0.4], cabinTemp: [21.8, 23.0, 0.05], cabinHumidity: [42, 48, 0.4],
+  airQuality: [3, 14, 0.8], bodyTemp: [36.6, 37.0, 0.03],
+  breathing: [13, 17, 0.4], sleep: [7.4, 7.4, 0], water: [2.6, 2.6, 0], exercise: [45, 45, 0],
+};
+function stepSimulator() {
+  for (const [key, [lo, hi, step]] of Object.entries(SIM_LIMITS)) {
+    sim[key] = Math.min(hi, Math.max(lo, sim[key] + (Math.random() * 2 - 1) * step));
+  }
+}
+
+// ECG samples from the AD8232 (last 4 seconds). Empty when the electrodes are off.
+const ECG_HZ = 250, ECG_KEEP = ECG_HZ * 4;
+let ecgSamples = [];
+let ecgIsLive = false;
+
+// ======================= STATE =======================
+let live = null;          // last JSON object from the sensor, or null
+let connected = false;    // serial port open
+let lastLineAt = 0;
+
+function sensorFresh() { return connected && live && Date.now() - lastLineAt < 5000; }
+
+// ======================= RENDER (once per second) =======================
+function format(m, v) { return v == null ? '--' : Number(v).toFixed(m.dec); }
+
+function render() {
+  const useLive = sensorFresh();
+  let worst = 'NORMAL';
+
+  for (const m of METRICS) {
+    const card = cards[m.key];
+    const fromSensor = useLive && HARDWARE_KEYS.includes(m.key);
+    let v, hint = '';
+
+    if (m.key === 'ecgHeartRate' && !useLive) {
+      v = null;                                     // no sensor = no ECG, never simulated
+      hint = 'Connect the sensor and electrodes';
+    } else if (fromSensor) {
+      v = live[m.key] ?? null;
+      if (v == null) {
+        if (m.key === 'heartRate' || m.key === 'spo2') hint = live.finger ? 'Hold finger still…' : 'Place finger on sensor';
+        else if (m.key === 'ecgHeartRate') hint = live.leadsOn ? 'Finding beats…' : 'Electrodes off';
+        else if (m.key === 'airQuality') hint = 'MQ-135 warming up';
+        else hint = 'No reading';
+      }
+    } else {
+      v = sim[m.key];
+    }
+
+    const st = statusOf(m, v);
+    if (st && RANK[st] > RANK[worst]) worst = st;
+
+    const tag = fromSensor ? 'LIVE' : m.key === 'ecgHeartRate' ? 'OFF' : 'SIM';
+    card.tag.textContent = tag;
+    card.tag.className = 'tag ' + tag;
+    card.value.textContent = format(m, v);
+    card.dot.className = 'dot ' + (st || '');
+    card.foot.textContent = hint || (m.green ? 'Green ' + m.green.join('–') + ' · yellow ' + m.yellow.join('–') : 'No alert range');
+  }
+
+  const banner = document.getElementById('banner');
+  banner.className = 'banner ' + worst;
+  document.getElementById('overall').textContent = worst;
+  document.getElementById('message').textContent =
+    worst === 'NORMAL' ? 'All readings in the normal range.' :
+    worst === 'WATCH'  ? 'At least one reading is in the watch range.' :
+                         'At least one reading is outside both ranges. Act now.';
+
+  document.getElementById('ecgLabel').textContent = ecgIsLive ? 'AD8232 · live' : 'No ECG signal';
+  drawEcg();
+}
+
+// ======================= ECG DRAWING (redrawn once per second) =======================
+function drawEcg() {
+  const c = document.getElementById('ecgCanvas');
+  const dpr = window.devicePixelRatio || 1;
+  c.width = c.clientWidth * dpr;
+  c.height = c.clientHeight * dpr;
+  const g = c.getContext('2d');
+  const W = c.width, H = c.height;
+  g.clearRect(0, 0, W, H);
+
+  g.strokeStyle = '#1b1e2c';                       // grid: one line per 0.2 s
+  g.lineWidth = 1;
+  for (let i = 0; i <= 20; i++) { const x = Math.round(i * W / 20) + 0.5; g.beginPath(); g.moveTo(x, 0); g.lineTo(x, H); g.stroke(); }
+  for (let i = 0; i <= 6; i++)  { const y = Math.round(i * H / 6) + 0.5;  g.beginPath(); g.moveTo(0, y); g.lineTo(W, y); g.stroke(); }
+
+  const s = ecgSamples;
+  if (s.length < 2) {                              // electrodes off: say so, draw no trace
+    g.fillStyle = '#8b90a5';
+    g.font = (14 * dpr) + 'px system-ui, sans-serif';
+    g.textAlign = 'center';
+    g.textBaseline = 'middle';
+    g.fillText(!sensorFresh() ? 'Connect the sensor and attach the electrodes to see the ECG'
+             : live.leadsOn ? 'Electrodes attached · waiting for signal…'
+             : 'Electrodes off · attach all three pads to the skin', W / 2, H / 2);
+    return;
+  }
+  let lo = Infinity, hi = -Infinity;
+  for (const v of s) { if (v < lo) lo = v; if (v > hi) hi = v; }
+  const range = Math.max(hi - lo, 50), pad = H * 0.1;
+  g.strokeStyle = '#34d399';
+  g.lineWidth = 1.5 * dpr;
+  g.beginPath();
+  for (let i = 0; i < s.length; i++) {
+    const x = (i / (ECG_KEEP - 1)) * W + (W * (ECG_KEEP - s.length) / ECG_KEEP);
+    const y = H - pad - ((s[i] - lo) / range) * (H - 2 * pad);
+    i ? g.lineTo(x, y) : g.moveTo(x, y);
+  }
+  g.stroke();
+}
+
+function pushEcg(samples) {
+  ecgSamples = ecgSamples.concat(samples).slice(-ECG_KEEP);
+}
+
+// ======================= MAIN TICK =======================
+setInterval(() => {
+  stepSimulator();
+  // Live ECG arrives with each sensor line. No sensor or electrodes off -> empty strip.
+  if (!(sensorFresh() && live.leadsOn && ecgIsLive)) {
+    ecgIsLive = false;
+    ecgSamples = [];
+  }
+  render();
+  sendSimToDevice();
+}, 1000);
+render();
+
+// ======================= WEB SERIAL =======================
+const btn = document.getElementById('connect');
+const source = document.getElementById('source');
+let port = null, reader = null, writer = null, keepReading = false, closeReason = '';
+
+function setSource(text, cls) { source.textContent = text; source.className = 'pill ' + (cls || ''); }
+
+if (!('serial' in navigator)) {
+  btn.disabled = true;
+  setSource('Live sensor needs Chrome or Edge', 'warn');
+}
+
+function handleLine(line) {
+  if (!line.startsWith('{')) return;              // boot messages from the ESP32
+  let d;
+  try { d = JSON.parse(line); } catch { return; } // broken line: skip it
+  if (!d || typeof d !== 'object') return;
+  live = d;
+  lastLineAt = Date.now();
+  if (d.leadsOn && Array.isArray(d.ecg) && d.ecg.length) {
+    if (!ecgIsLive) ecgSamples = [];
+    ecgIsLive = true;
+    pushEcg(d.ecg.filter(Number.isFinite));
+  } else {
+    ecgIsLive = false;                            // electrodes off or not touching the skin
+    ecgSamples = [];
+  }
+  setSource('Sensor live', 'live');
+}
+
+async function readLoop() {
+  const decoder = new TextDecoder();
+  let buffer = '';
+  while (port && port.readable && keepReading) {
+    reader = port.readable.getReader();
+    try {
+      for (;;) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        let nl;
+        while ((nl = buffer.indexOf('\n')) >= 0) {
+          handleLine(buffer.slice(0, nl).trim());
+          buffer = buffer.slice(nl + 1);
+        }
+        if (buffer.length > 20000) buffer = '';     // junk with no line ends
+      }
+    } catch (err) {
+      console.warn('[VITALS] read error', err);    // cable pulled, or a small glitch
+    } finally {
+      reader.releaseLock();
+      reader = null;
+    }
+  }
+  await closePort(closeReason || 'Sensor disconnected · using simulator');
+}
+
+async function closePort(message) {
+  if (!port) return;
+  const p = port;
+  port = null; connected = false; keepReading = false; live = null; ecgIsLive = false;
+  try { writer && writer.releaseLock(); } catch {}
+  writer = null;
+  try { await p.close(); } catch {}
+  btn.textContent = 'Connect sensor';
+  setSource(message, 'warn');
+  render();
+}
+
+async function connect() {
+  try {
+    port = await navigator.serial.requestPort();
+    await port.open({ baudRate: 115200 });
+  } catch (err) {
+    port = null;
+    setSource('Not connected · using simulator', 'warn');
+    return;
+  }
+  writer = port.writable ? port.writable.getWriter() : null;
+  connected = true; keepReading = true; closeReason = ''; lastLineAt = Date.now();
+  btn.textContent = 'Disconnect';
+  setSource('Connected · waiting for data…', 'warn');   // the ESP32 restarts when the port opens
+  readLoop();
+}
+
+btn.addEventListener('click', async () => {
+  if (!port) return connect();
+  closeReason = 'Disconnected · using simulator';
+  keepReading = false;
+  if (reader) { try { await reader.cancel(); } catch {} }
+});
+
+if ('serial' in navigator) {
+  navigator.serial.addEventListener('disconnect', (e) => {
+    if (port && e.target === port) {
+      closeReason = 'Sensor disconnected · using simulator';
+      keepReading = false;
+      if (reader) reader.cancel().catch(() => {});
+    }
+  });
+}
+
+// Send the simulated body values to the ESP32 for OLED 3, every 2 seconds.
+let simSendTick = 0;
+async function sendSimToDevice() {
+  if (!writer || !connected || ++simSendTick % 2) return;
+  const msg = { sim: {
+    bodyTemp: +sim.bodyTemp.toFixed(1), breathing: Math.round(sim.breathing),
+    sleep: +sim.sleep.toFixed(1), water: +sim.water.toFixed(1), exercise: Math.round(sim.exercise),
+  } };
+  try { await writer.write(new TextEncoder().encode(JSON.stringify(msg) + '\n')); } catch {}
+}
+
+// Watchdog: tell the user when lines stop arriving while the port is still open.
+setInterval(() => {
+  if (connected && Date.now() - lastLineAt > 5000) setSource('No data from sensor · using simulator', 'warn');
+}, 1000);
+</script>
+</body>
+</html>

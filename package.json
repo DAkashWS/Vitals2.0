@@ -1,0 +1,43 @@
+{
+  "name": "vitals",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "VITALS website: themed landing page for the NASA Space Apps 2026 crew health monitor.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -b"
+  },
+  "dependencies": {
+    "@fontsource/geist-mono": "5.1.1",
+    "@fontsource/inter": "5.1.1",
+    "@fontsource/jost": "5.2.8",
+    "@radix-ui/react-slot": "1.1.1",
+    "@supabase/supabase-js": "2.49.4",
+    "class-variance-authority": "0.7.1",
+    "clsx": "2.1.1",
+    "framer-motion": "11.15.0",
+    "lucide-react": "0.468.0",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "tailwind-merge": "2.5.5",
+    "three": "0.170.0"
+  },
+  "devDependencies": {
+    "@breezystack/lamejs": "1.2.7",
+    "@types/node": "^22.10.2",
+    "@types/react": "19.0.2",
+    "@types/react-dom": "19.0.2",
+    "@types/three": "0.170.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "autoprefixer": "10.4.20",
+    "kokoro-js": "1.2.1",
+    "postcss": "8.4.49",
+    "tailwindcss": "3.4.17",
+    "typescript": "5.7.3",
+    "vite": "^8.3.8",
+    "vite-plugin-pwa": "^2.0.0"
+  }
+}

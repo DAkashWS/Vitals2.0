@@ -1,0 +1,497 @@
+{
+  "source": "src/lib/firstAid.ts",
+  "topics": [
+    {
+      "id": "cut",
+      "title": "Cut or scrape",
+      "keywords": [
+        "cut",
+        "scrape",
+        "graze",
+        "scratch",
+        "laceration",
+        "bleeding",
+        "bleed",
+        "wound",
+        "sliced",
+        "gash"
+      ],
+      "steps": [
+        "Wash your hands or put on gloves.",
+        "Press on the cut with a clean dressing until it stops bleeding.",
+        "Rinse the wound with clean water and pat it dry.",
+        "Cover it with a sterile dressing or plaster, and change it daily."
+      ],
+      "getHelp": [
+        "It's still bleeding after 10 minutes of firm pressure",
+        "The cut is deep or gaping, or something is stuck in it",
+        "It turns red, hot, swollen or oozes pus, or you get a fever"
+      ]
+    },
+    {
+      "id": "nosebleed",
+      "title": "Nosebleed",
+      "keywords": [
+        "nosebleed",
+        "nose bleed",
+        "nose bleeding",
+        "bloody nose",
+        "nose is bleeding"
+      ],
+      "steps": [
+        "Lean forward (don't tip your head back) and breathe through your mouth.",
+        "Pinch the soft part of your nose for 10 to 15 minutes without letting go.",
+        "Hold gauze under your nose to catch blood.",
+        "Avoid blowing your nose for a few hours afterwards."
+      ],
+      "getHelp": [
+        "It lasts longer than 20 minutes",
+        "It started after a head injury",
+        "It keeps coming back"
+      ]
+    },
+    {
+      "id": "burn",
+      "title": "Burn",
+      "keywords": [
+        "burn",
+        "burned",
+        "burnt",
+        "scald",
+        "scalded",
+        "hot water",
+        "blister"
+      ],
+      "steps": [
+        "Cool the burn under cool (not ice-cold) water, or hold a cool, wet compress on it, for 20 minutes.",
+        "Take off rings or tight items near the burn before it swells.",
+        "Cover it loosely with cling film or a clean, non-fluffy dressing."
+      ],
+      "getHelp": [
+        "The burn is bigger than your palm",
+        "It's on the face, hands, feet, joints or genitals",
+        "It's from chemicals or electricity",
+        "The skin looks white, leathery or charred"
+      ]
+    },
+    {
+      "id": "sprain",
+      "title": "Sprain or strain",
+      "keywords": [
+        "sprain",
+        "sprained",
+        "strain",
+        "twisted",
+        "pulled muscle",
+        "ankle",
+        "wrist",
+        "knee",
+        "joint",
+        "elbow",
+        "shoulder"
+      ],
+      "steps": [
+        "Rest the injured part and stop the activity that hurt it.",
+        "Hold a cold pack wrapped in a cloth on it for up to 20 minutes, every 2 to 3 hours.",
+        "Wrap it with a compression bandage, firm but not tight.",
+        "Raise it above heart level when you can."
+      ],
+      "getHelp": [
+        "You can't move it or put any load on it",
+        "It looks bent or out of shape",
+        "It feels numb or tingly, or turns pale or blue",
+        "It isn't better after a few days"
+      ]
+    },
+    {
+      "id": "fall",
+      "title": "Fall, tumble or collision",
+      "keywords": [
+        "fell",
+        "fallen",
+        "fall down",
+        "fall over",
+        "had a fall",
+        "fell over",
+        "flipped",
+        "flip",
+        "flips",
+        "tumbled",
+        "tumble",
+        "jumped",
+        "jump",
+        "jumping",
+        "slipped",
+        "slip",
+        "tripped",
+        "trip",
+        "landed",
+        "landing",
+        "crashed",
+        "collided",
+        "collision",
+        "rolled",
+        "spun",
+        "bumped into",
+        "hit the wall",
+        "hit a wall",
+        "hit my wall",
+        "flew into",
+        "drifted into",
+        "lost my grip",
+        "crashed into",
+        "slammed into"
+      ],
+      "steps": [
+        "Stop, anchor yourself, and take a few slow breaths.",
+        "Check yourself from head to toe: head, neck, back, shoulders, wrists, hips, knees and ankles. Note anything that hurts or won't move normally.",
+        "Hold a cold pack wrapped in a cloth on any sore spot for up to 20 minutes.",
+        "Rest for a while, and tell a crewmate what happened so someone keeps an eye on you.",
+        "Tell me what hurts, for example \"my wrist hurts\", and I'll give you the steps for it."
+      ],
+      "getHelp": [
+        "You hit your head, or feel confused, sick or drowsy afterwards",
+        "Your neck or back hurts, or you have numbness or tingling",
+        "You can't move a joint or put load on it, or it looks out of shape"
+      ]
+    },
+    {
+      "id": "bruise",
+      "title": "Bruise or bump",
+      "keywords": [
+        "bruise",
+        "bruised",
+        "bump",
+        "bumped",
+        "hit my",
+        "knock",
+        "knocked"
+      ],
+      "steps": [
+        "Hold a cold pack wrapped in a cloth on it for up to 20 minutes.",
+        "Rest the area.",
+        "Repeat the cold pack a few times a day for the first 2 days."
+      ],
+      "getHelp": [
+        "The swelling is large or keeps growing",
+        "The pain is severe, or you can't move the area",
+        "It was a hit to the head (see Head injury)"
+      ]
+    },
+    {
+      "id": "headache",
+      "title": "Headache",
+      "keywords": [
+        "headache",
+        "head ache",
+        "head hurts",
+        "migraine",
+        "head pain",
+        "pressure in my head",
+        "head is pounding",
+        "pounding head",
+        "head is killing",
+        "head hurting",
+        "throbbing head",
+        "head is throbbing"
+      ],
+      "steps": [
+        "Check the cabin CO2 reading. A CO2 rise is a common cause of headaches on a spacecraft.",
+        "Drink water. Fluid shift means you may not feel thirsty.",
+        "Rest somewhere quiet and dim, away from screens.",
+        "Use pain relief from the medical kit only as the flight surgeon directs."
+      ],
+      "getHelp": [
+        "It comes on suddenly and is the worst you've had",
+        "You also have vision changes, confusion, weakness or a stiff neck",
+        "It follows a hit to the head",
+        "It lasts more than a day"
+      ]
+    },
+    {
+      "id": "nausea",
+      "title": "Nausea or space motion sickness",
+      "keywords": [
+        "nausea",
+        "nauseous",
+        "sick",
+        "vomit",
+        "vomiting",
+        "throw up",
+        "threw up",
+        "motion sickness",
+        "space sickness",
+        "queasy"
+      ],
+      "steps": [
+        "Keep your head still and avoid quick head movements.",
+        "Fix your eyes on a stable point. Keep a consistent 'up' in the module.",
+        "Take small sips of water often."
+      ],
+      "getHelp": [
+        "You can't keep fluids down for 24 hours",
+        "There's blood in the vomit",
+        "You have severe stomach pain or signs of dehydration"
+      ]
+    },
+    {
+      "id": "stomach",
+      "title": "Upset stomach or diarrhoea",
+      "keywords": [
+        "diarrhoea",
+        "diarrhea",
+        "upset stomach",
+        "stomach ache",
+        "stomachache",
+        "stomach pain",
+        "tummy",
+        "food poisoning",
+        "loose stools",
+        "stomach bug",
+        "the runs",
+        "bad food"
+      ],
+      "steps": [
+        "Rest, and sip water or oral rehydration salts from the kit often, a little at a time.",
+        "Clean your hands carefully after every toilet visit, and clean the toilet area after use.",
+        "Don't prepare or share food for the crew until you're better.",
+        "Eat small, plain meals when you feel ready."
+      ],
+      "getHelp": [
+        "It lasts more than 24 hours, or you can't keep fluids down",
+        "There's blood in your stool or vomit",
+        "You have a fever or severe stomach pain",
+        "Other crew members get the same symptoms"
+      ]
+    },
+    {
+      "id": "back",
+      "title": "Back pain",
+      "keywords": [
+        "back pain",
+        "back hurts",
+        "lower back",
+        "spine",
+        "backache",
+        "back ache",
+        "my back is",
+        "back is killing",
+        "back hurting",
+        "sore back",
+        "stiff back"
+      ],
+      "steps": [
+        "Gently pull your knees toward your chest and hold it, which eases the spine.",
+        "Do gentle stretches, and keep up your exercise routine.",
+        "Use a heat pack on the sore area for 15 to 20 minutes."
+      ],
+      "getHelp": [
+        "You have numbness or weakness in your legs",
+        "You lose bladder or bowel control",
+        "It follows a fall or a hit",
+        "It keeps getting worse"
+      ]
+    },
+    {
+      "id": "eye",
+      "title": "Something in the eye",
+      "keywords": [
+        "eye",
+        "eyes",
+        "something in my eye",
+        "dust",
+        "particle",
+        "eye irritation",
+        "itchy eye",
+        "red eye"
+      ],
+      "steps": [
+        "Don't rub it.",
+        "Blink several times, then flush the eye with clean water or the eyewash from the kit.",
+        "Wear eye protection when particles may be floating."
+      ],
+      "getHelp": [
+        "A chemical got in it: flush for 20 minutes, then get help",
+        "Your vision changes",
+        "The pain or redness doesn't go away after flushing"
+      ]
+    },
+    {
+      "id": "dehydration",
+      "title": "Dehydration",
+      "keywords": [
+        "dehydrated",
+        "dehydration",
+        "thirsty",
+        "dry mouth",
+        "dark urine",
+        "not drinking",
+        "dark pee"
+      ],
+      "steps": [
+        "Drink water steadily, a little at a time.",
+        "Use oral rehydration salts from the medical kit if you have them.",
+        "Check your urine colour: 1 to 3 on the chart is good, 4 to 5 is watch, 6 to 8 means act.",
+        "Log your water intake in VITALS (green range: 2.5 to 3.5 litres a day)."
+      ],
+      "getHelp": [
+        "You're confused, very dizzy or faint",
+        "Your urine is very dark (6 to 8 on the chart), or you aren't passing urine"
+      ]
+    },
+    {
+      "id": "dizzy",
+      "title": "Dizziness or light-headedness",
+      "keywords": [
+        "dizzy",
+        "dizziness",
+        "light headed",
+        "lightheaded",
+        "light-headed",
+        "spinning",
+        "off balance",
+        "vertigo",
+        "wobbly"
+      ],
+      "steps": [
+        "Stop and anchor yourself so you can't drift into anything.",
+        "Drink some water.",
+        "Check your heart rate and SpO2 in VITALS.",
+        "Move slowly for a while."
+      ],
+      "getHelp": [
+        "You faint",
+        "You also have chest pain or trouble breathing",
+        "It keeps coming back"
+      ]
+    },
+    {
+      "id": "sleep",
+      "title": "Poor sleep or tiredness",
+      "keywords": [
+        "can't sleep",
+        "cant sleep",
+        "fall asleep",
+        "falling asleep",
+        "stay asleep",
+        "insomnia",
+        "sleep",
+        "tired",
+        "fatigue",
+        "exhausted",
+        "sleepy",
+        "weak",
+        "no energy",
+        "drained"
+      ],
+      "steps": [
+        "Keep a regular sleep schedule, even on busy days.",
+        "Dim the lights before sleep and use an eye mask and earplugs.",
+        "Avoid caffeine in the 6 hours before sleep.",
+        "Secure your sleeping bag so you don't drift."
+      ],
+      "getHelp": [
+        "You're under 6 hours a night for several nights",
+        "Tiredness affects your work or safety"
+      ]
+    },
+    {
+      "id": "fever",
+      "title": "Fever or feeling unwell",
+      "keywords": [
+        "fever",
+        "temperature",
+        "chills",
+        "flu",
+        "cold",
+        "sore throat",
+        "cough",
+        "unwell",
+        "ill"
+      ],
+      "steps": [
+        "Rest and drink plenty of fluids.",
+        "Check your temperature in VITALS (green range: 36.1 to 37.2 °C).",
+        "Keep away from crewmates where you can, and clean shared surfaces."
+      ],
+      "getHelp": [
+        "Your temperature goes above 38.0 °C",
+        "It lasts more than 2 days",
+        "You also have trouble breathing or chest pain"
+      ]
+    },
+    {
+      "id": "skin",
+      "title": "Rash, itch or dry skin",
+      "keywords": [
+        "rash",
+        "itch",
+        "itchy",
+        "dry skin",
+        "skin",
+        "irritation",
+        "hives",
+        "fungal",
+        "athlete's foot",
+        "skin infection",
+        "cracked skin"
+      ],
+      "steps": [
+        "Clean the area gently with a no-rinse cleanser and pat it dry.",
+        "Use a moisturiser from the kit.",
+        "Try not to scratch. A cold compress helps with itching."
+      ],
+      "getHelp": [
+        "The rash spreads fast or blisters",
+        "You also have a fever",
+        "Your face, lips or throat swell (emergency)"
+      ]
+    },
+    {
+      "id": "cramp",
+      "title": "Muscle cramp",
+      "keywords": [
+        "cramp",
+        "cramps",
+        "muscle spasm",
+        "spasm",
+        "charley horse"
+      ],
+      "steps": [
+        "Gently stretch the muscle and hold the stretch.",
+        "Massage the area.",
+        "Drink some water."
+      ],
+      "getHelp": [
+        "Cramps keep coming back",
+        "There is swelling, redness or ongoing pain in the leg"
+      ]
+    },
+    {
+      "id": "tooth",
+      "title": "Toothache",
+      "keywords": [
+        "tooth",
+        "toothache",
+        "teeth",
+        "gum",
+        "gums",
+        "bleeding gums",
+        "sore gums",
+        "mouth ulcer",
+        "dental",
+        "jaw"
+      ],
+      "steps": [
+        "Rinse your mouth with warm salt water if you have it, or clean water.",
+        "Hold a cold pack on the outside of your cheek.",
+        "Use pain relief from the medical kit only as the flight surgeon directs."
+      ],
+      "getHelp": [
+        "Your face or jaw swells",
+        "You have a fever",
+        "The pain is severe or lasts more than a day"
+      ]
+    }
+  ]
+}

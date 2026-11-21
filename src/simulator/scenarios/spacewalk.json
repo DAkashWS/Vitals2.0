@@ -1,0 +1,355 @@
+{
+  "id": "spacewalk",
+  "order": 5,
+  "title": "Spacewalk",
+  "short": "Three tasks on the hull, a limited oxygen supply, and a sensor that starts to rise.",
+  "difficulty": "Hard",
+  "icon": "spacewalker",
+  "setting": "exterior",
+  "look": "spacewalk",
+  "timeUnit": "min",
+  "secondsPerUnit": 0.9,
+  "duration": 80,
+  "briefing": "You're outside the station, 400 km above Earth. Lock your tether, finish the three tasks on the hull by clicking them, and keep an eye on suit oxygen, heart rate and suit CO2. Know when to call it off.",
+  "story": {
+    "day": 41,
+    "intro": "The storm damaged a camera, shook a cable clamp loose, and the sample tray has to come in. You're going outside.",
+    "goal": "Finish all three tasks and get back inside with oxygen to spare.",
+    "crew": [
+      {
+        "at": 3,
+        "who": "Reyes",
+        "text": "I'm on the arm camera. I've got eyes on you the whole way."
+      },
+      {
+        "at": 30,
+        "who": "Cmdr. Varga",
+        "text": "Halfway. Check your gauges before you start the next task."
+      },
+      {
+        "at": 60,
+        "who": "Dr. Okafor",
+        "text": "Suit CO2 is the one that sneaks up. Tell me if your head feels tight."
+      }
+    ],
+    "carry": {
+      "from": "radiation-storm",
+      "key": "suitO2",
+      "good": 0,
+      "bad": -8,
+      "goodText": "You kept your dose low, so the flight surgeon cleared a full spacewalk.",
+      "badText": "Your storm dose was high, so the flight surgeon cut your margin: you start with less oxygen in reserve."
+    }
+  },
+  "objects": [
+    "airlock",
+    "task1",
+    "task2",
+    "task3"
+  ],
+  "vitals": [
+    {
+      "key": "suitO2",
+      "label": "Suit oxygen",
+      "unit": "%",
+      "start": 100,
+      "rate": -0.55,
+      "min": 0,
+      "max": 100,
+      "decimals": 0,
+      "band": {
+        "green": [
+          35,
+          100
+        ],
+        "amber": [
+          20,
+          100
+        ]
+      }
+    },
+    {
+      "key": "heartRate",
+      "label": "Heart rate",
+      "unit": "bpm",
+      "start": 84,
+      "rate": 0,
+      "min": 50,
+      "max": 180,
+      "decimals": 0,
+      "band": {
+        "green": [
+          50,
+          110
+        ],
+        "amber": [
+          45,
+          130
+        ]
+      }
+    },
+    {
+      "key": "suitCO2",
+      "label": "Suit CO2",
+      "unit": "mmHg",
+      "start": 1.5,
+      "rate": 0,
+      "min": 0,
+      "max": 15,
+      "decimals": 1,
+      "band": {
+        "green": [
+          0,
+          5
+        ],
+        "amber": [
+          0,
+          7.6
+        ]
+      }
+    }
+  ],
+  "rules": [
+    {
+      "key": "heartRate",
+      "above": 90,
+      "rateAdd": {
+        "heartRate": -0.4
+      }
+    },
+    {
+      "key": "heartRate",
+      "above": 115,
+      "rateAdd": {
+        "suitO2": -0.3
+      }
+    }
+  ],
+  "events": [
+    {
+      "at": 0,
+      "text": "Hatch open. Earth is 400 km below you.",
+      "level": "info"
+    },
+    {
+      "at": 18,
+      "text": "Mission Control: you're ahead of the timeline. Nice work.",
+      "level": "info"
+    },
+    {
+      "at": 38,
+      "text": "Suit CO2 sensor is rising.",
+      "level": "alert",
+      "effect": {
+        "rateAdd": {
+          "suitCO2": 0.18
+        }
+      }
+    }
+  ],
+  "decisions": [
+    {
+      "id": "tether",
+      "at": 1,
+      "title": "Before you leave the airlock",
+      "prompt": "The hatch is open and the timeline is tight.",
+      "choices": [
+        {
+          "id": "check",
+          "label": "Check that both tethers are locked to the station",
+          "feedback": "Always. A tether is the only thing between you and drifting away.",
+          "score": 0,
+          "best": true,
+          "effect": {
+            "flags": {
+              "tethered": true
+            }
+          }
+        },
+        {
+          "id": "skip",
+          "label": "Skip the check and save two minutes",
+          "feedback": "A loose tether is how astronauts get lost. Click the airlock to lock it now.",
+          "score": -25,
+          "mistake": true
+        }
+      ]
+    },
+    {
+      "id": "effort",
+      "at": 22,
+      "title": "Working hard",
+      "prompt": "Wrestling with stiff hardware has pushed your heart rate up.",
+      "choices": [
+        {
+          "id": "rest",
+          "label": "Stop and rest for a minute on a handrail",
+          "feedback": "Resting lowers heart rate and oxygen use. The hardware isn't going anywhere.",
+          "score": 0,
+          "best": true,
+          "effect": {
+            "add": {
+              "heartRate": -12
+            }
+          }
+        },
+        {
+          "id": "push",
+          "label": "Push through",
+          "feedback": "A high heart rate burns through suit oxygen faster.",
+          "score": -15,
+          "mistake": true,
+          "effect": {
+            "add": {
+              "heartRate": 14
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "co2",
+      "at": 42,
+      "title": "Suit CO2 is rising",
+      "prompt": "The suit CO2 reading keeps climbing and you have a slight headache.",
+      "choices": [
+        {
+          "id": "abort",
+          "label": "Stop, tell Mission Control and head back to the airlock",
+          "feedback": "Rising CO2 in a suit is an abort signal. Then click the airlock to get inside.",
+          "score": 0,
+          "best": true,
+          "effect": {
+            "flags": {
+              "returning": true
+            }
+          }
+        },
+        {
+          "id": "finish",
+          "label": "Finish the last task first",
+          "feedback": "Every minute adds CO2 to the suit. Tasks can wait for another spacewalk.",
+          "score": -20,
+          "mistake": true
+        },
+        {
+          "id": "ignore",
+          "label": "Ignore it, sensors glitch sometimes",
+          "feedback": "Never assume a glitch outside. A headache backs up the reading.",
+          "score": -25,
+          "mistake": true
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "id": "lock-tether",
+      "object": "airlock",
+      "label": "Lock your safety tether",
+      "message": "Tether locked to the station.",
+      "hideIf": "tethered",
+      "effect": {
+        "flags": {
+          "tethered": true
+        }
+      }
+    },
+    {
+      "id": "task1",
+      "object": "task1",
+      "label": "Task 1: Replace the camera on the truss",
+      "message": "Camera replaced.",
+      "once": true,
+      "hideIf": "returning",
+      "effect": {
+        "flags": {
+          "task1": true
+        },
+        "add": {
+          "heartRate": 8
+        }
+      }
+    },
+    {
+      "id": "task2",
+      "object": "task2",
+      "label": "Task 2: Fix the loose cable clamp",
+      "message": "Clamp secured.",
+      "once": true,
+      "requires": "task1",
+      "hideIf": "returning",
+      "effect": {
+        "flags": {
+          "task2": true
+        },
+        "add": {
+          "heartRate": 10
+        }
+      }
+    },
+    {
+      "id": "task3",
+      "object": "task3",
+      "label": "Task 3: Collect the material samples",
+      "message": "Samples bagged.",
+      "once": true,
+      "requires": "task2",
+      "hideIf": "returning",
+      "effect": {
+        "flags": {
+          "task3": true
+        },
+        "add": {
+          "heartRate": 6
+        }
+      }
+    },
+    {
+      "id": "head-back",
+      "object": "airlock",
+      "label": "Head back to the airlock",
+      "message": "On your way back along the handrails.",
+      "hideIf": "returning",
+      "effect": {
+        "flags": {
+          "returning": true
+        }
+      }
+    },
+    {
+      "id": "enter",
+      "object": "airlock",
+      "label": "Enter the airlock and repressurise",
+      "message": "Hatch closed. Repressurising.",
+      "requires": "returning",
+      "effect": {
+        "end": "success"
+      }
+    }
+  ],
+  "keySteps": [
+    {
+      "flag": "tethered",
+      "by": 2,
+      "label": "Lock your tether before leaving the airlock",
+      "why": "No task is worth working untethered."
+    },
+    {
+      "flag": "task1",
+      "by": 40,
+      "label": "Finish the first task",
+      "why": "The main job of the spacewalk. Work steadily while oxygen and heart rate are green."
+    },
+    {
+      "flag": "returning",
+      "by": 50,
+      "label": "Turn back when suit CO2 rises",
+      "why": "A rising CO2 reading in a suit means the air isn't being cleaned. Head back before it gets worse."
+    }
+  ],
+  "failAfterRed": 8,
+  "redPenalty": 2,
+  "successText": "Spacewalk ended safely. Everyone's back inside.",
+  "failText": "Suit CO2 got dangerous outside. Mission Control called an emergency return."
+}

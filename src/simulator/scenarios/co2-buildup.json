@@ -1,0 +1,337 @@
+{
+  "id": "co2-buildup",
+  "order": 2,
+  "title": "CO2 Build-up",
+  "short": "The CO2 scrubber fails mid-shift. Headaches start before the alarm does.",
+  "difficulty": "Easy",
+  "icon": "co2Cloud",
+  "setting": "interior",
+  "look": "co2",
+  "timeUnit": "min",
+  "secondsPerUnit": 1.2,
+  "duration": 55,
+  "briefing": "You're working in the lab module with a crewmate. The main CO2 scrubber has just faulted, and CO2 builds up fast in still air. Watch the CO2 level, act on the objects in the module, and make the calls at each decision point.",
+  "story": {
+    "day": 19,
+    "intro": "A week of round-the-clock experiments pushed the CO2 scrubber hard. Tonight it gives up.",
+    "goal": "Get the scrubber running again and keep cabin CO2 out of the red.",
+    "crew": [
+      {
+        "at": 3,
+        "who": "Sato",
+        "text": "Is it me, or is the air thick in here? I've read the same line four times."
+      },
+      {
+        "at": 12,
+        "who": "Dr. Okafor",
+        "text": "A headache with high CO2 isn't a coincidence. Fix the air first."
+      },
+      {
+        "at": 30,
+        "who": "Cmdr. Varga",
+        "text": "Earth's answer is twenty minutes out. This one is ours to solve."
+      }
+    ],
+    "carry": {
+      "from": "dehydration",
+      "key": "heartRate",
+      "good": 0,
+      "bad": 8,
+      "goodText": "You kept yourself hydrated on Day 12, so you start this one fresh.",
+      "badText": "Day 12 left you run down: your heart rate starts higher."
+    }
+  },
+  "objects": [
+    "scrubber",
+    "medKit",
+    "hatch"
+  ],
+  "vitals": [
+    {
+      "key": "co2",
+      "label": "Cabin CO2",
+      "unit": "%",
+      "start": 0.4,
+      "rate": 0.05,
+      "min": 0.3,
+      "max": 4,
+      "decimals": 2,
+      "band": {
+        "green": [
+          0,
+          0.5
+        ],
+        "amber": [
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "key": "heartRate",
+      "label": "Heart rate",
+      "unit": "bpm",
+      "start": 72,
+      "rate": 0,
+      "min": 50,
+      "max": 160,
+      "decimals": 0,
+      "band": {
+        "green": [
+          50,
+          100
+        ],
+        "amber": [
+          45,
+          115
+        ]
+      }
+    },
+    {
+      "key": "spo2",
+      "label": "Oxygen (SpO2)",
+      "unit": "%",
+      "start": 98,
+      "rate": 0,
+      "min": 80,
+      "max": 100,
+      "decimals": 0,
+      "band": {
+        "green": [
+          95,
+          100
+        ],
+        "amber": [
+          92,
+          100
+        ]
+      }
+    }
+  ],
+  "rules": [
+    {
+      "key": "co2",
+      "above": 0.7,
+      "rateAdd": {
+        "heartRate": 0.15
+      }
+    },
+    {
+      "key": "co2",
+      "above": 1,
+      "rateAdd": {
+        "heartRate": 0.4,
+        "spo2": -0.06
+      }
+    },
+    {
+      "key": "heartRate",
+      "above": 74,
+      "rateAdd": {
+        "heartRate": -0.3
+      }
+    },
+    {
+      "key": "spo2",
+      "below": 97.5,
+      "rateAdd": {
+        "spo2": 0.03
+      }
+    }
+  ],
+  "events": [
+    {
+      "at": 0,
+      "text": "Main CO2 scrubber faulted. The cabin fans are still running.",
+      "level": "alert"
+    },
+    {
+      "at": 3,
+      "text": "CO2 is creeping up. Two people are breathing in this module.",
+      "level": "warn"
+    },
+    {
+      "at": 15,
+      "text": "Your crewmate has a dull headache and can't concentrate.",
+      "level": "warn"
+    },
+    {
+      "at": 35,
+      "text": "Mission Control: scrubber telemetry received, thanks.",
+      "level": "info"
+    }
+  ],
+  "decisions": [
+    {
+      "id": "first-move",
+      "at": 6,
+      "title": "CO2 is climbing",
+      "prompt": "The CO2 reading has turned amber and your crewmate looks tired. What's your first move?",
+      "choices": [
+        {
+          "id": "warn",
+          "label": "Check the reading and warn the crew",
+          "feedback": "Right call. Naming the problem early gets everyone acting. Next: restart the scrubber.",
+          "score": 0,
+          "best": true,
+          "effect": {
+            "rateAdd": {
+              "co2": -0.005
+            }
+          }
+        },
+        {
+          "id": "finish",
+          "label": "Finish the experiment first, it's only 10 minutes",
+          "feedback": "CO2 doesn't wait. Effort makes you breathe harder and add even more CO2.",
+          "score": -20,
+          "mistake": true,
+          "effect": {
+            "rateAdd": {
+              "co2": 0.01,
+              "heartRate": 0.2
+            }
+          }
+        },
+        {
+          "id": "pill",
+          "label": "Take a painkiller for the headache",
+          "feedback": "The headache is your warning sign. A painkiller hides it while the CO2 keeps rising.",
+          "score": -15,
+          "mistake": true
+        }
+      ]
+    },
+    {
+      "id": "crewmate",
+      "at": 22,
+      "title": "Crewmate in trouble",
+      "prompt": "Your crewmate is flushed, breathing fast and has a pounding headache.",
+      "choices": [
+        {
+          "id": "vent",
+          "label": "Move them next to an air vent and turn the fans up",
+          "feedback": "Moving air breaks up the CO2 pocket that forms around your face in weightlessness.",
+          "score": 0,
+          "best": true,
+          "effect": {
+            "add": {
+              "heartRate": -4
+            },
+            "rateAdd": {
+              "co2": -0.005
+            }
+          }
+        },
+        {
+          "id": "exercise",
+          "label": "Tell them to exercise it off",
+          "feedback": "Exercise produces more CO2 and raises the heart rate. The opposite of what's needed.",
+          "score": -20,
+          "mistake": true,
+          "effect": {
+            "add": {
+              "heartRate": 12
+            }
+          }
+        },
+        {
+          "id": "oxygen",
+          "label": "Give them oxygen from the medical kit",
+          "feedback": "It helps them feel better, but oxygen doesn't remove CO2. Airflow and the scrubber come first.",
+          "score": -5,
+          "effect": {
+            "add": {
+              "spo2": 1.5
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "report",
+      "at": 45,
+      "title": "The air is clearing",
+      "prompt": "The worst is over. How do you close this out?",
+      "choices": [
+        {
+          "id": "log",
+          "label": "Log the symptoms and readings for the flight surgeon",
+          "feedback": "A written record survives the delay to Earth and helps spot patterns across the crew.",
+          "score": 0,
+          "best": true
+        },
+        {
+          "id": "skip",
+          "label": "Skip the report, everything's fine now",
+          "feedback": "Without a record, the flight surgeon can't link future headaches to this event.",
+          "score": -10,
+          "mistake": true
+        },
+        {
+          "id": "watch",
+          "label": "Ask the crew to watch for headaches for 24 hours",
+          "feedback": "Good, but write it down too.",
+          "score": -5
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "id": "restart-scrubber",
+      "object": "scrubber",
+      "label": "Restart the CO2 scrubber",
+      "message": "Scrubber running again. CO2 starts to fall.",
+      "once": true,
+      "effect": {
+        "rate": {
+          "co2": -0.04
+        },
+        "flags": {
+          "scrubberOn": true
+        }
+      }
+    },
+    {
+      "id": "open-hatch",
+      "object": "hatch",
+      "label": "Open the hatch to the next module",
+      "message": "Air mixes with the next module, so the CO2 rises more slowly.",
+      "once": true,
+      "effect": {
+        "rateAdd": {
+          "co2": -0.01
+        },
+        "flags": {
+          "hatchOpen": true
+        }
+      }
+    },
+    {
+      "id": "oxygen-mask",
+      "object": "medKit",
+      "label": "Give the oxygen mask to your crewmate",
+      "message": "Oxygen on. Their SpO2 climbs a little.",
+      "once": true,
+      "effect": {
+        "add": {
+          "spo2": 1.5,
+          "heartRate": -4
+        }
+      }
+    }
+  ],
+  "keySteps": [
+    {
+      "flag": "scrubberOn",
+      "by": 15,
+      "label": "Restart the CO2 scrubber",
+      "why": "The scrubber is the only thing that removes CO2. Every minute without it adds more."
+    }
+  ],
+  "failAfterRed": 15,
+  "redPenalty": 1,
+  "successText": "Shift complete. Cabin CO2 is back to normal.",
+  "failText": "CO2 stayed in the red too long. The crew had to leave the module."
+}

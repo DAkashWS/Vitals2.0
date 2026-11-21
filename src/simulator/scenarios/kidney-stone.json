@@ -1,0 +1,298 @@
+{
+  "id": "kidney-stone",
+  "order": 6,
+  "title": "Kidney Stone",
+  "short": "Bone loss puts calcium in your urine. One morning it becomes a stone, and then a fever.",
+  "difficulty": "Medium",
+  "icon": "kidney",
+  "setting": "interior",
+  "look": "dehydration",
+  "timeUnit": "h",
+  "secondsPerUnit": 6,
+  "duration": 12,
+  "briefing": "In weightlessness your bones lose calcium and it ends up in your urine, so kidney stones are one of the top medical risks of a long mission. Watch pain, hydration, temperature and heart rate. The water unit, the medical kit and the sleep station can all help.",
+  "story": {
+    "day": 48,
+    "intro": "A week after the spacewalk, a quiet morning of lab work. Then a pain in your side that won't let you sit still.",
+    "goal": "Get the pain under control, keep drinking, and catch any sign of infection early.",
+    "crew": [
+      {
+        "at": 0.5,
+        "who": "Sato",
+        "text": "The samples you brought in are already in the freezer. Earth is very excited about tray three."
+      },
+      {
+        "at": 2,
+        "who": "Dr. Okafor",
+        "text": "Bone loss up here puts calcium in your urine. Stones are one of the things I watch for."
+      },
+      {
+        "at": 8,
+        "who": "Cmdr. Varga",
+        "text": "Houston has an early return plan ready if we need it. Let's make sure we don't."
+      }
+    ],
+    "carry": {
+      "from": "spacewalk",
+      "key": "hydration",
+      "good": 0,
+      "bad": -1.2,
+      "goodText": "You came back from the spacewalk with margin to spare and drank well afterwards, so you start hydrated.",
+      "badText": "The spacewalk ran you dry and you never caught up: you start dehydrated, which makes stones worse."
+    }
+  },
+  "objects": ["waterUnit", "medKit", "bed"],
+  "vitals": [
+    {
+      "key": "pain",
+      "label": "Pain",
+      "unit": "/10",
+      "start": 1,
+      "rate": 0,
+      "min": 0,
+      "max": 10,
+      "decimals": 0,
+      "band": { "green": [0, 4], "amber": [0, 7] }
+    },
+    {
+      "key": "hydration",
+      "label": "Hydration",
+      "unit": "%",
+      "start": 99.2,
+      "rate": -0.3,
+      "min": 90,
+      "max": 101,
+      "decimals": 1,
+      "band": { "green": [98.5, 101], "amber": [97, 101] }
+    },
+    {
+      "key": "temp",
+      "label": "Body temp",
+      "unit": "°C",
+      "start": 36.8,
+      "rate": 0,
+      "min": 35,
+      "max": 41,
+      "decimals": 1,
+      "band": { "green": [36, 37.9], "amber": [35.5, 38.4] }
+    },
+    {
+      "key": "heartRate",
+      "label": "Heart rate",
+      "unit": "bpm",
+      "start": 74,
+      "rate": 0,
+      "min": 50,
+      "max": 160,
+      "decimals": 0,
+      "band": { "green": [50, 100], "amber": [45, 115] }
+    }
+  ],
+  "rules": [
+    { "key": "hydration", "below": 98.5, "rateAdd": { "pain": 0.3 } },
+    { "flag": "tamsulosin", "rateAdd": { "pain": -0.3 } },
+    { "key": "pain", "above": 6, "rateAdd": { "heartRate": 4 } },
+    { "key": "temp", "above": 38, "rateAdd": { "heartRate": 3 } },
+    { "key": "heartRate", "above": 78, "rateAdd": { "heartRate": -2 } },
+    { "key": "heartRate", "below": 70, "rateAdd": { "heartRate": 2 } },
+    { "flag": "fever", "notFlag": "antibiotics", "rateAdd": { "temp": 0.35 } },
+    { "flag": "antibiotics", "key": "temp", "above": 37, "rateAdd": { "temp": -0.4 } }
+  ],
+  "events": [
+    { "at": 0, "text": "Day 48. A quiet morning of lab work.", "level": "info" },
+    {
+      "at": 1,
+      "text": "Sudden, cramping pain in your right side and back. It comes in waves.",
+      "level": "alert",
+      "effect": { "set": { "pain": 6 }, "rateAdd": { "pain": 0.5 }, "flags": { "pain": true } }
+    },
+    {
+      "at": 6,
+      "text": "Chills. Your temperature is starting to climb.",
+      "level": "warn",
+      "effect": { "set": { "temp": 37.6 }, "flags": { "fever": true } }
+    },
+    {
+      "at": 10,
+      "text": "The stone has passed. Dr. Okafor bags it for the lab on Earth.",
+      "level": "info",
+      "effect": { "rateAdd": { "pain": -0.6 } }
+    }
+  ],
+  "decisions": [
+    {
+      "id": "pain",
+      "at": 1.25,
+      "title": "Pain out of nowhere",
+      "prompt": "The pain comes in waves, from your back round to your belly. You can't get comfortable and you feel sick.",
+      "choices": [
+        {
+          "id": "call",
+          "label": "Call Dr. Okafor and get your kidney scanned",
+          "feedback": "Waves of side pain you can't lie still through are typical of a kidney stone. Tell the medical officer, then scan with the ultrasound in the medical kit.",
+          "score": 0,
+          "best": true,
+          "effect": { "flags": { "okaforCalled": true } }
+        },
+        {
+          "id": "muscle",
+          "label": "It's a pulled muscle from the spacewalk. Stretch it out and keep working",
+          "feedback": "A strained muscle hurts when you move and eases when you keep still. Pain that comes in waves and won't let you settle points to a stone, not a muscle.",
+          "score": -20,
+          "mistake": true,
+          "effect": { "add": { "heartRate": 6 } }
+        },
+        {
+          "id": "wait",
+          "label": "Wait and see if it goes away before telling anyone",
+          "feedback": "On a station, the medical officer needs to know early. The ultrasound, the medicines and the ground team all take time to bring in.",
+          "score": -15,
+          "mistake": true
+        }
+      ]
+    },
+    {
+      "id": "drink",
+      "at": 3,
+      "title": "Too sick to drink",
+      "prompt": "You feel sick and the last thing you want is water.",
+      "choices": [
+        {
+          "id": "sip",
+          "label": "Take the anti-sickness medicine and keep sipping water",
+          "feedback": "Staying well hydrated keeps your urine dilute, and settling the nausea makes drinking possible. Small steady sips work better than big gulps.",
+          "score": 0,
+          "best": true,
+          "effect": { "add": { "hydration": 0.5 }, "rateAdd": { "hydration": 0.1 } }
+        },
+        {
+          "id": "stop",
+          "label": "Stop drinking until the pain settles",
+          "feedback": "Drying out concentrates your urine, which is how stones form and grow. Space already pushes extra calcium into it.",
+          "score": -20,
+          "mistake": true,
+          "effect": { "rateAdd": { "hydration": -0.15 } }
+        },
+        {
+          "id": "chug",
+          "label": "Drink two litres right now to flush it out",
+          "feedback": "Forcing down a big volume doesn't push a stone out faster, and it can make you vomit. Steady sips do the job.",
+          "score": -10,
+          "mistake": true,
+          "effect": { "add": { "hydration": 1, "pain": 1 } }
+        }
+      ]
+    },
+    {
+      "id": "fever",
+      "at": 6.5,
+      "title": "Fever and chills",
+      "prompt": "You're shivering, your temperature keeps rising, and the pain in your side hasn't gone.",
+      "choices": [
+        {
+          "id": "antibiotics",
+          "label": "Start antibiotics now and tell Mission Control you may need to go home early",
+          "feedback": "A fever with a blocked kidney can mean infection trapped behind the stone, which is an emergency. Start antibiotics now, and Houston gets an early return ready in case they aren't enough.",
+          "score": 0,
+          "best": true,
+          "effect": { "flags": { "antibiotics": true } }
+        },
+        {
+          "id": "paracetamol",
+          "label": "Take paracetamol for the fever and keep an eye on it",
+          "feedback": "Paracetamol hides the fever, but the infection keeps growing behind the stone. Treat the cause: antibiotics, and tell the ground.",
+          "score": -20,
+          "mistake": true,
+          "effect": { "add": { "temp": -0.4 } }
+        },
+        {
+          "id": "sleep",
+          "label": "Get in your sleeping bag and sleep it off",
+          "feedback": "An infected, blocked kidney can lead to sepsis within hours. Never sleep off a fever and shivering when you have a stone.",
+          "score": -25,
+          "mistake": true
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "id": "drink",
+      "object": "waterUnit",
+      "label": "Sip 300 ml of water",
+      "message": "Small sips, and it stays down.",
+      "cooldown": 1,
+      "effect": { "add": { "hydration": 0.8 }, "flags": { "drank": true } }
+    },
+    {
+      "id": "ibuprofen",
+      "object": "medKit",
+      "label": "Take ibuprofen",
+      "message": "An anti-inflammatory is usually the first choice for stone pain. It also eases the swelling around the stone.",
+      "requires": "pain",
+      "cooldown": 6,
+      "effect": { "add": { "pain": -4 }, "flags": { "painRelief": true } }
+    },
+    {
+      "id": "scan",
+      "object": "medKit",
+      "label": "Ultrasound scan of your kidney",
+      "message": "Dr. Okafor guides the probe. The scan shows a swollen right kidney and a 5 mm stone low down in the ureter, small enough to pass on its own.",
+      "requires": "okaforCalled",
+      "once": true,
+      "effect": { "flags": { "scanned": true } }
+    },
+    {
+      "id": "tamsulosin",
+      "object": "medKit",
+      "label": "Take tamsulosin",
+      "message": "Dr. Okafor's prescription. It relaxes the tube from the kidney so a stone this size passes more easily.",
+      "requires": "scanned",
+      "once": true,
+      "effect": { "flags": { "tamsulosin": true } }
+    },
+    {
+      "id": "antibiotics",
+      "object": "medKit",
+      "label": "Start antibiotics",
+      "message": "Antibiotics started. Tell Mission Control too.",
+      "requires": "fever",
+      "hideIf": "antibiotics",
+      "once": true,
+      "effect": { "flags": { "antibiotics": true } }
+    },
+    {
+      "id": "rest",
+      "object": "bed",
+      "label": "Rest with a warm pack",
+      "message": "Warmth on your side takes the edge off the cramps.",
+      "requires": "pain",
+      "cooldown": 3,
+      "effect": { "add": { "pain": -1, "heartRate": -5 } }
+    }
+  ],
+  "keySteps": [
+    {
+      "flag": "scanned",
+      "by": 3,
+      "label": "Confirm the stone with the ultrasound",
+      "why": "Other problems can cause pain like this. A scan shows the stone, how big it is, and whether the kidney is blocked."
+    },
+    {
+      "flag": "drank",
+      "by": 4,
+      "label": "Keep drinking through the nausea",
+      "why": "Dilute urine helps a stone pass and stops new ones from forming."
+    },
+    {
+      "flag": "antibiotics",
+      "by": 8,
+      "label": "Start antibiotics when the fever starts",
+      "why": "Infection behind a blocked kidney can become sepsis within hours. Start antibiotics early, then decide about going home."
+    }
+  ],
+  "failAfterRed": 2,
+  "redPenalty": 4,
+  "successText": "The stone has passed and the fever is gone. You're back on light duties tomorrow.",
+  "failText": "The pain and infection got out of control. Mission Control is preparing an early return."
+}
