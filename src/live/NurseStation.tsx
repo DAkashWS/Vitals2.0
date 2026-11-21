@@ -28,10 +28,15 @@ export function StudentPicker() {
     void load();
   }, []);
   const shown = useMemo(() => {
-    const t = q.trim().toLowerCase();
-    const digits = q.replace(/\D/g, "");
-    return (list ?? []).filter(
-      (s) => !t || s.display_name.toLowerCase().includes(t) || s.class_name.toLowerCase().includes(t) || (digits && s.crew_number.replace(/\D/g, "").includes(digits)),
+    // every word must match the name, the class or the student ID: "8b diya", "diya 8b", "9a", "sharma"
+    const words = q.toLowerCase().replace(/class|grade/g, " ").split(/[\s,]+/).filter(Boolean);
+    const compact = (x: string) => x.toLowerCase().replace(/[\s\-/]/g, "");
+    return (list ?? []).filter((s) =>
+      words.every((w) => {
+        const name = s.display_name.toLowerCase();
+        const digits = w.replace(/\D/g, "");
+        return name.includes(w) || compact(s.class_name) === compact(w) || compact(s.class_name).startsWith(compact(w)) || (digits.length >= 3 && s.crew_number.replace(/\D/g, "").includes(digits));
+      }),
     );
   }, [list, q]);
 
@@ -46,7 +51,7 @@ export function StudentPicker() {
           autoFocus
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="Name, class or student ID"
+          placeholder="Search by name or class, e.g. 8B Diya"
           aria-label="Search students"
           className="h-11 min-w-0 flex-1 rounded-full border border-white/15 bg-white/[0.04] px-4 text-sm text-white placeholder:text-white/40 focus:border-sky-300/70 focus:outline-none"
         />
