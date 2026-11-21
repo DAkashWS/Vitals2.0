@@ -19,7 +19,7 @@ const ENV_SCOPE: ChatScope = {
   suggestions: ["What temperature should a classroom be?", "What CO2 level is safe in a classroom?", "Why does the classroom feel stuffy?", "How can I stop eye strain from screens?", "What are the signs of heat exhaustion?", "What does mould do to students?"],
   followUps: ["Does fresh air stop colds and flu spreading?", "What humidity is best for a classroom?", "How do I know if a student needs glasses?", "Can classroom noise affect learning?", "What triggers asthma in a classroom?", "What should we do on a very hot day?"],
   unknownText:
-    "I couldn't reach the assistant just now. Check your internet connection and try again. If it's urgent, tell a teacher and get the school nurse.",
+    "The assistant is busy or can't be reached right now. Please try again in a moment. If it's urgent, tell a teacher and get the school nurse.",
 };
 
 /*

@@ -208,7 +208,7 @@ const HYGIENE_SCOPE: ChatScope = {
   suggestions: ["How do I wash my hands properly?", "When should students wash their hands?", "How do germs spread in a classroom?", "How can I keep my lunch safe?", "What should I do about head lice?", "How often should I brush my teeth?"],
   followUps: ["How should I cough or sneeze?", "How often should desks be cleaned?", "What should I do about body odour?", "How often should PE kit be washed?", "How can we stop a stomach bug spreading?", "What should I do if I get a rash at school?"],
   unknownText:
-    "I couldn't reach the assistant just now. Check your internet connection and try again. If it's urgent, tell a teacher and get the school nurse.",
+    "The assistant is busy or can't be reached right now. Please try again in a moment. If it's urgent, tell a teacher and get the school nurse.",
 };
 
 /* ---------------- the page ---------------- */

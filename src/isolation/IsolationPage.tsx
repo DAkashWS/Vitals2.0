@@ -102,7 +102,7 @@ const ISOLATION_SCOPE: ChatScope = {
   suggestions: ["What is the third-quarter effect?", "Why is isolation worse on a Mars mission?", "How do astronauts cope with isolation?", "How do scientists study isolation on Earth?", "What is a medical isolation room?", "How small and cramped is the space station?"],
   followUps: ["What are the psychological effects of isolation?", "How are astronauts selected for isolation?", "What is social isolation for astronauts?", "What is the difference between negative and positive pressure rooms?", "What is the overview effect?", "What happened in the Mars-500 experiment?", "What is winter-over syndrome?"],
   unknownText:
-    "I couldn't reach the assistant just now. Check your internet connection and try again. If it's urgent, tell a teacher and get the school nurse.",
+    "The assistant is busy or can't be reached right now. Please try again in a moment. If it's urgent, tell a teacher and get the school nurse.",
 };
 
 export default function IsolationPage() {

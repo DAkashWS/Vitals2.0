@@ -90,7 +90,7 @@ const FLUID_SCOPE: ChatScope = {
   suggestions: ["How much water should I drink each day?", "How do I know if I'm dehydrated?", "What colour should my pee be?", "Are energy drinks safe for students?", "Can not drinking cause headaches?", "How much should I drink during sport?"],
   followUps: ["Why does drinking water help at school?", "When should students drink during the day?", "Are fizzy drinks and juice OK?", "What is heat exhaustion?", "Is it dangerous to overdo it with water?", "Does milk count as a drink?"],
   unknownText:
-    "I couldn't reach the assistant just now. Check your internet connection and try again. If it's urgent, tell a teacher and get the school nurse.",
+    "The assistant is busy or can't be reached right now. Please try again in a moment. If it's urgent, tell a teacher and get the school nurse.",
 };
 
 export default function FluidPage() {

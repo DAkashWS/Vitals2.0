@@ -77,7 +77,7 @@ const BONE_SCOPE: ChatScope = {
   suggestions: ["How much exercise do students need?", "How heavy should a school bag be?", "What makes bones stronger?", "What should I do for a sprain?", "What should happen after a head knock in sport?", "What is good sitting posture?"],
   followUps: ["How much calcium does a teenager need?", "Why do bones need vitamin D?", "What are growth plates?", "How can I tell if a bone is broken?", "Why does my neck hurt after using my phone?", "How can students prevent sports injuries?", "Why do my knees hurt when I'm growing?"],
   unknownText:
-    "I couldn't reach the assistant just now. Check your internet connection and try again. If it's urgent, tell a teacher and get the school nurse.",
+    "The assistant is busy or can't be reached right now. Please try again in a moment. If it's urgent, tell a teacher and get the school nurse.",
 };
 
 export default function BonePage() {

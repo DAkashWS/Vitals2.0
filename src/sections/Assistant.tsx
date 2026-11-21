@@ -42,7 +42,7 @@ export const MAIN_SCOPE: ChatScope = {
   suggestions: SUGGESTIONS,
   followUps: FOLLOW_UPS,
   unknownText:
-    "I couldn't reach the assistant just now. Check your internet connection and try again. If it's urgent, tell a teacher and get the school nurse.",
+    "The assistant is busy or can't be reached right now. Please try again in a moment. If it's urgent, tell a teacher and get the school nurse.",
 };
 
 type Msg =
