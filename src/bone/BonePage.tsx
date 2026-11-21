@@ -301,6 +301,17 @@ export default function BonePage() {
       <div className="mt-24 space-y-2 border-t border-white/10 pt-6 text-sm text-white/50">
         <p>School health guidance by team VITALS, drawing on WHO physical activity guidelines.</p>
         <p>General information, not medical advice. Serious or lasting pain needs a doctor.</p>
+        <p>
+          Card photo: Usain Bolt, Rio 2016 100 m final, by Fernando Frazão / Agência Brasil,{" "}
+          <a href="https://commons.wikimedia.org/wiki/File:Usain_Bolt_Rio_100m_final_2016k.jpg" target="_blank" rel="noreferrer" className="text-amber-300 hover:underline">
+            Wikimedia Commons
+          </a>
+          ,{" "}
+          <a href="https://creativecommons.org/licenses/by/3.0/br/deed.en" target="_blank" rel="noreferrer" className="text-amber-300 hover:underline">
+            CC BY 3.0 BR
+          </a>
+          , cropped.
+        </p>
       </div>
     </Shell>
   );

@@ -22,6 +22,8 @@ export const media = {
   missionBackground: "media/mission-bg.jpg",
 
   // "Inside VITALS" tunnel cards, one per module in src/content.ts, in the same order.
-  // School and health photos from Unsplash (Unsplash License, free to use).
+  // School and health photos from Unsplash (Unsplash License, free to use), except card 6:
+  // school-6.jpg "Usain Bolt Rio 100m final 2016" by Fernando Frazão / Agência Brasil, CC BY 3.0 BR,
+  // https://commons.wikimedia.org/wiki/File:Usain_Bolt_Rio_100m_final_2016k.jpg (cropped and resized).
   tunnel: [1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => `media/school-${n}.jpg`),
 };
