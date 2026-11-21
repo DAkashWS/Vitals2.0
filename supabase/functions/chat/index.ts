@@ -78,8 +78,13 @@ Deno.serve(async (req) => {
   if (req.method !== "POST") return json({ error: "Use POST" }, 405);
   if (!(await signedIn(req))) return json({ error: "Sign in to VITALS 2.0 to use the assistant." }, 401);
 
-  const key = Deno.env.get("GEMINI_API_KEY");
-  if (!key) return json({ error: "The assistant isn't set up yet (missing GEMINI_API_KEY)." }, 503);
+  const key = Deno.env.get("GEMINI_API_KEY")?.trim();
+  if (!key) {
+    // names only (never values), so a misspelt secret can be spotted in the function logs
+    const names = Object.keys(Deno.env.toObject()).filter((k) => !k.startsWith("SUPABASE_") && /KEY|GEMINI|API|SECRET/i.test(k));
+    console.error("GEMINI_API_KEY missing. Secret names that look like keys:", names.join(", ") || "(none)");
+    return json({ error: "The assistant isn't set up yet (missing GEMINI_API_KEY)." }, 503);
+  }
 
   let body: { bot?: string; messages?: Turn[]; checkup?: string };
   try {
